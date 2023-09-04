@@ -16,7 +16,7 @@
         <div class="user_btn1">
           <img src="../assets/images/Weather.png" alt="" class="user_icon">
         </div>
-        <div class="user_btn2">
+        <div class="user_btn2" @click="handleUser">
           <img src="../assets/images/user.png" alt="" class="user_icon">
           <div class="user_btn_name">我的</div>
         </div>
@@ -40,6 +40,11 @@ export default {
   },
   mounted() {
 
+  },
+  methods: {
+    handleUser() {
+      this.$router.push('/user')
+    }
   }
 }
 </script>
@@ -90,8 +95,8 @@ export default {
       .search_text {
         fong-size: 12px;
         color: #ffffff;
-        margin-left: 15px;
-        letter-spacing: 5px;
+        margin-left: 10px;
+        letter-spacing: 1px;
       }
     }
 

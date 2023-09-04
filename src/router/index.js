@@ -15,6 +15,21 @@ export default new Router({
             meta: { title: '登录' }
         },
         {
+            path: '/user',
+            component: () => import('@/pages/user.vue'),
+            meta: { title: '我的' }
+        },
+        {
+            path: '/chatIndex',
+            component: () => import('@/pages/chatIndex.vue'),
+            meta: { title: '聊天' }
+        },
+        {
+            path: '/paintIndex',
+            component: () => import('@/pages/painting.vue'),
+            meta: { title: '绘画' }
+        },
+        {
             path: '*',
             redirect: '/404'
         }

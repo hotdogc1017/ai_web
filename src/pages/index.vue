@@ -7,66 +7,67 @@
         <div class="centainr_title">一级标题</div>
         <div class="centainr_dect">sjasndans,dnas,ndn</div>
       </div>
-      <div class="tabs">
-        <div class="meun" v-for="(item,index) in 6" :key="index">
-          <img src="../assets/images/icon.png" alt="" class="icon_img">
-          <div class="meun_text">小红书</div>
+      <!--tab展示-->
+      <tabs-pupup></tabs-pupup>
+      <!--内容中心-->
+      <div class="tabMeun">
+        <div class="tabMeun_view">
+          <img src="../assets/images/icon01.png" alt="" class="tabMeun_img">
+          <label class="tabMeun_label">小红书运营</label>
+        </div>
+        <div class="tabMeun_view1">
+          <img src="../assets/images/icon02.png" alt="" class="tabMeun_img">
+          <label class="tabMeun_label testColor2">自媒体运营</label>
+        </div>
+        <div class="tabMeun_view1">
+          <img src="../assets/images/icon03.png" alt="" class="tabMeun_img">
+          <label class="tabMeun_label testColor3">营销文案</label>
+        </div>
+        <div class="tabMeun_view1">
+          <img src="../assets/images/icon04.png" alt="" class="tabMeun_img">
+          <label class="tabMeun_label testColor4">文案写作</label>
+        </div>
+        <div class="tabMeun_view1">
+          <img src="../assets/images/icon05.png" alt="" class="tabMeun_img">
+          <label class="tabMeun_label testColor5">职场办公</label>
+        </div>
+        <div class="tabMeun_view1">
+          <img src="../assets/images/icon06.png" alt="" class="tabMeun_img">
+          <label class="tabMeun_label testColor6">公文写作</label>
         </div>
       </div>
-      <div class="wrapper">
-        <div class="wrapper_left">
-          <div class="wrapper_meun">
-            <div v-for="(item,index) in meunList" :key="index" :class="active == index ? 'wrapper_meun_active' : 'wrapper_meun_title'" @click="handletab(index)">{{ item }}</div>
+      <div class="centainr_view">
+        <div class="centainr_title">一级标题</div>
+        <div class="centainr_dect">sjasndans,dnas,ndn</div>
+      </div>
+      <div class="list">
+        <div class="list_bg">
+          <div class="list_header">
+            <img src="../assets/images/icon07.png" alt="" class="list_bg_img">
+            <label class="list_bg_label">用户名称</label>
           </div>
+          <div class="list_dect">测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫</div>
         </div>
-        <div class="wrapper_right">
-          <div v-if="active == 0" class="wrapper_view">
-            <div class="wrapper_view_title">账户概览</div>
-            <div class="wrapper_centent">
-              <div class="wrapper_logo"> </div>
-              <div class="wrapper_info">
-                <div class="wrapper_info_text">欢迎您：微信用户xnnn2143</div>
-                <el-button type="primary" size="mini" class="wrapper_info_btn">更换头像</el-button>
-                <el-button type="primary" size="mini" class="wrapper_info_btn">注销登录</el-button>
-              </div>
-              <div class="wrapper_from">
-                <el-tabs v-model="activeName" @tab-click="handleClick">
-                  <el-tab-pane label="基本信息" name="first">
-                    <el-form :model="editForm" :rules="rules" ref="editForm" label-width="100px" class="ruleForm">
-                      <el-form-item label="ID" prop="ID">
-                        <el-input v-model="editForm.ID" class="ruleForm_input"></el-input>
-                      </el-form-item>
-                      <el-form-item label="邮箱" prop="email">
-                        <el-input v-model="editForm.email" class="ruleForm_input">
-                          <template slot="append">绑定</template>
-                        </el-input>
-                      </el-form-item>
-                      <el-form-item label="手机号" prop="mobile">
-                        <el-input v-model="editForm.mobile" class="ruleForm_input"></el-input>
-                      </el-form-item>
-                      <el-form-item label="昵称" prop="name">
-                        <el-input v-model="editForm.name" class="ruleForm_input"></el-input>
-                      </el-form-item>
-                    </el-form>
-                    <div class="ruleForm_btn">
-                      <el-button type="primary" size="mini" class="wrapper_info_btn">保存信息</el-button>
-                    </div>
-                  </el-tab-pane>
-                  <el-tab-pane label="账户安全" name="second">账户安全</el-tab-pane>
-                  <el-tab-pane label="第三方绑定" name="third">第三方绑定</el-tab-pane>
-                </el-tabs>
-              </div>
-            </div>
+        <div class="list_bg1">
+          <div class="list_header">
+            <img src="../assets/images/icon07.png" alt="" class="list_bg_img">
+            <label class="list_bg_label">用户名称</label>
           </div>
-          <div v-if="active == 1" class="wrapper_view">
-            <div class="wrapper_view_title">我的套餐</div>
+          <div class="list_dect">测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫</div>
+        </div>
+        <div class="list_bg2">
+          <div class="list_header">
+            <img src="../assets/images/icon07.png" alt="" class="list_bg_img">
+            <label class="list_bg_label">用户名称</label>
           </div>
-          <div v-if="active == 2" class="wrapper_view">
-            <div class="wrapper_view_title">购买套餐</div>
+          <div class="list_dect">测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫</div>
+        </div>
+        <div class="list_bg3">
+          <div class="list_header">
+            <img src="../assets/images/icon07.png" alt="" class="list_bg_img">
+            <label class="list_bg_label">用户名称</label>
           </div>
-          <div v-if="active == 3" class="wrapper_view">
-            <div class="wrapper_view_title">邀请好友</div>
-          </div>
+          <div class="list_dect">测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫测试时内容公共南宫</div>
         </div>
       </div>
     </div>
@@ -75,9 +76,10 @@
 
 <script>
 import Header from '@/components/header.vue'
+import TabsPupup from '@/components/tabs.vue'  //tab展示
 export default {
   components: {
-    Header
+    Header,TabsPupup
   },
   name: 'home',
   data() {
@@ -118,7 +120,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="less">
 .home {
   padding: 24px;
   .centainr{
@@ -142,143 +144,117 @@ export default {
       margin-top: 5px;
     }
   }
-  .tabs{
+  .tabMeun{
+    margin-top: 25px;
+    margin-bottom: 30px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  .meun{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-  .icon_img{
-    width: 80px;
-    height: 80px;
-  }
-  .meun_text{
-    font-size: 10px;
-    color: #FF002F;
-    background: rgba(255, 103, 83, 0.5);
-    padding: 3px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 100px;
-    margin-top: 5px;
-  }
-  .wrapper{
-    display: flex;
-    margin-top: 20px;
-    background: rgba(255, 255, 255, 1);
-    height: calc(100vh - 150px);
-    border-radius: 5px;
-    padding:10px;
-    overflow: hidden;
-    overflow-y: auto;
-    .wrapper_left{
-      width: 240px;
-      height: calc(100vh - 150px);
-      border-right: 1px solid #eeeeee;
-    }
-    .wrapper_right{
-      margin-left: 30px;
-      padding: 15px 0;
-      width: 100%;
-      .wrapper_view_title{
-        font-size: 16px;
-        color: rgba(51, 51, 51, 1);
-        letter-spacing: 4px;
-        margin-bottom: 20px;
-        font-weight: bold;
-      }
-    }
-    .wrapper_meun{
+    .tabMeun_view{
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      .wrapper_meun_title{
-        font-size: 13px;
-        color: rgba(51, 51, 51, 1);
-        letter-spacing: 4px;
-        cursor: pointer;
-        background: rgba(255, 255, 255, 1);
-        width: 200px;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 5px;
-        font-weight: bold;
-        margin-bottom: 10px;
+      width: 200px;
+      height: 90px;
+      background: #FA696D;
+      box-shadow: 0px 12px 16px 0px rgba(250, 103, 107, 0.55);
+      border-radius: 10px;
+      margin-right: 20px;
+    }
+    .tabMeun_view1{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 200px;
+      height: 90px;
+      background: #FFFFFF;
+      box-shadow: 0px 8px 14px 0px rgba(181, 115, 82, 0.18);
+      border-radius: 10px;
+      margin-right: 20px;
+    }
+    .tabMeun_img{
+      width: 40px;
+      height: 40px;
+    }
+    .tabMeun_label{
+      font-size: 14px;
+      color: #ffffff;
+      letter-spacing: 2px;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+    .testColor2{
+      color: #F16C9C;
+    }
+    .testColor3{
+      color: #8290F3;
+    }
+    .testColor4{
+      color: #DB70E8;
+    }
+    .testColor5{
+      color: #EC8E12;
+    }
+    .testColor6{
+      color: #10BC4F;
+    }
+  }
+  .list{
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    .list_bg{
+      width: 400px;
+      height: 150px;
+      background: linear-gradient(135.00deg, rgb(247, 120, 168) -33.224%,rgb(228, 135, 189) 12.41%,rgb(222, 149, 204) 41.726%,rgb(255, 118, 203) 66.776%);
+      border-radius: 12px;
+      margin-right: 30px;
+      padding: 15px 10px;
+    }
+    .list_bg1{
+      width: 240px;
+      height: 150px;
+      background: linear-gradient(135.00deg, rgb(90, 166, 153) -5.593%,rgb(120, 179, 139) 40.04%,rgb(123, 181, 141) 69.356%,rgb(166, 204, 128) 94.407%);
+      border-radius:12px;
+      margin-right: 30px;
+      padding: 15px 10px;
+    }
+    .list_bg2{
+      width: 240px;
+      height: 150px;
+      background: linear-gradient(135.00deg, rgb(238, 171, 145) -5.593%,rgb(233, 133, 136) 40.04%,rgb(230, 121, 144) 69.356%,rgb(234, 100, 156) 94.407%);
+      border-radius: 12px;
+      margin-right: 30px;
+      padding: 15px 10px;
+    }
+    .list_bg3{
+      width: 240px;
+      height: 150px;
+      background: linear-gradient(135.00deg, rgb(246, 195, 148) -5.593%,rgb(240, 160, 149) 40.04%,rgb(244, 133, 127) 69.356%,rgb(247, 127, 128) 94.407%);
+      border-radius: 12px;
+      margin-right: 30px;
+      padding: 15px 10px;
+    }
+    .list_header{
+      display: flex;
+      align-items: center;
+      .list_bg_img{
+        width: 35px;
+        height: 35px;
       }
-      .wrapper_meun_active{
-        font-size: 13px;
-        color: rgba(250, 100, 0, 1);
-        letter-spacing: 4px;
-        cursor: pointer;
-        background: rgba(255, 236, 221, 1);
-        width: 200px;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 5px;
+      .list_bg_label{
+        font-size: 14px;
+        color: #ffffff;
+        letter-spacing: 2px;
+        margin-left: 10px;
         font-weight: bold;
-        margin-bottom: 10px;
       }
     }
-    .wrapper_centent{
-      .wrapper_logo{
-        width: 80px;
-        height: 80px;
-        background: #888888;
-        border-radius: 5px;
-        margin-bottom: 4px;
-      }
-      .wrapper_info_btn{
-        background: rgba(255, 236, 221, 1);
-        border: 1px solid rgba(255, 236, 221, 1);
-        font-size: 12px;
-        color: rgba(255, 113, 0, 1);
-        letter-spacing: 2px;
-      }
-      .wrapper_info{
-        display: flex;
-        align-items: center;
-        .wrapper_info_text{
-          font-size: 13px;
-          color: #000000;
-          margin-right: 20px;
-        }
-      }
-      .wrapper_from{
-        margin-top: 15px;
-        /deep/.el-tabs__item.is-active{
-          color: rgba(255, 113, 0, 1);
-        }
-        /deep/.el-tabs__active-bar{
-          background: rgba(255, 113, 0, 1);
-        }
-        /deep/.el-tabs__item:hover{
-          color: rgba(255, 113, 0, 1);
-        }
-        /deep/.el-input-group__append, .el-input-group__prepend{
-          background: rgba(255, 236, 221, 1);
-          border: 1px solid rgba(255, 113, 0, 1);
-          color: rgba(255, 113, 0, 1);
-        }
-        .ruleForm_input{
-          width: 30%;
-        }
-        .ruleForm_btn{
-          width: 40%;
-          text-align: center;
-        }
-      }
+    .list_dect{
+      font-size: 14px;
+      color: #ffffff;
+      letter-spacing: 2px;
+      margin-top: 15px;
+      letter-spacing: 3px;
     }
   }
 }
