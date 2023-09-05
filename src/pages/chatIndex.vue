@@ -50,7 +50,39 @@
           </div>
           <!--  发送模块-->
           <div class="chatView">
-            <div id="ChatContent" class="chatView_page">
+            <div class="chatView_page">
+              <div class="chatView_page_01">
+                <div class="chatView_page_meun">
+                  <div class="chatView_page_logo"></div>
+                  <div class="chatView_page_info">
+                    <div class="chatView_page_text">您好，我是AI助手，欢迎您咨询我任何问题！</div>
+                    <div class="chatView_page_time">2023-08-1815:32:03</div>
+                  </div>
+                </div>
+                <div class="chatView_page_meun">
+                  <div class="chatView_page_logo"></div>
+                  <div class="chatView_page_info">
+                    <div class="chatView_page_text">您好，我是AI助手，欢迎您咨询我任何问题！</div>
+                    <div class="chatView_page_time">2023-08-1815:32:03</div>
+                  </div>
+                </div>
+              </div>
+              <div class="chatView_page_02">
+                <div class="chatView_page_meun">
+                  <div class="chatView_page_info1">
+                    <div class="chatView_page_text">您好，我是回复！</div>
+                    <div class="chatView_page_time">2023-08-1815:32:03</div>
+                  </div>
+                  <div class="chatView_page_logo1"></div>
+                </div>
+                <div class="chatView_page_meun">
+                  <div class="chatView_page_info1">
+                    <div class="chatView_page_text">您好，我是回复，欢迎您咨询我任何问题！</div>
+                    <div class="chatView_page_time">2023-08-1815:32:03</div>
+                  </div>
+                  <div class="chatView_page_logo1"></div>
+                </div>
+              </div>
               <div class="chatView_page_01">
                 <div class="chatView_page_meun">
                   <div class="chatView_page_logo"></div>
@@ -84,13 +116,13 @@
                 </div>
               </div>
             </div>
-            <div id="floatDiv" class="chatFooter" ref="chatMain">
-              <div class="send">
-                <el-input resize="none" type="textarea" placeholder="输入消息内容（shift+enter换行）" autosize v-model="textarea" @keydown.native="Keydown"></el-input>
-                <img src="../assets/images/send.png" alt="" class="send_img">
-              </div>
-            </div>
 
+          </div>
+          <div class="chatFooter" ref="chatMain">
+            <div class="send">
+              <el-input resize="none" type="textarea" placeholder="输入消息内容（shift+enter换行）" autosize v-model="textarea" @keydown.native="Keydown"></el-input>
+              <img src="../assets/images/send.png" alt="" class="send_img">
+            </div>
           </div>
         </div>
       </div>
@@ -217,6 +249,7 @@ export default {
     .wrapper_right{
       width: 100%;
       height: calc(100vh - 150px);
+      position: relative;
       .wrapper_right_header{
         display: flex;
         align-items: center;
@@ -265,86 +298,87 @@ export default {
         padding: 24px;
         overflow: hidden;
         overflow-y: auto;
-        position: relative;
         .chatView_page{
-          .chatView_page_02{
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-          }
-          .chatView_page_meun{
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-          }
-          .chatView_page_logo{
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #FA6400;
-            margin-right: 10px;
-          }
-          .chatView_page_logo1{
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #FA6400;
-            margin-left: 10px;
-          }
-          .chatView_page_info{
-            display: flex;
-            flex-direction: column;
-            .chatView_page_text{
-              font-size: 14px;
-              color: #FFFFFF;
-              background: rgb(250, 100, 0);
-              border-radius: 15px 15px 15px 0px;
-              padding: 20px 15px;
-            }
-            .chatView_page_time{
-              font-size: 10px;
-              color: #636A77;
-              margin-top: 10px;
-            }
-          }
-          .chatView_page_info1{
-            display: flex;
-            flex-direction: column;
-            .chatView_page_text{
-              font-size: 14px;
-              color: #333333;
-              background: #FFFFFF;
-              border-radius: 15px 15px 15px 0px;
-              padding: 20px 15px;
-              border: 1px solid #eeeeee;
-            }
-            .chatView_page_time{
-              font-size: 10px;
-              color: #636A77;
-              margin-top: 10px;
-            }
-          }
+          padding-bottom: 50px;
         }
-        .chatFooter{
-          width: 100%;
-          background: #FFFFFF;
-          padding: 10px 0;
-          height: 70px;
-          position: sticky;
-          bottom: 0;
-        }
-        .send{
+        .chatView_page_02{
           display: flex;
+          flex-direction: column;
           align-items: flex-end;
-          border-top: 1px solid #eeeeee;
-          padding-top: 20px;
-          background: #FFFFFF;
-          position: relative;
-          .send_img{
-            width: 40px;
-            height: 40px;
-            margin-left: 10px;
+        }
+        .chatView_page_meun{
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+        .chatView_page_logo{
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #FA6400;
+          margin-right: 10px;
+        }
+        .chatView_page_logo1{
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #FA6400;
+          margin-left: 10px;
+        }
+        .chatView_page_info{
+          display: flex;
+          flex-direction: column;
+          .chatView_page_text{
+            font-size: 14px;
+            color: #FFFFFF;
+            background: rgb(250, 100, 0);
+            border-radius: 15px 15px 15px 0px;
+            padding: 20px 15px;
           }
+          .chatView_page_time{
+            font-size: 10px;
+            color: #636A77;
+            margin-top: 10px;
+          }
+        }
+        .chatView_page_info1{
+          display: flex;
+          flex-direction: column;
+          .chatView_page_text{
+            font-size: 14px;
+            color: #333333;
+            background: #FFFFFF;
+            border-radius: 15px 15px 15px 0px;
+            padding: 20px 15px;
+            border: 1px solid #eeeeee;
+          }
+          .chatView_page_time{
+            font-size: 10px;
+            color: #636A77;
+            margin-top: 10px;
+          }
+        }
+      }
+      .chatFooter{
+        width: 95%;
+        background: #FFFFFF;
+        height: 70px;
+        position: absolute;
+        bottom: -20px;
+        margin: 0 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+      .send{
+        width: 90%;
+        display: flex;
+        align-items: flex-end;
+        .send_img{
+          width: 40px;
+          height: 40px;
+          margin-left: 10px;
         }
       }
     }

@@ -30,6 +30,11 @@ export default new Router({
             meta: { title: '绘画' }
         },
         {
+            path: '/login',
+            component: () => import('@/pages/login.vue'),
+            meta: { title: '登录' }
+        },
+        {
             path: '*',
             redirect: '/404'
         }

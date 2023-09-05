@@ -15,7 +15,7 @@
           <img src="../assets/images/icon01.png" alt="" class="tabMeun_img">
           <label class="tabMeun_label">小红书运营</label>
         </div>
-        <div class="tabMeun_view1">
+        <div class="tabMeun_view1" @click="handleChat()">
           <img src="../assets/images/icon02.png" alt="" class="tabMeun_img">
           <label class="tabMeun_label testColor2">自媒体运营</label>
         </div>
@@ -116,7 +116,10 @@ export default {
     },
     handleClick(tab, event) {
       console.log(tab, event);
-    }
+    },
+    handleChat(){
+      this.$router.push('/chatIndex')
+    },
   }
 }
 </script>
@@ -159,6 +162,7 @@ export default {
       box-shadow: 0px 12px 16px 0px rgba(250, 103, 107, 0.55);
       border-radius: 10px;
       margin-right: 20px;
+      cursor: pointer;
     }
     .tabMeun_view1{
       display: flex;
@@ -170,6 +174,7 @@ export default {
       box-shadow: 0px 8px 14px 0px rgba(181, 115, 82, 0.18);
       border-radius: 10px;
       margin-right: 20px;
+      cursor: pointer;
     }
     .tabMeun_img{
       width: 40px;
