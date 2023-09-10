@@ -1,13 +1,30 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+// src/router/index.js
+import Vue from 'vue'
+import VueRouter  from 'vue-router'
+Vue.use(VueRouter)
 
-Vue.use(Router);
-// 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
-const originalPush = Router.prototype.push
-Router.prototype.push = function push(location) {
-    return originalPush.call(this, location).catch(err => err)
+//添加以下代码
+// 缓存原型上的push函数
+const originPush = VueRouter.prototype.push
+const originReplace = VueRouter.prototype.replace
+// 给原型对象上的push指定新函数函数
+VueRouter.prototype.push = function (location, onComplete, onAbort) {
+    // 判断如果没有指定回调函数, 通过call调用源函数并使用catch来处理错误
+    if (onComplete===undefined && onAbort===undefined) {
+        return originPush.call(this, location, onComplete, onAbort).catch(() => {})
+    } else { // 如果有指定任意回调函数, 通过call调用源push函数处理
+        originPush.call(this, location, onComplete, onAbort)
+    }
 }
-export default new Router({
+VueRouter.prototype.replace = function (location, onComplete, onAbort) {
+    if (onComplete===undefined && onAbort===undefined) {
+        return originReplace.call(this, location, onComplete, onAbort).catch(() => {})
+    } else {
+        originReplace.call(this, location, onComplete, onAbort)
+    }
+}
+
+export default new VueRouter({
     routes: [
         {
             path: '/',

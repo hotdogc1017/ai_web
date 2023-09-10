@@ -3,16 +3,14 @@ import { MessageBox, Message } from 'element-ui'
 import router from '../router'
 const service = axios.create({
     // process.env.NODE_ENV === 'development' 来判断是否开发环境
-    // easy-mock服务挂了，暂时不使用了
-    baseURL: 'https://www.stronger.ink',
-    // baseURL: 'https://www.weimianfu.com',
-    timeout: 12000
+    baseURL: 'http://39.106.69.95:8099',
+    // timeout: 12000
 });
 
-service.interceptors.request.use(
-    config => {
+service.interceptors.request.use(config => {
     	var token = sessionStorage.getItem("token")
     	if(token){
+            config.headers['Content-Type'] = config.contentType || 'application/json;charset=UTF-8'
     		config.headers.Authtoken = token
     	}else{
     		router.replace('/login')

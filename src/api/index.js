@@ -3,11 +3,29 @@ import request from '@/utils/request';
 //登录
 export const loginAPI = query => {
 	return request({
-		url: '/login',
+		url: '/api/login',
 		method: 'post',
 		data: query
 	});
 };
+// 注册
+export const registerAPI = query => {
+	return request({
+		url: '/api/register',
+		method: 'post',
+		data: query
+	});
+};
+// 获取验证码
+export const EmailCodeAPI = query => {
+	return request({
+		url: '/api/getEmailCode',
+		method: 'get',
+		contentType:'application/x-www-form-urlencoded',
+		params: query
+	});
+};
+
 // 修改登录密码
 export const editPwdAPI = query => {
 	return request({
@@ -19,7 +37,7 @@ export const editPwdAPI = query => {
 // 获取用户信息
 export const userInfoAPI = query => {
 	return request({
-		url: '/userInfo',
+		url: '/api/userInfo',
 		method: 'get',
 		params: query
 	});
