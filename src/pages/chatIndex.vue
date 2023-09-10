@@ -18,14 +18,14 @@
             <div class="el-icon-plus" @click="handlAdd"></div>
           </div>
           <div class="wrapper_left_list">
-            <div class="wrapper_left_meun" v-for="(item,index) in 10" :key="index">
+            <div class="wrapper_left_meun" v-for="(item,index) in chatList" :key="index">
               <div class="wrapper_left_01">
-                <div class="wrapper_left_title">新对话</div>
-                <div class="wrapper_left_time">2023-09-03 22:56:18</div>
+                <div class="wrapper_left_title">{{item.roomName}}</div>
+                <div class="wrapper_left_time">{{item.createAt}}</div>
               </div>
               <div class="wrapper_left_02">
-                <img src="../assets/images/icon12.png" alt="" class="wrapper_left_img">
-                <img src="../assets/images/icon13.png" alt="" class="wrapper_left_img">
+                <img src="../assets/images/icon12.png" alt="" class="wrapper_left_img" @click="handleOpen">
+                <img src="../assets/images/icon13.png" alt="" class="wrapper_left_img" @click="handleDelete(item)">
               </div>
             </div>
           </div>
@@ -131,7 +131,8 @@
 </template>
 <script>
 import Header from '@/components/header.vue'
-import TabsPupup from '@/components/tabs.vue'  //tab展示
+import TabsPupup from '@/components/tabs.vue'
+import {createChatAPI, deleteChatAPI, getChatListAPI} from "@/api";  //tab展示
 export default {
   components: {
     Header,TabsPupup
@@ -141,14 +142,61 @@ export default {
     return {
       input2: '',
       textarea: '',
+      chatList:[],
     }
   },
   mounted() {
-
+  this.getChatList();
   },
   methods: {
+    //弹窗
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    //删除对话
+    handleDelete(data) {
+      //二次确认
+      this.$confirm('此操作将永久删除该对话, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const params={
+          roomId:data.id
+        }
+        deleteChatAPI(params).then(res => {
+          if (res.code == 200) {
+            this.getChatList();
+          } else {
+            this.$message.error(res.msg);
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    //获得对话列表
+    getChatList() {
+      getChatListAPI().then(res => {
+        if (res.code == 200) {
+        this.chatList = res.data
+        } else {
+          this.$message.error(res.msg);
+        }
+      })
+    },
+    //创建新会话
     handlAdd() {
-
+      createChatAPI().then(res => {
+        if (res.code == 200) {
+          this.getChatList();
+        } else {
+          this.$message.error(res.msg);
+        }
+      })
     },
     Keydown(e) {
       if (e.keyCode === 13 && e.shiftKey) {
