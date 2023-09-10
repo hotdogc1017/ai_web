@@ -187,7 +187,7 @@ export default {
         roomId:1,
         content:data
       }
-      askQuestionAPI(data).then(res => {
+      askQuestionAPI(params).then(res => {
         if (res.code == 200) {
           this.getChatList();
         } else {
