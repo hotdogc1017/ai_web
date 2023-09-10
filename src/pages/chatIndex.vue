@@ -2,6 +2,18 @@
 <template>
   <div class="chatHome">
     <Header></Header>
+<!--    弹框修改对话名称-->
+    <el-dialog title="修改对话名称" :visible.sync="dialogVisible" width="20%"   :destroy-on-close="true">
+      <el-form :model="form"  >
+        <el-form-item  prop="roomName">
+          <el-input v-model="form.roomName" clearable></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
+        <el-button type="primary" style="background-color: #FA6400; border: #FA6400;" size="mini" @click="submitForm">确 定</el-button>
+      </span>
+    </el-dialog>
     <!-- 内容部分 -->
     <div class="centainr">
       <div class="centainr_view">
@@ -14,17 +26,17 @@
       <div class="chatWrapper">
         <div class="wrapper_left">
           <div class="wrapper_left_header">
-            <el-input placeholder="输入搜索对话" size="mini" prefix-icon="el-icon-search" v-model="input2"></el-input>
-            <div class="el-icon-plus" @click="handlAdd"></div>
+            <el-input placeholder="输入搜索对话" size="mini" prefix-icon="el-icon-search" v-model="input2" @input="getChatList(input2)" clearable></el-input>
+            <div class="el-icon-plus"  @click="handlAdd"></div>
           </div>
           <div class="wrapper_left_list">
-            <div class="wrapper_left_meun" v-for="(item,index) in chatList" :key="index">
+            <div class="wrapper_left_meun" v-for="(item,index) in chatList" :key="index" >
               <div class="wrapper_left_01">
                 <div class="wrapper_left_title">{{item.roomName}}</div>
                 <div class="wrapper_left_time">{{item.createAt}}</div>
               </div>
               <div class="wrapper_left_02">
-                <img src="../assets/images/icon12.png" alt="" class="wrapper_left_img" @click="handleOpen">
+                <img src="../assets/images/icon12.png" alt="" class="wrapper_left_img" @click="handleOpen(item)">
                 <img src="../assets/images/icon13.png" alt="" class="wrapper_left_img" @click="handleDelete(item)">
               </div>
             </div>
@@ -120,8 +132,8 @@
           </div>
           <div class="chatFooter" ref="chatMain">
             <div class="send">
-              <el-input resize="none" type="textarea" placeholder="输入消息内容（shift+enter换行）" autosize v-model="textarea" @keydown.native="Keydown"></el-input>
-              <img src="../assets/images/send.png" alt="" class="send_img">
+              <el-input resize="none" type="textarea" placeholder="输入消息内容（shift+enter换行）" autosize v-model="textarea" clearable @keydown.native="Keydown"></el-input>
+              <img src="../assets/images/send.png" alt="" class="send_img" @click="sendMsg(textarea)">
             </div>
           </div>
         </div>
@@ -132,7 +144,7 @@
 <script>
 import Header from '@/components/header.vue'
 import TabsPupup from '@/components/tabs.vue'
-import {createChatAPI, deleteChatAPI, getChatListAPI} from "@/api";  //tab展示
+import {askQuestionAPI, createChatAPI, deleteChatAPI, editChatNameAPI, getChatListAPI, getChatRecordAPI} from "@/api";  //tab展示
 export default {
   components: {
     Header,TabsPupup
@@ -140,18 +152,68 @@ export default {
   name: "chatIndex",
   data() {
     return {
+      activeRoomId: '',
+      form: {
+        id:'',
+        roomName: ''
+      },
       input2: '',
       textarea: '',
       chatList:[],
+      chatRecordList:[],
+      dialogVisible: false,
     }
   },
   mounted() {
   this.getChatList();
   },
+  watch: {
+    activeRoomId: function (val) {
+      const params={
+        roomId:val
+      }
+      getChatRecordAPI(params).then(res => {
+        if (res.code == 200) {
+          this.chatList = res.data
+        } else {
+          this.$message.error(res.msg);
+        }
+      })
+    }
+  },
   methods: {
+    sendMsg(data) {
+      const params={
+        roomId:1,
+        content:data
+      }
+      askQuestionAPI(data).then(res => {
+        if (res.code == 200) {
+          this.getChatList();
+        } else {
+          this.$message.error(res.msg);
+        }
+      })
+    },
+    submitForm() {
+      const params={
+        roomId:this.form.id,
+        roomName:this.form.roomName
+      }
+      editChatNameAPI(params).then(res => {
+        if (res.code == 200) {
+          this.dialogVisible = false;
+          this.getChatList();
+        } else {
+          this.$message.error(res.msg);
+        }
+      })
+    },
     //弹窗
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+     handleOpen(data) {
+      this.dialogVisible = true;
+      this.form.id=data.id;
+      this.form.roomName=data.roomName;
     },
     //删除对话
     handleDelete(data) {
@@ -179,10 +241,18 @@ export default {
       });
     },
     //获得对话列表
-    getChatList() {
-      getChatListAPI().then(res => {
+    getChatList(data) {
+      const params={
+        roomName:data
+      }
+
+      getChatListAPI(params).then(res => {
         if (res.code == 200) {
         this.chatList = res.data
+          //默认选中第一个
+          if(this.chatList.length>0){
+            this.activeRoomId=this.chatList[0].id
+          }
         } else {
           this.$message.error(res.msg);
         }
@@ -271,6 +341,18 @@ export default {
           align-items: center;
           justify-content: space-between;
           border: 1px solid #FA6400;
+          border-radius: 5px;
+          height: 60px;
+          padding-left: 15px;
+          margin-bottom: 10px;
+        }
+
+
+        .wrapper_left_meun:hover {
+          display:flex;
+          align-items: center;
+          justify-content: space-between;
+          border: 3px solid #FA6400;
           border-radius: 5px;
           height: 60px;
           padding-left: 15px;
@@ -431,5 +513,12 @@ export default {
       }
     }
   }
+  .my-div {
+    /* 这是 <div> 元素的默认样式 */
+    background-color: blue;
+    color: white;
+  }
+
+
 }
 </style>

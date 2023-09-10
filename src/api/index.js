@@ -69,3 +69,29 @@ export  const  deleteChatAPI = query =>{
 		params: query
 	});
 }
+
+//修改会话名称
+export  const  editChatNameAPI = query =>{
+	return request({
+		url: '/updateChatRoomName',
+		method: 'post',
+		data: query
+	});
+}
+//提出问题
+export  const  askQuestionAPI = query =>{
+	return request({
+		url: '/ask',
+		method: 'post',
+		data: query
+	});
+}
+
+//根据聊天室id查看聊天记录
+export  const  getChatRecordAPI = query =>{
+	return request({
+		url: '/getChatRecordList',
+		method: 'get',
+		params: query
+	});
+}
