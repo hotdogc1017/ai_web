@@ -62,73 +62,26 @@
           </div>
           <!--  发送模块-->
           <div class="chatView">
-            <div class="chatView_page">
-              <div class="chatView_page_01">
+            <div class="chatView_page" v-for="(item,index) in chatRecordList" :key="index">
+              <div v-if="item.role === 'ai'" class="chatView_page_01">
                 <div class="chatView_page_meun">
                   <div class="chatView_page_logo"></div>
                   <div class="chatView_page_info">
-                    <div class="chatView_page_text">您好，我是AI助手，欢迎您咨询我任何问题！</div>
-                    <div class="chatView_page_time">2023-08-1815:32:03</div>
-                  </div>
-                </div>
-                <div class="chatView_page_meun">
-                  <div class="chatView_page_logo"></div>
-                  <div class="chatView_page_info">
-                    <div class="chatView_page_text">您好，我是AI助手，欢迎您咨询我任何问题！</div>
-                    <div class="chatView_page_time">2023-08-1815:32:03</div>
+                    <div class="chatView_page_text">{{ item.context }}</div>
+                    <div class="chatView_page_time">{{ item.time }}</div>
                   </div>
                 </div>
               </div>
-              <div class="chatView_page_02">
+              <div v-else class="chatView_page_02">
                 <div class="chatView_page_meun">
                   <div class="chatView_page_info1">
-                    <div class="chatView_page_text">您好，我是回复！</div>
-                    <div class="chatView_page_time">2023-08-1815:32:03</div>
-                  </div>
-                  <div class="chatView_page_logo1"></div>
-                </div>
-                <div class="chatView_page_meun">
-                  <div class="chatView_page_info1">
-                    <div class="chatView_page_text">您好，我是回复，欢迎您咨询我任何问题！</div>
-                    <div class="chatView_page_time">2023-08-1815:32:03</div>
-                  </div>
-                  <div class="chatView_page_logo1"></div>
-                </div>
-              </div>
-              <div class="chatView_page_01">
-                <div class="chatView_page_meun">
-                  <div class="chatView_page_logo"></div>
-                  <div class="chatView_page_info">
-                    <div class="chatView_page_text">您好，我是AI助手，欢迎您咨询我任何问题！</div>
-                    <div class="chatView_page_time">2023-08-1815:32:03</div>
-                  </div>
-                </div>
-                <div class="chatView_page_meun">
-                  <div class="chatView_page_logo"></div>
-                  <div class="chatView_page_info">
-                    <div class="chatView_page_text">您好，我是AI助手，欢迎您咨询我任何问题！</div>
-                    <div class="chatView_page_time">2023-08-1815:32:03</div>
-                  </div>
-                </div>
-              </div>
-              <div class="chatView_page_02">
-                <div class="chatView_page_meun">
-                  <div class="chatView_page_info1">
-                    <div class="chatView_page_text">您好，我是回复！</div>
-                    <div class="chatView_page_time">2023-08-1815:32:03</div>
-                  </div>
-                  <div class="chatView_page_logo1"></div>
-                </div>
-                <div class="chatView_page_meun">
-                  <div class="chatView_page_info1">
-                    <div class="chatView_page_text">您好，我是回复，欢迎您咨询我任何问题！</div>
-                    <div class="chatView_page_time">2023-08-1815:32:03</div>
+                    <div class="chatView_page_text">{{ item.context }}</div>
+                    <div class="chatView_page_time">{{ item.time }}</div>
                   </div>
                   <div class="chatView_page_logo1"></div>
                 </div>
               </div>
             </div>
-
           </div>
           <div class="chatFooter" ref="chatMain">
             <div class="send">
@@ -174,7 +127,7 @@ export default {
       }
       getChatRecordAPI(params).then(res => {
         if (res.code == 200) {
-          this.chatList = res.data
+          this.chatRecordList = res.data
         } else {
           this.$message.error(res.msg);
         }
@@ -183,11 +136,12 @@ export default {
   },
   methods: {
     sendMsg(data) {
+      console.log(data)
       const params={
-        roomId:1,
-        content:data
+        roomId:this.activeRoomId,
+        question:data
       }
-      askQuestionAPI(data).then(res => {
+      askQuestionAPI(params).then(res => {
         if (res.code == 200) {
           this.getChatList();
         } else {
@@ -346,8 +300,6 @@ export default {
           padding-left: 15px;
           margin-bottom: 10px;
         }
-
-
         .wrapper_left_meun:hover {
           display:flex;
           align-items: center;
@@ -429,7 +381,7 @@ export default {
         overflow: hidden;
         overflow-y: auto;
         .chatView_page{
-          padding-bottom: 50px;
+          //padding-bottom: 50px;
         }
         .chatView_page_02{
           display: flex;
@@ -509,6 +461,7 @@ export default {
           width: 40px;
           height: 40px;
           margin-left: 10px;
+          cursor: pointer;
         }
       }
     }
