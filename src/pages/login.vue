@@ -51,7 +51,9 @@ export default {
           loginAPI(this.formModel).then(res => {
             this.globalLoading = false;
             if (res.code === 200) {
-              // this.$router.push({ path: "/home" });
+              window.sessionStorage.setItem('token', res.data.token);
+              this.$message.success('登录成功');
+              this.$router.push({ path: "/" });
             } else {
               this.$message.error(res.msg);
             }
