@@ -29,7 +29,7 @@ export default new VueRouter({
         {
             path: '/',
             component: () => import('@/pages/index.vue'),
-            meta: { title: '登录' }
+            meta: { title: '首页' }
         },
         {
             path: '/user',

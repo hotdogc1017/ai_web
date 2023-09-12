@@ -15,13 +15,13 @@
           <img src="../assets/images/icon01.png" alt="" class="tabMeun_img">
           <label class="tabMeun_label">小红书运营</label>
         </div>
-        <div class="tabMeun_view1" @click="handleChat()">
+        <div class="tabMeun_view1" @click="handleChat(1)">
           <img src="../assets/images/icon02.png" alt="" class="tabMeun_img">
-          <label class="tabMeun_label testColor2">自媒体运营</label>
+          <label class="tabMeun_label testColor2">AI对话</label>
         </div>
-        <div class="tabMeun_view1">
+        <div class="tabMeun_view1" @click="handleChat(2)">
           <img src="../assets/images/icon03.png" alt="" class="tabMeun_img">
-          <label class="tabMeun_label testColor3">营销文案</label>
+          <label class="tabMeun_label testColor3">AI绘画</label>
         </div>
         <div class="tabMeun_view1">
           <img src="../assets/images/icon04.png" alt="" class="tabMeun_img">
@@ -117,8 +117,13 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    handleChat(){
-      this.$router.push('/chatIndex')
+    handleChat(data){
+      if(data == 1){
+        this.$router.push('/chatIndex')
+      }else if(data == 2){
+        this.$router.push('/paintIndex')
+      }
+
     },
   }
 }
