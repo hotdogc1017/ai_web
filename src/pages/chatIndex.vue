@@ -165,6 +165,9 @@ export default {
           i++;
         } else {
           clearInterval(timer);
+          //把chatRecordList最后一条的时间改成当前时间
+          this.chatRecordList[this.chatRecordList.length-1].status = 0
+
         }
       }, speed);
     },
@@ -220,7 +223,6 @@ export default {
             time: new Date().toLocaleString()
           }
           this.chatRecordList.push(resData)
-          this.$message.success('发送成功');
 
         } else {
           this.$message.error(res.msg);
