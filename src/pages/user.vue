@@ -1,15 +1,12 @@
 <!--我的-->
 <template>
   <div class="userHome">
-    <Header></Header>
     <!-- 内容部分 -->
     <div class="centainr">
       <div class="centainr_view">
         <div class="centainr_title">一级标题</div>
         <div class="centainr_dect">sjasndans,dnas,ndn</div>
       </div>
-      <!--tab展示-->
-      <tabs-pupup></tabs-pupup>
       <!--内容中心-->
       <div class="wrapper">
         <div class="wrapper_left">
@@ -72,12 +69,7 @@
 </template>
 
 <script>
-import Header from '@/components/header.vue'
-import TabsPupup from '@/components/tabs.vue'  //tab展示
 export default {
-  components: {
-    Header,TabsPupup
-  },
   name: 'user',
   data() {
     return {

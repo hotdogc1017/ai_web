@@ -1,10 +1,7 @@
 <!--绘画-->
 <script>
-import Header from "@/components/header.vue";
-
 export default {
   name: "painting",
-  components: {Header},
   data() {
     return {
       editForm: {
@@ -40,7 +37,7 @@ export default {
 
 <template>
   <div class="paintingHome">
-    <Header></Header>
+    <!--<Header></Header>-->
     <div class="centainr">
       <el-page-header @back="goBack" content="AI绘画"></el-page-header>
       <!--  表单-->

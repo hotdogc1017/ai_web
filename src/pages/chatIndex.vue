@@ -1,7 +1,6 @@
 <!--对话/聊天-->
 <template>
   <div class="chatHome">
-    <Header></Header>
     <!-- 内容部分 -->
     <div class="centainr">
       <div class="centainr_view">
@@ -23,8 +22,8 @@
                 <div class="wrapper_left_time">{{ item.createAt }}</div>
               </div>
               <div class="wrapper_left_02">
-                <img src="../assets/images/icon12.png" alt="" class="wrapper_left_img" @click="handleOpen(item)">
-                <img src="../assets/images/icon13.png" alt="" class="wrapper_left_img" @click="handleDelete(item)">
+                <!--<img src="../assets/images/icon12.png" alt="" class="wrapper_left_img" @click="handleOpen(item)">-->
+                <!--<img src="../assets/images/icon13.png" alt="" class="wrapper_left_img" @click="handleDelete(item)">-->
               </div>
             </div>
           </div>
@@ -32,18 +31,18 @@
         <div class="wrapper_right">
           <div class="wrapper_right_header">
             <div class="wrapper_right_01">
-              <img src="../assets/images/icon08.png" alt="" class="wrapper_right_img1">
+              <!--<img src="../assets/images/icon08.png" alt="" class="wrapper_right_img1">-->
               <label class="wrapper_right_label">新对话</label>
             </div>
             <div class="wrapper_right_02">
               <div class="wrapper_right_icon">
-                <img src="../assets/images/icon09.png" alt="" class="wrapper_right_img">
+                <!--<img src="" alt="" class="wrapper_right_img">-->
               </div>
               <div class="wrapper_right_icon">
-                <img src="../assets/images/icon10.png" alt="" class="wrapper_right_img">
+                <!--<img src="" alt="" class="wrapper_right_img">-->
               </div>
               <div class="wrapper_right_icon">
-                <img src="../assets/images/icon11.png" alt="" class="wrapper_right_img">
+                <!--<img src="" alt="" class="wrapper_right_img">-->
               </div>
             </div>
           </div>
@@ -87,7 +86,7 @@
             <div class="chatFooter" >
               <div class="send">
                 <el-input resize="none" type="textarea" placeholder="输入消息内容（shift+enter换行）" autosize v-model="textarea" clearable @keydown.native="Keydown"></el-input>
-                <img src="../assets/images/send.png" alt="" class="send_img" @click="sendMsg(textarea)">
+                <!--<img src="../assets/images/send.png" alt="" class="send_img" @click="sendMsg(textarea)">-->
               </div>
             </div>
           </div>
@@ -113,13 +112,9 @@
 
 </template>
 <script>
-import Header from '@/components/header.vue'
-import TabsPupup from '@/components/tabs.vue'
 import {askQuestionAPI, createChatAPI, deleteChatAPI, editChatNameAPI, getChatListAPI, getChatRecordAPI} from "@/api";  //tab展示
 export default {
-  components: {
-    Header, TabsPupup
-  },
+  components: {},
   name: "chatIndex",
   data() {
     return {
