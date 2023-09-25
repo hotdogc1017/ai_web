@@ -4,10 +4,7 @@
     <v-sidebar></v-sidebar>
     <div class="content-box" :class="{'content-collapse':collapse}">
       <div class="content">
-        <transition name="move" mode="out-in">
-          <router-view></router-view>
-        </transition>
-        <!--<el-backtop target=".content"></el-backtop>-->
+        <v-home></v-home>
       </div>
     </div>
   </div>
@@ -16,11 +13,13 @@
 <script>
 import vHead from '@/components/Header.vue';
 import vSidebar from '@/components/Sidebar.vue';
+import vHome from '@/pages/home.vue';
 import bus from '@/utils/bus';
 export default {
   components: {
     vHead,
-    vSidebar
+    vSidebar,
+    vHome
   },
   name: 'home',
   data() {

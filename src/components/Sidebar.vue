@@ -1,26 +1,22 @@
 <template>
   <div class="sidebar">
-    <div class="sidebar_view">
-      <img src="../assets/logo.png" alt="" class="sidebar_logo">
-      <img src="../assets/images/Paperpig.png" alt="" class="sidebar_title" v-if="!collapse">
-    </div>
-    <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" unique-opened router>
+    <el-menu class="sidebar-el-menu" :default-active="activeMenu" :collapse="collapse" unique-opened router @select="handleSelect">
       <template v-for="item in menuList">
         <template v-if="item.children">
-          <el-submenu :index="item.path" :key="item.path">
+          <el-submenu :index="item.webUrl" :key="item.webUrl">
             <template slot="title">
               <img :src="item.icon" class="meun_img" />
               <span slot="title" class="meun_title">{{ item.title }}</span>
             </template>
             <template v-for="subItem in item.children">
-              <el-submenu v-if="subItem.children" :index="subItem.path" :key="subItem.path">
+              <el-submenu v-if="subItem.children" :index="subItem.webUrl" :key="subItem.webUrl">
                 <template slot="title">
                   <img :src="subItem.icon" class="meun_img"></img>
                   <span class="meun_title">{{ subItem.title }}</span>
                 </template>
-                <el-menu-item v-for="(threeItem,i) in subItem.children" :key="i" :index="threeItem.path">{{ threeItem.title }}</el-menu-item>
+                <el-menu-item v-for="(threeItem,i) in subItem.children" :key="i" :index="threeItem.webUrl">{{ threeItem.title }}</el-menu-item>
               </el-submenu>
-              <el-menu-item v-else :index="subItem.path" :key="subItem.path">
+              <el-menu-item v-else :index="subItem.webUrl" :key="subItem.webUrl">
                 <img :src="subItem.icon" class="meun_img"></img>
                 <span class="meun_title">{{ subItem.title }}</span>
               </el-menu-item>
@@ -28,7 +24,7 @@
           </el-submenu>
         </template>
         <template v-else>
-          <el-menu-item :index="item.path" :key="item.path">
+          <el-menu-item :index="item.webUrl" :key="item.webUrl">
             <img :src="item.icon" class="meun_img"></img>
             <span slot="title" class="meun_title">{{ item.title }}</span>
           </el-menu-item>
@@ -46,50 +42,56 @@ export default {
   data() {
     return {
       collapse: false,
+      activeMenu: this.$route.path,
       menuList: [
         {
+          icon: require('../assets/images/home.png'),
+          webUrl: '/',
+          title: '首页'
+        },
+        {
           icon: require('../assets/images/meunImg01.png'),
-          webUrl: 'companyList',
+          webUrl: '/chatIndex',
           title: 'AI对话'
         },
         {
           icon: require('../assets/images/meunImg02.png'),
-          webUrl: 'fileType',
+          webUrl: '/gptIndex',
           title: '原生GPT4.0'
         },
         {
           icon: require('../assets/images/meunImg03.png'),
-          webUrl: 'fileList',
+          webUrl: '/paintIndex',
           title: '智能做图'
         },
         {
           icon: require('../assets/images/meunImg04.png'),
-          webUrl: 'memberList',
+          webUrl: '/xhsIndex',
           title: '小红书文案'
         },
         {
           icon: require('../assets/images/meunImg05.png'),
-          webUrl: 'memberList',
+          webUrl: '/dyIndex',
           title: '抖音文案'
         },
         {
           icon: require('../assets/images/meunImg06.png'),
-          webUrl: 'memberList',
+          webUrl: '/waIndex',
           title: '独立文案站'
         },
         {
           icon: require('../assets/images/meunImg07.png'),
-          webUrl: 'memberList',
+          webUrl: '/sjIndex',
           title: '社交文案'
         },
         {
           icon: require('../assets/images/meunImg08.png'),
-          webUrl: 'memberList',
+          webUrl: '/kjdsIndex',
           title: '跨境电商文案'
         },
         {
           icon: require('../assets/images/meunImg09.png'),
-          webUrl: 'memberList',
+          webUrl: '/bgIndex',
           title: '办公写作'
         }
       ],
@@ -107,9 +109,12 @@ export default {
       bus.$emit('collapse-content', msg);
     });
   },
-  mounted() {
-  },
-  methods: {}
+  mounted() {},
+  methods: {
+    handleSelect(key) {
+      console.log(key);
+    },
+  }
 };
 </script>
 
@@ -118,26 +123,9 @@ export default {
   display: block;
   position: absolute;
   left: 0;
-  top: 0;
+  top: 55px;
   bottom: 0;
   background: #FFFFFF;
-}
-
-.sidebar_view {
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  height: 60px;
-}
-
-.sidebar_logo {
-  width: 30px;
-  height: 30px;
-}
-
-.sidebar_title {
-  width: 80px;
-  margin-left: 10px;
 }
 
 .sidebar::-webkit-scrollbar {

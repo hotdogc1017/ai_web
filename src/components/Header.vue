@@ -1,5 +1,9 @@
 <template>
   <div class="header" :class="{'header-collapse':collapse}">
+    <div class="sidebar_view" :class="{'sidebar-collapse':collapse}">
+      <img src="../assets/logo.png" alt="" class="sidebar_logo">
+      <img src="../assets/images/Paperpig.png" alt="" class="sidebar_title" v-if="!collapse">
+    </div>
     <!-- 折叠按钮 -->
     <div class="collapse-btn"  @click="collapseChage">
       <i v-if="!collapse" class="el-icon-s-fold"></i>
@@ -24,6 +28,7 @@
                   <i class="el-icon-caret-bottom"></i>
               </span>
           <el-dropdown-menu slot="dropdown">
+            <!--<el-dropdown-item divided command="user">个人中心</el-dropdown-item>-->
             <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -116,9 +121,27 @@ export default {
   font-size: 22px;
   color: #333;
   background: #FFFFFF;
-  margin-left: 200px;
+}
+.sidebar_view {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  height: 60px;
+  float: left;
+  width: 170px;
+}
+.sidebar-collapse{
+  width: 20px;
+}
+.sidebar_logo {
+  width: 30px;
+  height: 30px;
 }
 
+.sidebar_title {
+  width: 80px;
+  margin-left: 10px;
+}
 .collapse-btn {
   float: left;
   padding: 0 10px;
@@ -126,7 +149,7 @@ export default {
   line-height: 55px;
 }
 .header-collapse{
-  margin-left: 70px;
+  margin-left: 0;
 }
 .header-right {
   float: right;

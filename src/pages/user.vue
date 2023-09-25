@@ -150,7 +150,6 @@ export default {
     }
     .wrapper_right{
       margin-left: 30px;
-      padding: 15px 0;
       width: 100%;
     }
     .wrapper_view_title{
