@@ -48,16 +48,23 @@ export default {
       this.$refs["formRef"].validate((valid) => {
         if (valid) {
           this.globalLoading = true;
-          loginAPI(this.formModel).then(res => {
-            this.globalLoading = false;
-            if (res.code === 200) {
-              window.sessionStorage.setItem('token', res.data.token);
-              this.$message.success('登录成功');
-              this.$router.push({ path: "/" });
-            } else {
-              this.$message.error(res.msg);
-            }
-          })
+          window.sessionStorage.setItem('token', 'token');
+          this.$notify({
+            title: '登录成功',
+            message: '欢迎登录AI智能管平台',
+            type: 'success'
+          });
+          this.$router.push({ path: "/" });
+          // loginAPI(this.formModel).then(res => {
+          //   this.globalLoading = false;
+          //   if (res.code === 200) {
+          //     window.sessionStorage.setItem('token', res.data.token);
+          //     this.$message.success('登录成功');
+          //     this.$router.push({ path: "/" });
+          //   } else {
+          //     this.$message.error(res.msg);
+          //   }
+          // })
         }
       });
     },
@@ -177,7 +184,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  //background: #FFFFFF;
+  background: url("../assets/images/login_bg.jpg") no-repeat;
+  background-size: 100% 100%;
   height: 100vh;
 
   .login_title {
@@ -191,7 +199,7 @@ export default {
 
   .loginForm {
     width: 380px;
-    height: 400px;
+    height: 330px;
     background: rgba(255, 255, 255, 0.5);
     box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.2);
     border-radius: 12px;

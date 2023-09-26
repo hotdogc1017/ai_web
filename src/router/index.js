@@ -29,7 +29,7 @@ export default new VueRouter({
         {
             path: '/',
             component: () => import('@/pages/index.vue'),
-            meta: { title: '登录' }
+            meta: { title: '首页' }
         },
         {
             path: '/user',
@@ -39,12 +39,47 @@ export default new VueRouter({
         {
             path: '/chatIndex',
             component: () => import('@/pages/chatIndex.vue'),
-            meta: { title: '聊天' }
+            meta: { title: 'AI对话' }
+        },
+        {
+            path: '/gptIndex',
+            component: () => import('@/pages/chatIndex.vue'),
+            meta: { title: '原生GPT4.0' }
         },
         {
             path: '/paintIndex',
             component: () => import('@/pages/painting.vue'),
-            meta: { title: '绘画' }
+            meta: { title: '智能做图' }
+        },
+        {
+            path: '/xhsIndex',
+            component: () => import('@/pages/painting.vue'),
+            meta: { title: '小红书文案' }
+        },
+        {
+            path: '/dyIndex',
+            component: () => import('@/pages/painting.vue'),
+            meta: { title: '抖音文案' }
+        },
+        {
+            path: '/waIndex',
+            component: () => import('@/pages/painting.vue'),
+            meta: { title: '独立文案站' }
+        },
+        {
+            path: '/sjIndex',
+            component: () => import('@/pages/painting.vue'),
+            meta: { title: '社交文案' }
+        },
+        {
+            path: '/kjdsIndex',
+            component: () => import('@/pages/painting.vue'),
+            meta: { title: '跨境电商文案' }
+        },
+        {
+            path: '/bgIndex',
+            component: () => import('@/pages/painting.vue'),
+            meta: { title: '办公写作' }
         },
         {
             path: '/login',

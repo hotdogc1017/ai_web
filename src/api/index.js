@@ -74,8 +74,8 @@ export  const  deleteChatAPI = query =>{
 export  const  editChatNameAPI = query =>{
 	return request({
 		url: '/updateChatRoomName',
-		method: 'post',
-		data: query
+		method: 'get',
+		params: query
 	});
 }
 //提出问题
