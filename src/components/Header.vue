@@ -5,9 +5,10 @@
       <img src="../assets/images/Paperpig.png" alt="" class="sidebar_title" v-if="!collapse">
     </div>
     <!-- 折叠按钮 -->
-    <div class="collapse-btn"  @click="collapseChage">
-      <i v-if="!collapse" class="el-icon-s-fold"></i>
-      <i v-else class="el-icon-s-unfold"></i>
+    <div class="collapse-btn" >
+      <i v-if="!collapse" class="el-icon-s-fold" @click="collapseChage"></i>
+      <i v-else class="el-icon-s-unfold" @click="collapseChage"></i>
+      <img src="../assets/images/home.png" alt="" class="home_img" @click="handleHome()">
     </div>
     <div class="header-right">
       <div class="header-user-con">
@@ -17,34 +18,44 @@
             <i class="el-icon-rank"></i>
           </el-tooltip>
         </div>
-        <!-- 用户头像 -->
-        <div class="user-avator">
-          <img src="../assets/images/home_user.png"/>
-        </div>
-        <!-- 用户名下拉菜单 -->
-        <el-dropdown class="user-name" trigger="click" @command="handleCommand">
+        <div class="userInfo" v-if="tokenStr">
+          <!-- 用户头像 -->
+          <div class="user-avator">
+            <img src="../assets/images/home_user.png"/>
+          </div>
+          <!-- 用户名下拉菜单 -->
+          <el-dropdown class="user-name" trigger="click" @command="handleCommand">
               <span class="el-dropdown-link">
                   {{ username }}
                   <i class="el-icon-caret-bottom"></i>
               </span>
-          <el-dropdown-menu slot="dropdown">
-            <!--<el-dropdown-item divided command="user">个人中心</el-dropdown-item>-->
-            <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+            <el-dropdown-menu slot="dropdown">
+              <!--<el-dropdown-item divided command="user">个人中心</el-dropdown-item>-->
+              <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+        <div v-else class="login_btn" @click="handleLogin()">登录注册</div>
       </div>
     </div>
+    <!-- 登录-->
+    <Login @close="handleClose()" v-if="isLogin"></Login>
   </div>
 </template>
 <script>
 import bus from '@/utils/bus'
-
+import Login from "@/pages/login.vue";
 export default {
+  components: {
+    Login
+  },
   data() {
     return {
+      tokenStr:'',
       collapse: false,
       fullscreen: false,
       name: 'admin',
+      isLogin: false,
     };
   },
   computed: {
@@ -54,11 +65,23 @@ export default {
     }
   },
   mounted() {
+    this.tokenStr = window.sessionStorage.getItem('token')
     if (document.body.clientWidth < 1500) {
       this.collapseChage();
     }
   },
   methods: {
+    // 跳转首页
+    handleHome() {
+      if(this.$route.path == '/') return;
+      this.$router.push('/');
+    },
+    handleLogin() {
+      this.isLogin = true
+    },
+    handleClose() {
+      this.isLogin = false
+    },
     // 用户名下拉菜单选择事件
     handleCommand(command) {
       if (command == 'loginout') {
@@ -130,6 +153,10 @@ export default {
   float: left;
   width: 170px;
 }
+.userInfo{
+  display: flex;
+  align-items: center;
+}
 .sidebar-collapse{
   width: 20px;
 }
@@ -137,23 +164,32 @@ export default {
   width: 30px;
   height: 30px;
 }
-
+.home_img{
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
 .sidebar_title {
   width: 80px;
   margin-left: 10px;
 }
 .collapse-btn {
   float: left;
-  padding: 0 10px;
+  padding: 0 10px 0 0;
   cursor: pointer;
   line-height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 55px;
 }
 .header-collapse{
   margin-left: 0;
+  transition: 3s;
 }
 .header-right {
   float: right;
-  padding-right: 50px;
+  padding-right: 30px;
 }
 
 .header-user-con {
@@ -216,5 +252,18 @@ export default {
 
 .el-dropdown-menu__item {
   text-align: center;
+}
+.login_btn{
+  width: 80px;
+  height: 30px;
+  border-radius: 100px;
+  background: linear-gradient(135deg,rgb(244, 124, 124),rgb(240, 72, 72));
+  font-size: 13px;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 1px;
 }
 </style>

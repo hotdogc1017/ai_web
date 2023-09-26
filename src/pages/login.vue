@@ -115,6 +115,9 @@ export default {
           })
         }
       });
+    },
+    handleClose() {
+      this.$emit('close')
     }
   }
 }
@@ -125,6 +128,7 @@ export default {
     <!--登录-->
     <div v-if="!isRegister" class="loginForm">
       <div class="login_title">账号登录</div>
+      <i class="el-icon-close" @click="handleClose(1)"></i>
       <el-form ref="formRef" :model="formModel" :rules="formRules" class="login-form" :validate-on-rule-change="false">
         <el-form-item prop="username">
           <el-input prefix-icon="el-icon-user-solid" v-model.trim="formModel.username" type="text" placeholder="请输入账户"></el-input>
@@ -147,6 +151,7 @@ export default {
     <!--  注册-->
     <div class="registerForm" v-else>
       <div class="login_title">账号注册</div>
+      <i class="el-icon-close" @click="handleClose(1)"></i>
       <el-form ref="editForm" :model="editForm" :rules="editFormRules" class="login-form" :validate-on-rule-change="false">
         <el-form-item prop="username">
           <el-input prefix-icon="el-icon-user-solid" v-model.trim="editForm.username" type="text" placeholder="请输入账户"></el-input>
@@ -184,14 +189,25 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url("../assets/images/login_bg.jpg") no-repeat;
-  background-size: 100% 100%;
   height: 100vh;
-
+  background-color: rgba(0, 0, 0, 0.45);
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  width: 100%;
+  .el-icon-close{
+    color: #333;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
   .login_title {
     font-size: 24px;
     font-weight: bold;
-    color: #FFFFFF;
+    color: #333333;
     letter-spacing: 3px;
     text-align: center;
     margin-bottom: 25px;
@@ -200,21 +216,22 @@ export default {
   .loginForm {
     width: 380px;
     height: 330px;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 1);
     box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.2);
     border-radius: 12px;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    animation: bounceIn; /* referring directly to the animation's @keyframe declaration */
+    animation: bounceInDown; /* referring directly to the animation's @keyframe declaration */
     animation-duration: 0.8s;
+    position: relative;
   }
 
   .registerForm {
     width: 380px;
-    height: 500px;
-    background: rgba(255, 255, 255, 0.5);
+    height: 430px;
+    background: rgba(255, 255, 255, 1);
     box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.2);
     border-radius: 12px;
     display: flex;
@@ -222,8 +239,9 @@ export default {
     flex-direction: column;
     justify-content: center;
     position: relative;
-    animation: lightSpeedInRight; /* referring directly to the animation's @keyframe declaration */
+    animation: bounceInRight; /* referring directly to the animation's @keyframe declaration */
     animation-duration: 0.8s; /* don't forget to set a duration! */
+    position: relative;
   }
 
   .codeView {

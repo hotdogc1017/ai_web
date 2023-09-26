@@ -2,8 +2,8 @@
 <template>
   <div class="chatHome">
     <v-head></v-head>
-    <div class="chatcentainr">
-      <div class="chatSidebar">
+    <div class="chatcentainr" >
+      <div class="chatSidebar" :class="{'chat_sidebar': collapse}">
         <div class="chatSidebar_user">
           <img src="../assets/images/home_user.png" alt="" class="user_img">
           <div class="user_add" @click="handlAdd">新对话</div>
@@ -18,7 +18,7 @@
       </div>
       <div class="chatWrapper">
         <div class="chatWrapper_header">
-          <img src="../assets/images/chat_arrow.png" alt="" class="chatImg">
+          <img src="../assets/images/chat_arrow.png" alt="" class="chatImg" @click="handleBack()">
           <label class="chatTitle">原生GTP4.0</label>
         </div>
         <div class="wrapper_right">
@@ -90,18 +90,23 @@
         <el-button type="primary" style="background-color: #FA6400; border: #FA6400;" size="mini" @click="submitForm">确 定</el-button>
       </span>
     </el-dialog>
-
+    <!-- 登录-->
+    <Login @close="handleClose()" v-if="isLogin"></Login>
   </div>
 
 </template>
 <script>
 import {askQuestionAPI, createChatAPI, deleteChatAPI, editChatNameAPI, getChatListAPI, getChatRecordAPI} from "@/api";
-import vHead from "@/components/Header.vue";  //tab展示
+import vHead from "@/components/Header.vue";
+import Login from "@/pages/login.vue";
+import bus from "@/utils/bus";
 export default {
-  components: {vHead},
+  components: {Login, vHead},
   name: "chatIndex",
   data() {
     return {
+      collapse: false,//折叠
+      isLogin: false,
       loading: false,
       activeRoomId: '',
       tabsActive:0,
@@ -172,9 +177,18 @@ export default {
 
     }
   },
+  created() {
+    bus.$on('collapse', msg => {
+      this.collapse = msg;
+    });
+  },
   mounted() {
-    // this.getChatList();
-
+    const tokenStr = window.sessionStorage.getItem('token')
+    if (!tokenStr){
+      this.isLogin = false
+    }else {
+      this.isLogin = true
+    }
   },
   watch: {
     activeRoomId: function (val) {
@@ -230,7 +244,10 @@ export default {
       }, 500);
     },
     sendMsg(data) {
-      console.log(data)
+      // 校验是否登录
+      const tokenStr = window.sessionStorage.getItem('token')
+      if (tokenStr == null || tokenStr == '' ) return this.isLogin = true
+      // 登录后调用接口
       const params = {
         roomId: this.activeRoomId,
         question: data
@@ -332,6 +349,10 @@ export default {
     },
     //创建新会话
     handlAdd() {
+      // 校验是否登录
+      const tokenStr = window.sessionStorage.getItem('token')
+      if (tokenStr == null || tokenStr == '' ) return this.isLogin = true
+      // 登录后调用接口
       createChatAPI().then(res => {
         if (res.code == 200) {
           this.getChatList();
@@ -341,6 +362,10 @@ export default {
       })
     },
     Keydown(e) {
+      // 校验是否登录
+      const tokenStr = window.sessionStorage.getItem('token')
+      if (tokenStr == null || tokenStr == '' ) return this.isLogin = true
+      // 登录后调用接口
       if (e.keyCode === 13 && e.shiftKey) {
         this.textarea += '\n'
       } else if (e.keyCode === 13) { // enter
@@ -359,13 +384,31 @@ export default {
       })
     },
     handlShare() {
+      // 校验是否登录
+      const tokenStr = window.sessionStorage.getItem('token')
+      if (tokenStr == null || tokenStr == '' ) return this.isLogin = true
+      // 登录后调用接口
       this.$message.success('生成海报');
     },
     handlAddTip() {
+      // 校验是否登录
+      const tokenStr = window.sessionStorage.getItem('token')
+      if (tokenStr == null || tokenStr == '' ) return this.isLogin = true
+      // 登录后调用接口
       this.$message.success('添加提示词');
     },
     handlFeedback() {
+      // 校验是否登录
+      const tokenStr = window.sessionStorage.getItem('token')
+      if (tokenStr == null || tokenStr == '' ) return this.isLogin = true
+      // 登录后调用接口
       this.$message.success('问题反馈');
+    },
+    handleClose() {
+      this.isLogin = false
+    },
+    handleBack(){
+      this.$router.push('/')
     }
   }
 }
@@ -373,6 +416,11 @@ export default {
 <style scoped lang="less">
 .chatHome {
   height: 100%;
+  .chat_sidebar{
+    animation: fadeOutLeft; /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 0.8s;
+    display: none;
+  }
   .chatcentainr{
     display: flex;
     width: 100%;
@@ -411,6 +459,7 @@ export default {
       font-weight: 700;
       letter-spacing: 3px;
       margin-top: 15px;
+      cursor: pointer;
     }
   }
   .wrapper_title{
