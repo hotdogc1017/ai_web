@@ -6,7 +6,9 @@
           <el-submenu :index="item.webUrl" :key="item.webUrl">
             <template slot="title">
               <img :src="item.icon" class="meun_img" />
-              <span slot="title" class="meun_title">{{ item.title }}</span>
+              <span slot="title" class="meun_title">{{ item.title }}
+              </span>
+
             </template>
             <template v-for="subItem in item.children">
               <el-submenu v-if="subItem.children" :index="subItem.webUrl" :key="subItem.webUrl">
@@ -26,7 +28,10 @@
         <template v-else>
           <el-menu-item :index="item.webUrl" :key="item.webUrl">
             <img :src="item.icon" class="meun_img"></img>
-            <span slot="title" class="meun_title">{{ item.title }}</span>
+            <span slot="title" class="meun_title">{{ item.title }}
+                            <img v-if="item.title=='原生GPT4.0'" :src="require('@/assets/images/meunImg02_hot.png')" class="arrow" />
+            </span>
+
           </el-menu-item>
         </template>
       </template>
