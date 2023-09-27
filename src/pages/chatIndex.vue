@@ -372,7 +372,6 @@ export default {
     background: linear-gradient(rgb(255, 157, 157),rgb(241, 76, 76));
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 200px;
-
   }
   .chatSidebar_user{
     display: flex;
