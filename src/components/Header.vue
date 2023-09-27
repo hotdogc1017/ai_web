@@ -92,7 +92,7 @@ export default {
         }).then(() => {
           var that = this;
           sessionStorage.removeItem('ms_username');
-          this.$router.push('/login');
+          this.$router.push('/');
         })
             .catch(() => {
             });

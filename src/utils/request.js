@@ -12,8 +12,6 @@ service.interceptors.request.use(config => {
     	if(token){
             config.headers['Content-Type'] = config.contentType || 'application/json;charset=UTF-8'
     		config.headers.Authtoken = token
-    	}else{
-    		router.replace('/login')
     	}
 
         return config;
@@ -27,16 +25,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
     response => {
         if (response.status === 200) {
-			const that = this
-            if(response.data.code === 203){
-                if(sessionStorage.getItem("isLogin")==='1'){
-                    Message.error('登录过期，请重新登录');
-                    sessionStorage.setItem("isLogin",'0')
-                }
-            	return router.replace('/login')
-            }else{
-            	return response.data;
-            }
+            return response.data;
         } else {
             Promise.reject();
         }

@@ -10,7 +10,7 @@
         </div>
         <div class="wrapper_title">聊天列表</div>
         <div class="wrapper_list" >
-          <div :class="item.id==activeRoomId? 'wrapper_meun_active':'wrapper_meun'" v-for="(item,index) in chatList" :key="index">
+          <div :class="item.id == activeRoomId? 'wrapper_meun_active':'wrapper_meun'" v-for="(item,index) in chatList" :key="index" @click="selectRoom(item.id)">
             <div class="wrapper_name">{{ item.roomName }}</div>
             <img src="../assets/images/icon_del.png" alt="" class="wrapper_img" @click="handleDelete(item)">
           </div>
@@ -117,60 +117,8 @@ export default {
       },
       input2: '',
       textarea: '',
-      chatList: [{
-        roomName: '对话1',
-      },{
-        roomName: '对话2',
-      },{
-        roomName: '对话3',
-      },{
-        roomName: '对话4',
-      },{
-        roomName: '对话5',
-      },{
-        roomName: '对话6',
-      }],
-      chatRecordList: [{
-        context: '你好',
-        time: '2021-01-01 12:00:00',
-        role: 'ai',
-        status: 0
-      },{
-        context: '就打架大家的大家都觉得就',
-        time: '2021-01-01 12:00:00',
-        role: 'user',
-        status: 1
-      },{
-        context: '你好',
-        time: '2021-01-01 12:00:00',
-        role: 'ai',
-        status: 0
-      },{
-        context: '就打架大家的大家都觉得就',
-        time: '2021-01-01 12:00:00',
-        role: 'user',
-        status: 1
-      },{
-        context: '你好',
-        time: '2021-01-01 12:00:00',
-        role: 'ai',
-        status: 0
-      },{
-        context: '就打架大家的大家都觉得就',
-        time: '2021-01-01 12:00:00',
-        role: 'user',
-        status: 1
-      },{
-        context: '你好',
-        time: '2021-01-01 12:00:00',
-        role: 'ai',
-        status: 0
-      },{
-        context: '就打架大家的大家都觉得就',
-        time: '2021-01-01 12:00:00',
-        role: 'user',
-        status: 1
-      },],
+      chatList: [],
+      chatRecordList: [],
       dialogVisible: false,
       displayedText: '',
       text: '',
@@ -183,17 +131,12 @@ export default {
     });
   },
   mounted() {
-    const tokenStr = window.sessionStorage.getItem('token')
-    if (!tokenStr){
-      this.isLogin = false
-    }else {
-      this.isLogin = true
-    }
+    this.getChatList();
   },
   watch: {
-    activeRoomId: function (val) {
-      this.getChatRecord();
-    },
+    // activeRoomId: function (val) {
+    //   this.getChatRecord();
+    // },
     text: function (val) {
       this.typeWriter();
     }
@@ -237,11 +180,9 @@ export default {
     },
 
     selectRoom(data) {
+      console.log(data)
       this.activeRoomId = data
-      this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-      }, 500);
+      this.getChatRecord();
     },
     sendMsg(data) {
       // 校验是否登录
@@ -284,8 +225,6 @@ export default {
       })
       this.textarea = ''
     },
-
-
     submitForm() {
       const params = {
         roomId: this.form.id,
@@ -342,7 +281,10 @@ export default {
           if (this.chatList.length > 0) {
             this.activeRoomId = this.chatList[0].id
           }
-        } else {
+        } else if(res.code == 203){
+          this.$message.error('登录失效，请重新登录');
+          this.isLogin = true
+        }else {
           this.$message.error(res.msg);
         }
       })
@@ -483,6 +425,19 @@ export default {
       align-items: center;
       justify-content: space-between;
       background: rgba(255, 255, 255, 0.35);
+      width: 160px;
+      height: 48px;
+      padding: 0 0 0 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
+      margin-bottom: 10px;
+    }
+    .wrapper_meun_active{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(241,76,76,0.5);
       width: 160px;
       height: 48px;
       padding: 0 0 0 10px;

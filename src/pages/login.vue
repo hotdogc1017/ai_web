@@ -47,24 +47,20 @@ export default {
     handleSubmitLoginForm() {
       this.$refs["formRef"].validate((valid) => {
         if (valid) {
-          this.globalLoading = true;
-          window.sessionStorage.setItem('token', 'token');
-          this.$notify({
-            title: '登录成功',
-            message: '欢迎登录AI智能管平台',
-            type: 'success'
-          });
-          this.$router.push({ path: "/" });
-          // loginAPI(this.formModel).then(res => {
-          //   this.globalLoading = false;
-          //   if (res.code === 200) {
-          //     window.sessionStorage.setItem('token', res.data.token);
-          //     this.$message.success('登录成功');
-          //     this.$router.push({ path: "/" });
-          //   } else {
-          //     this.$message.error(res.msg);
-          //   }
-          // })
+          loginAPI(this.formModel).then(res => {
+            this.globalLoading = false;
+            if (res.code === 200) {
+              window.sessionStorage.setItem('token', res.data.token);
+              this.$notify({
+                title: '登录成功',
+                message: '欢迎登录AI智能管平台',
+                type: 'success'
+              });
+              this.$router.push({ path: "/" });
+            } else {
+              this.$message.error(res.msg);
+            }
+          })
         }
       });
     },

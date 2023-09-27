@@ -9,8 +9,6 @@ Vue.use(ElementUI);
 
 // 使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
-  // document.title = `${to.meta.title} | admin`;
-  // if (to.path === '/login') return next()
   // 获取token
   const tokenStr = window.sessionStorage.getItem('token')
   next()
