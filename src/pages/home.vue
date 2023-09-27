@@ -115,14 +115,16 @@ export default {
       flex-wrap: wrap;
       margin-top: 10px;
       .datameun{
-        width: 290px;
+        width: calc(100vh - 100px);
+        max-width: 300px;
         height: 190px;
         background: rgb(255, 255, 255);
         box-shadow: 0px 3px 9px 0px rgba(55, 21, 21, 0.08);
         border-radius:8px;
         padding:0 20px;
-        margin-bottom: 10px;
-        margin-right: 10px;
+        margin-bottom: 12px;
+        margin-right: 15px;
+        box-sizing: border-box;
         .datameun_header{
           display: flex;
           align-items: center;
