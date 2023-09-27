@@ -37,64 +37,14 @@
 <script>
 import bus from '@/utils/bus';
 import request from "@/utils/request";
+import {getModuleListAPI} from "@/api";
 
 export default {
   data() {
     return {
       collapse: false,
       activeMenu: this.$route.path,
-      menuList: [
-        {
-          icon: require('../assets/images/home.png'),
-          webUrl: '/',
-          title: '首页'
-        },
-        {
-          icon: require('../assets/images/meunImg01.png'),
-          webUrl: '/chatIndex',
-          title: 'AI对话'
-        },
-        {
-          icon: require('../assets/images/meunImg02.png'),
-          webUrl: '/gptIndex',
-          title: '原生GPT4.0'
-        },
-        {
-          icon: require('../assets/images/meunImg03.png'),
-          webUrl: '/paintIndex',
-          title: '智能做图'
-        },
-        {
-          icon: require('../assets/images/meunImg04.png'),
-          webUrl: '/xhsIndex',
-          title: '小红书文案'
-        },
-        {
-          icon: require('../assets/images/meunImg05.png'),
-          webUrl: '/dyIndex',
-          title: '抖音文案'
-        },
-        {
-          icon: require('../assets/images/meunImg06.png'),
-          webUrl: '/waIndex',
-          title: '独立文案站'
-        },
-        {
-          icon: require('../assets/images/meunImg07.png'),
-          webUrl: '/sjIndex',
-          title: '社交文案'
-        },
-        {
-          icon: require('../assets/images/meunImg08.png'),
-          webUrl: '/kjdsIndex',
-          title: '跨境电商文案'
-        },
-        {
-          icon: require('../assets/images/meunImg09.png'),
-          webUrl: '/bgIndex',
-          title: '办公写作'
-        }
-      ],
+      menuList: [ ],
     };
   },
   computed: {
@@ -108,6 +58,13 @@ export default {
       console.log(msg)
       this.collapse = msg;
       bus.$emit('collapse-content', msg);
+    });
+
+    //查询菜单列表
+    getModuleListAPI().then(res => {
+      if (res.code == 200) {
+        this.menuList = res.data;
+      }
     });
   },
   mounted() {},

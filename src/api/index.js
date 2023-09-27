@@ -95,3 +95,12 @@ export  const  getChatRecordAPI = query =>{
 		params: query
 	});
 }
+
+//查询模块列表
+export  const  getModuleListAPI = query =>{
+	return request({
+		url: '/getWebModule',
+		method: 'get',
+		params: query
+	});
+}
