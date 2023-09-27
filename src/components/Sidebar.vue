@@ -29,7 +29,7 @@
           <el-menu-item :index="item.webUrl" :key="item.webUrl">
             <img :src="item.icon" class="meun_img"></img>
             <span slot="title" class="meun_title">{{ item.title }}
-                            <img v-if="item.title=='原生GPT4.0'" :src="require('@/assets/images/meunImg02_hot.png')" class="arrow" />
+             <img v-if="item.title=='原生GPT4.0'" :src="require('@/assets/images/meunImg02_hot.png')" class="arrow" />
             </span>
 
           </el-menu-item>
