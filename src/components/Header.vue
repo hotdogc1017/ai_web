@@ -1,8 +1,8 @@
 <template>
   <div class="header" :class="{'header-collapse':collapse}">
     <div class="sidebar_view" :class="{'sidebar-collapse':collapse}">
-      <img src="../assets/logo.png" alt="" class="sidebar_logo">
-      <img src="../assets/images/Paperpig.png" alt="" class="sidebar_title" v-if="!collapse">
+      <img src="../assets/logo.png" alt="" class="sidebar_logo"  @click="handleHome()">
+      <img src="../assets/images/Paperpig.png" alt="" class="sidebar_title" v-if="!collapse" @click="handleHome()">
     </div>
     <!-- 折叠按钮 -->
     <div class="collapse-btn" >
