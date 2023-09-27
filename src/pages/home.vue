@@ -113,7 +113,6 @@ export default {
     .datalist{
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
       margin-top: 10px;
       .datameun{
         width: 290px;
@@ -123,6 +122,7 @@ export default {
         border-radius:8px;
         padding:0 20px;
         margin-bottom: 10px;
+        margin-right: 10px;
         .datameun_header{
           display: flex;
           align-items: center;
@@ -178,10 +178,6 @@ export default {
           }
         }
       }
-    }
-    .datalist:after{
-      content: '';
-      width: 49.5%;
     }
   }
 }
