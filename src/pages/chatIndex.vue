@@ -414,7 +414,7 @@ export default {
   }
   .wrapper_list {
     margin-top: 20px;
-    height: calc(100vh - 220px);
+    height: calc(100vh - 300px);
     overflow: hidden;
     overflow-y: auto;
     display: flex;
@@ -426,6 +426,7 @@ export default {
       justify-content: space-between;
       background: rgba(255, 255, 255, 0.35);
       width: 160px;
+      min-height: 48px;
       height: 48px;
       padding: 0 0 0 10px;
       border-radius: 5px;
@@ -439,6 +440,7 @@ export default {
       justify-content: space-between;
       background: rgba(241,76,76,0.5);
       width: 160px;
+      min-height: 48px;
       height: 48px;
       padding: 0 0 0 10px;
       border-radius: 5px;

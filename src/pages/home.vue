@@ -19,6 +19,25 @@ export default {
   </div>
   <div class="home_centent">
     <img src="../assets/images/home_text.png" alt="" class="img03">
+    <div class="datalist">
+      <div class="datameun" v-for="(item,index) in 14" :key="index">
+        <div class="datameun_header">
+          <div class="datameun_header_title">这是标题</div>
+          <img src="../assets/images/AI.png" alt="" class="datameun_header_img">
+        </div>
+        <div class="datameun_dect">文案简介文案简介文案简介文案简文案简文案简</div>
+        <div class="datameun_footer">
+          <div class="datameun_footer_view">
+            <img src="../assets/images/edit.png" alt="" class="datameun_img">
+            <label class="datameun_footer_label">2222</label>
+          </div>
+          <div class="datameun_footer_view">
+            <img src="../assets/images/zan.png" alt="" class="datameun_img1">
+            <label class="datameun_footer_label">2222</label>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 </template>
@@ -83,12 +102,86 @@ export default {
     }
   }
   .home_centent{
-    width: 100%;
     height: calc(80vh - 200px);
     background: rgb(255, 247, 247);
     padding: 24px;
+    overflow: hidden;
+    overflow-y: auto;
     .img03{
       width:70px;
+    }
+    .datalist{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 10px;
+      .datameun{
+        width: 290px;
+        height: 190px;
+        background: rgb(255, 255, 255);
+        box-shadow: 0px 3px 9px 0px rgba(55, 21, 21, 0.08);
+        border-radius:8px;
+        padding:0 20px;
+        margin-bottom: 10px;
+        .datameun_header{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          height: 45px;
+          border-bottom: 1px solid #eeeeee;
+          .datameun_header_title{
+            font-size: 15px;
+            color: #333333;
+            font-weight: bold;
+            letter-spacing: 1px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+          .datameun_header_img{
+            width: 20px;
+            margin-left: 10px;
+          }
+        }
+        .datameun_dect{
+          color: rgb(51, 51, 51);
+          //font-family: 阿里巴巴普惠体;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 22px;
+          letter-spacing: 2px;
+          text-align: left;
+          margin: 15px 0;
+          min-height: 80px;
+        }
+        .datameun_footer{
+          display: flex;
+          align-items: center;
+          .datameun_footer_view{
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            .datameun_img{
+              width: 15px;
+            }
+            .datameun_img1{
+              width: 18px;
+              position: relative;
+              top: -2px;
+            }
+            .datameun_footer_label{
+              font-size: 13px;
+              color: rgba(51, 51, 51, 0.6);
+              letter-spacing: 1px;
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+    }
+    .datalist:after{
+      content: '';
+      width: 49.5%;
     }
   }
 }
