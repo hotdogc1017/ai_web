@@ -1,7 +1,30 @@
 <script>
+import bus from "@/utils/bus";
+import {getHotRecommendAPI, getModuleListAPI} from "@/api";
+
 export default {
-  name: "home"
+  name: "home",
+  data() {
+    return {
+    cardList: [],
+    };
+  },
+
+  created() {
+
+    //查询首页推荐
+    getHotRecommendAPI().then(res => {
+      if (res.code == 200) {
+        this.cardList = res.data;
+      }
+    });
+  },
+  mounted() {},
+  methods: {
+
+  }
 }
+
 </script>
 
 <template>
@@ -20,20 +43,20 @@ export default {
   <div class="home_centent">
     <img src="../assets/images/home_text.png" alt="" class="img03">
     <div class="datalist">
-      <div class="datameun" v-for="(item,index) in 14" :key="index">
+      <div class="datameun" v-for="(item,index) in cardList" :key="index">
         <div class="datameun_header">
-          <div class="datameun_header_title">这是标题</div>
-          <img src="../assets/images/AI.png" alt="" class="datameun_header_img">
+          <div class="datameun_header_title">{{item.name}}</div>
+          <img :src='item.icon' alt="" class="datameun_header_img">
         </div>
-        <div class="datameun_dect">文案简介文案简介文案简介文案简文案简文案简</div>
+        <div class="datameun_dect">{{item.introduce}}</div>
         <div class="datameun_footer">
           <div class="datameun_footer_view">
             <img src="../assets/images/edit.png" alt="" class="datameun_img">
-            <label class="datameun_footer_label">2222</label>
+            <label class="datameun_footer_label">{{ item.usedNum }}</label>
           </div>
           <div class="datameun_footer_view">
             <img src="../assets/images/zan.png" alt="" class="datameun_img1">
-            <label class="datameun_footer_label">2222</label>
+            <label class="datameun_footer_label">{{ item.likeNum }}</label>
           </div>
         </div>
       </div>

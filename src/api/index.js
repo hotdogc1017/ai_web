@@ -104,3 +104,12 @@ export  const  getModuleListAPI = query =>{
 		params: query
 	});
 }
+
+//查询首页热门推荐
+export  const  getHotRecommendAPI = query =>{
+	return request({
+		url: '/getWebModuleConfigByRecommend',
+		method: 'get',
+		params: query
+	});
+}
