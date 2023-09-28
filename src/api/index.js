@@ -113,3 +113,29 @@ export  const  getHotRecommendAPI = query =>{
 		params: query
 	});
 }
+//根据模块id查询模块配置
+export  const  getModuleConfigAPI = query =>{
+	return request({
+		url: '/getWebModuleConfig',
+		method: 'get',
+		params: query
+	});
+}
+
+//创建任务
+export  const  createTaskAPI = query =>{
+	return request({
+		url: '/createTask',
+		method: 'get',
+		params: query
+	});
+}
+
+//查询任务列表
+export  const  getTaskListAPI = query =>{
+	return request({
+		url: '/getTaskList',
+		method: 'get',
+		params: query
+	});
+}

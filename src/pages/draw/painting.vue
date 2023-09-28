@@ -1,13 +1,102 @@
 <!--绘画-->
+
+<template>
+  <div class="paintingHome">
+    <v-head></v-head>
+    <!-- 登录-->
+    <Task @close="handleClose()" v-if="isTask"></Task>
+    <div class="painting-centainr">
+      <div class="wrapper_sidebar" :class="{'painting_sidebar': collapse}">
+        <div class="sidebar_list">
+          <div :class="activeIndex == index ? 'sidebar_meun_active' : 'sidebar_meun' " v-for="(item,index) in menuList" :key="index" @click="handleSelect(item,index)">
+            <img :src="item.icon" alt="" class="sidebar_img">
+            <label class="sidebar_label">{{item.name}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="wrapper_centent">
+        <div class="chatWrapper_header">
+          <img src="../../assets/images/chat_arrow.png" alt="" class="chatImg" @click="handleBack()">
+          <label class="chatTitle">{{data.name}}</label>
+        </div>
+        <div class="painting_centent">
+          <div class="painting_data">
+            <div class="painting_data_left">
+              <div class="left_title">{{data.introduce}}</div>
+              <div class="left_btn" @click="openWin">
+                <i class="el-icon-plus"></i>
+                <label class="left_btn_text" >新建任务</label>
+              </div>
+              <div class="left_list">
+                <div class="list_meun" v-for="(item,index) in taskList" :key="index">
+                  <img src="../../assets/images/Frame_1.png" alt="" class="list_meun_img">
+                  <span class="list_meun_text">{{item.name}} </span>
+                </div>
+              </div>
+            </div>
+            <div class="painting_data_right">
+              <div class="upload">
+                <el-upload
+                    class="avatar-uploader"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
+                  <div class="upload_dy">
+                    <img src="../../assets/images/icon_upload.png" alt="" class="uoload_img">
+                    <p class="upload_text">上传本地图片</p>
+                    <p class="upload_dect">大小不超过10M,宽高比小于2，格式不支持gif格式</p>
+                  </div>
+                </el-upload>
+              </div>
+              <div class="upload_img">
+                <img src="../../assets/images/upload_bg.png" class="avatar">
+              </div>
+            </div>
+          </div>
+          <div class="painting_data">
+            <div class="painting_data_leftup">
+              <div class="painting_more">更多功能</div>
+              <div class="painting_view">
+                <img src="../../assets/images/Group_01.png" alt="" class="group_img">
+                <img src="../../assets/images/Group_02.png" alt="" class="group_img">
+                <img src="../../assets/images/Group_03.png" alt="" class="group_img">
+              </div>
+            </div>
+            <div class="painting_data_rightup">
+              <div class="painting_data_header">
+                <div class="rightup_tabs">
+                  <div v-for="(item,index) in tabs" :key="index" :class="active == index ? 'rightup_tabs_active' : 'rightup_tabs_text'">{{item}}</div>
+                </div>
+                <div class="tabs_btn">提交</div>
+              </div>
+              <div class="painting_data_input">
+                <textarea rows="10" cols="130" placeholder="请输入文字描述" v-model="textarea" class="rightup_input"></textarea>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
 <script>
 import vHead from "@/components/Header.vue";
 import bus from "@/utils/bus";
+import {getModuleConfigAPI, getTaskListAPI} from "@/api";
+import Task from "@/pages/draw/task.vue";
 
 export default {
   name: "painting",
-  components: {vHead},
+  components: {Task, vHead},
   data() {
     return {
+      isTask: false,
+      data: {},
+      taskList: [],
+      menuList: [],
       collapse: false,
       activeIndex: 0,
       active:0,
@@ -21,13 +110,49 @@ export default {
     }
   },
   created() {
+    const params = {
+      moduleId: sessionStorage.getItem('activeId')
+    }
+    getModuleConfigAPI(params).then(res => {
+      if (res.code == 200) {
+        this.menuList = res.data;
+        this.data = res.data[0]
+      }
+    });
+
+
     bus.$on('collapse', msg => {
       this.collapse = msg;
     });
   },
+  mounted() {
+    this.handleTaskList()
+  },
   methods:{
-    handleSelect(data){
-      this.activeIndex = data
+    //查询任务列表
+    handleTaskList(){
+      const params = {
+        model: "StableDiffusion"
+      }
+      getTaskListAPI(params).then(res => {
+        if (res.code == 200) {
+          this.taskList = res.data;
+        }
+      });
+    },
+    openWin(){
+
+      this.isTask = true
+    },
+    handleClose() {
+      this.isTask = false
+      //刷新页面
+      window.location.reload();
+    },
+    handleSelect(data,index){
+      console.log(data)
+      this.data = data
+      this.activeIndex = index
     },
     handleBack(){
       this.$router.go(-1)
@@ -51,87 +176,6 @@ export default {
   }
 }
 </script>
-
-<template>
-  <div class="paintingHome">
-    <v-head></v-head>
-    <div class="painting-centainr">
-      <div class="wrapper_sidebar" :class="{'painting_sidebar': collapse}">
-        <div class="sidebar_list">
-          <div :class="activeIndex == index ? 'sidebar_meun_active' : 'sidebar_meun' " v-for="(item,index) in 18" :key="index" @click="handleSelect(index)">
-            <img src="../assets/images/w.png" alt="" class="sidebar_img">
-            <label class="sidebar_label">绘画{{index + 1}}</label>
-          </div>
-        </div>
-      </div>
-      <div class="wrapper_centent">
-        <div class="chatWrapper_header">
-          <img src="../assets/images/chat_arrow.png" alt="" class="chatImg" @click="handleBack()">
-          <label class="chatTitle">智能做图</label>
-        </div>
-        <div class="painting_centent">
-          <div class="painting_data">
-            <div class="painting_data_left">
-              <div class="left_title">只需要将服装穿到人台上，即可用符合品牌调性的各类型真人模特展示服装。</div>
-              <div class="left_btn">
-                <i class="el-icon-plus"></i>
-                <label class="left_btn_text">新建任务</label>
-              </div>
-              <div class="left_list">
-                <div class="list_meun" v-for="(item,index) in 20" :key="index">
-                  <img src="../assets/images/Frame_1.png" alt="" class="list_meun_img">
-                  <span class="list_meun_text">任务-1234 </span>
-                </div>
-              </div>
-            </div>
-            <div class="painting_data_right">
-              <div class="upload">
-                <el-upload
-                    class="avatar-uploader"
-                    action="https://jsonplaceholder.typicode.com/posts/"
-                    :show-file-list="false"
-                    :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload">
-                  <div class="upload_dy">
-                    <img src="../assets/images/icon_upload.png" alt="" class="uoload_img">
-                    <p class="upload_text">上传本地图片</p>
-                    <p class="upload_dect">大小不超过10M,宽高比小于2，格式不支持gif格式</p>
-                  </div>
-                </el-upload>
-              </div>
-              <div class="upload_img">
-                <img src="../assets/images/upload_bg.png" class="avatar">
-              </div>
-            </div>
-          </div>
-          <div class="painting_data">
-            <div class="painting_data_leftup">
-              <div class="painting_more">更多功能</div>
-              <div class="painting_view">
-                <img src="../assets/images/Group_01.png" alt="" class="group_img">
-                <img src="../assets/images/Group_02.png" alt="" class="group_img">
-                <img src="../assets/images/Group_03.png" alt="" class="group_img">
-              </div>
-            </div>
-            <div class="painting_data_rightup">
-              <div class="painting_data_header">
-                <div class="rightup_tabs">
-                  <div v-for="(item,index) in tabs" :key="index" :class="active == index ? 'rightup_tabs_active' : 'rightup_tabs_text'">{{item}}</div>
-                </div>
-                <div class="tabs_btn">提交</div>
-              </div>
-              <div class="painting_data_input">
-                <textarea rows="10" cols="130" placeholder="请输入文字描述" v-model="textarea" class="rightup_input"></textarea>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</template>
 
 <style scoped lang="less">
 .paintingHome{
@@ -199,7 +243,7 @@ export default {
       .chatTitle{
         font-weight: bold;
         font-size: 14px;
-        color:333333 ;
+        color:#333333 ;
         margin-left: 10px;
       }
     }
@@ -272,6 +316,30 @@ export default {
             color:#F04848;
             margin-left: 10px;
           }
+
+        }
+
+        .left_btn:hover{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 2px solid rgb(240, 72, 72);
+          border-radius: 6px;
+          width: 90%;
+          height: 38px;
+          margin: auto;
+          .el-icon-plus{
+            color: #F04848;
+            font-size: 20px;
+            font-weight: bolder;
+          }
+          .left_btn_text{
+            font-size: 14px;
+            font-weight: bolder;
+            color:#F04848;
+            margin-left: 10px;
+          }
+
         }
       }
       .painting_data_right{

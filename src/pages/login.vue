@@ -8,8 +8,8 @@ export default {
       isRegister: false,
       globalLoading: false,
       formModel: {
-        username: "",
-        password: "",
+        username: "601681659@qq.com",
+        password: "wzy19931015",
       },
       formRules: {
         username: [
@@ -43,6 +43,7 @@ export default {
     }
   },
   methods: {
+
     // 登录事件
     handleSubmitLoginForm() {
       this.$refs["formRef"].validate((valid) => {
@@ -57,6 +58,8 @@ export default {
                 type: 'success'
               });
               this.$router.push({ path: "/" });
+              //刷新页面
+              window.location.reload();
             } else {
               this.$message.error(res.msg);
             }
@@ -248,7 +251,7 @@ export default {
     .check_text {
       font-size: 12px;
       font-weight: normal;
-      color: #10a37f;
+      color: #ef5c5c;
       position: absolute;
       right: 0;
       border-left: 1px solid #eeeeee;
@@ -283,8 +286,8 @@ export default {
     }
 
     .margin-bottom-10 {
-      background-color: #10a37f !important;
-      border-color: #10a37f !important;
+      background-color: #ef5c5c !important;
+      border-color: #ef5c5c !important;
       height: 44px;
     }
   }
@@ -295,7 +298,7 @@ export default {
 
     .login_label {
       font-size: 14px;
-      color: #10a37f !important;
+      color: #ef5c5c !important;
       letter-spacing: 2px;
       cursor: pointer;
       margin: 0 20px;

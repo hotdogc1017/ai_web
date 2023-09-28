@@ -73,9 +73,17 @@ export default {
     });
   },
   mounted() {},
+
   methods: {
     handleSelect(key) {
-      console.log(key);
+      let activeId='';
+      //判断id是多少
+      for (let i = 0; i < this.menuList.length; i++) {
+        if (this.menuList[i].webUrl == key) {
+          activeId = this.menuList[i].id;
+        }
+      }
+    sessionStorage.setItem('activeId',activeId);
     },
   }
 };

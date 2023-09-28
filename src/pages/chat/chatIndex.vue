@@ -5,20 +5,20 @@
     <div class="chatcentainr" >
       <div class="chatSidebar" :class="{'chat_sidebar': collapse}">
         <div class="chatSidebar_user">
-          <img src="../assets/images/home_user.png" alt="" class="user_img">
+          <img src="../../assets/images/home_user.png" alt="" class="user_img">
           <div class="user_add" @click="handlAdd">新对话</div>
         </div>
         <div class="wrapper_title">聊天列表</div>
         <div class="wrapper_list" >
           <div :class="item.id == activeRoomId? 'wrapper_meun_active':'wrapper_meun'" v-for="(item,index) in chatList" :key="index" @click="selectRoom(item.id)">
             <div class="wrapper_name">{{ item.roomName }}</div>
-            <img src="../assets/images/icon_del.png" alt="" class="wrapper_img" @click="handleDelete(item)">
+            <img src="../../assets/images/icon_del.png" alt="" class="wrapper_img" @click="handleDelete(item)">
           </div>
         </div>
       </div>
       <div class="chatWrapper">
         <div class="chatWrapper_header">
-          <img src="../assets/images/chat_arrow.png" alt="" class="chatImg" @click="handleBack()">
+          <img src="../../assets/images/chat_arrow.png" alt="" class="chatImg" @click="handleBack()">
           <label class="chatTitle">原生GTP4.0</label>
         </div>
         <div class="wrapper_right">
@@ -33,7 +33,7 @@
                   <div v-if="item.role === 'ai'&&item.status==0" class="chatView_page_01">
                     <div class="chatView_page_meun">
                       <div class="chatView_page_logo">
-                        <img src="../assets/images/AIkf.png" alt="">
+                        <img src="../../assets/images/AIkf.png" alt="">
                       </div>
                       <div class="chatView_page_info">
                         <div class="chatView_page_text" id="chatContext">{{ item.context }}</div>
@@ -45,7 +45,7 @@
                   <div v-if="item.role === 'ai'&&item.status==1" class="chatView_page_01">
                     <div class="chatView_page_meun">
                       <div class="chatView_page_logo">
-                        <img src="../assets/images/AIkf.png" alt="">
+                        <img src="../../assets/images/AIkf.png" alt="">
                       </div>
                       <div class="chatView_page_info">
                         <div class="chatView_page_text" id="chatContext">{{ displayedText }}</div>
@@ -60,7 +60,7 @@
                         <div class="chatView_page_time">{{ item.time }}</div>
                       </div>
                       <div class="chatView_page_logo1">
-                        <img src="../assets/images/user_logo.png" alt="">
+                        <img src="../../assets/images/user_logo.png" alt="">
                       </div>
                     </div>
                   </div>
@@ -76,7 +76,7 @@
               <div class="send">
                 <el-input resize="none" type="textarea" placeholder="输入您的问题（Shift+Enter换行" autosize v-model="textarea" clearable @keydown.native="Keydown" class="input" maxlength="300" show-word-limit></el-input>
                 <div class="send_line"></div>
-                <img src="../assets/images/send.png" alt="" class="send_img" @click="sendMsg(textarea)">
+                <img src="../../assets/images/send.png" alt="" class="send_img" @click="sendMsg(textarea)">
               </div>
             </div>
           </div>

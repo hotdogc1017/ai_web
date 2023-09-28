@@ -92,7 +92,10 @@ export default {
         }).then(() => {
           var that = this;
           sessionStorage.removeItem('ms_username');
+          sessionStorage.removeItem("token")
           this.$router.push('/');
+          //刷新页面
+          window.location.reload();
         })
             .catch(() => {
             });
