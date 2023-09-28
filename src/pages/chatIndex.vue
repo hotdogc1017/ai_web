@@ -32,7 +32,9 @@
                 <div class="chatView_page" v-for="(item,index) in chatRecordList" :key="index">
                   <div v-if="item.role === 'ai'&&item.status==0" class="chatView_page_01">
                     <div class="chatView_page_meun">
-                      <div class="chatView_page_logo"></div>
+                      <div class="chatView_page_logo">
+                        <img src="../assets/images/AIkf.png" alt="">
+                      </div>
                       <div class="chatView_page_info">
                         <div class="chatView_page_text" id="chatContext">{{ item.context }}</div>
                         <div class="chatView_page_time">{{ item.time }}</div>
@@ -42,7 +44,9 @@
 
                   <div v-if="item.role === 'ai'&&item.status==1" class="chatView_page_01">
                     <div class="chatView_page_meun">
-                      <div class="chatView_page_logo"></div>
+                      <div class="chatView_page_logo">
+                        <img src="../assets/images/AIkf.png" alt="">
+                      </div>
                       <div class="chatView_page_info">
                         <div class="chatView_page_text" id="chatContext">{{ displayedText }}</div>
                         <div class="chatView_page_time">{{ item.time }}</div>
@@ -55,7 +59,9 @@
                         <div class="chatView_page_text">{{ item.context }}</div>
                         <div class="chatView_page_time">{{ item.time }}</div>
                       </div>
-                      <div class="chatView_page_logo1"></div>
+                      <div class="chatView_page_logo1">
+                        <img src="../assets/images/user_logo.png" alt="">
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -280,6 +286,7 @@ export default {
           //默认选中第一个
           if (this.chatList.length > 0) {
             this.activeRoomId = this.chatList[0].id
+            this.getChatRecord();
           }
         } else if(res.code == 203){
           this.$message.error('登录失效，请重新登录');
@@ -493,16 +500,16 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 240px;
-        height: 60px;
+        width: 220px;
+        height: 50px;
         background: rgb(241, 76, 76);
         border-radius: 8px;
         margin: auto;
         position: relative;
         top: 20px;
         .chatTab_text{
-          width: 105px;
-          height: 45px;
+          width: 95px;
+          height: 35px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -513,8 +520,8 @@ export default {
           cursor: pointer;
         }
         .chatTabbg{
-          width: 105px;
-          height: 45px;
+          width: 95px;
+          height: 35px;
           background: #FFFFFF;
           border-radius: 5px;
           color: rgb(241, 76, 76);
@@ -542,7 +549,7 @@ export default {
 
         .chatView_page_meun {
           display: flex;
-          align-items: center;
+          //align-items: center;
           margin-bottom: 10px;
         }
 
@@ -550,18 +557,28 @@ export default {
           width: 40px;
           height: 40px;
           border-radius: 50%;
-          background: #FA6400;
           margin-right: 10px;
+          //background:#F9F9F9;
           //不被压缩
           flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          img{
+            width: 30px;
+            height: 30px;
+          }
         }
 
         .chatView_page_logo1 {
           width: 40px;
           height: 40px;
           border-radius: 50%;
-          background: #FA6400;
           margin-left: 10px;
+          img{
+            width: 30px;
+            height: 30px;
+          }
         }
 
         .chatView_page_info {
@@ -571,7 +588,7 @@ export default {
           .chatView_page_text {
             font-size: 14px;
             color: #FFFFFF;
-            background: rgb(250, 100, 0);
+            background: linear-gradient(135deg,#ff9d9d, #f14c4c);
             border-radius: 10px 10px 10px 0px;
             padding: 15px 15px;
             line-height: 25px;
@@ -590,11 +607,11 @@ export default {
 
           .chatView_page_text {
             font-size: 14px;
-            color: #333333;
-            background: #FFFFFF;
-            border-radius: 15px 15px 15px 0px;
-            padding: 20px 15px;
-            border: 1px solid #eeeeee;
+            color: #FFFFFF;
+            border-radius: 10px 10px 0 10px;
+            padding: 15px;
+            background: rgba(241, 76, 76, 0.5);
+            text-align: right;
           }
 
           .chatView_page_time {
