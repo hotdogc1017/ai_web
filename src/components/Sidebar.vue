@@ -90,7 +90,11 @@ export default {
   bottom: 0;
   background: #FFFFFF;
 }
-
+.arrow{
+  width: 20px;
+  position: relative;
+  top: -2px;
+}
 .sidebar::-webkit-scrollbar {
   width: 0;
 }
@@ -114,5 +118,10 @@ export default {
 .muun_title{
   font-size: 14px;
   color: #333333;
+}
+/deep/.el-menu-item.is-active {
+  background: rgb(255, 247, 247);
+  border-right: 3px solid #F04848;
+  color: #333333 !important;
 }
 </style>

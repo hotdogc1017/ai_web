@@ -1,6 +1,7 @@
 <!--绘画-->
 <script>
 import vHead from "@/components/Header.vue";
+import bus from "@/utils/bus";
 
 export default {
   name: "painting",
@@ -19,11 +20,16 @@ export default {
       imageUrl: ''
     }
   },
+  created() {
+    bus.$on('collapse', msg => {
+      this.collapse = msg;
+    });
+  },
   methods:{
     handleSelect(data){
       this.activeIndex = data
     },
-    goBack(){
+    handleBack(){
       this.$router.go(-1)
     },
     handleAvatarSuccess(res, file) {
@@ -63,62 +69,65 @@ export default {
           <img src="../assets/images/chat_arrow.png" alt="" class="chatImg" @click="handleBack()">
           <label class="chatTitle">智能做图</label>
         </div>
-        <div class="painting_data">
-          <div class="painting_data_left">
-            <div class="left_title">只需要将服装穿到人台上，即可用符合品牌调性的各类型真人模特展示服装。</div>
-            <div class="left_btn">
-              <i class="el-icon-plus"></i>
-              <label class="left_btn_text">新建任务</label>
-            </div>
-            <div class="left_list">
-              <div class="list_meun" v-for="(item,index) in 20" :key="index">
-                <img src="../assets/images/Frame_1.png" alt="" class="list_meun_img">
-                <span class="list_meun_text">任务-1234 </span>
+        <div class="painting_centent">
+          <div class="painting_data">
+            <div class="painting_data_left">
+              <div class="left_title">只需要将服装穿到人台上，即可用符合品牌调性的各类型真人模特展示服装。</div>
+              <div class="left_btn">
+                <i class="el-icon-plus"></i>
+                <label class="left_btn_text">新建任务</label>
               </div>
-            </div>
-          </div>
-          <div class="painting_data_right">
-            <div class="upload">
-              <el-upload
-                class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload">
-                <div class="upload_dy">
-                  <img src="../assets/images/icon_upload.png" alt="" class="uoload_img">
-                  <p class="upload_text">上传本地图片</p>
-                  <p class="upload_dect">大小不超过10M,宽高比小于2，格式不支持gif格式</p>
+              <div class="left_list">
+                <div class="list_meun" v-for="(item,index) in 20" :key="index">
+                  <img src="../assets/images/Frame_1.png" alt="" class="list_meun_img">
+                  <span class="list_meun_text">任务-1234 </span>
                 </div>
-              </el-upload>
-            </div>
-            <div class="upload_img">
-              <img src="../assets/images/upload_bg.png" class="avatar">
-            </div>
-          </div>
-        </div>
-        <div class="painting_data">
-          <div class="painting_data_leftup">
-            <div class="painting_more">更多功能</div>
-            <div class="painting_view">
-              <img src="../assets/images/Group_01.png" alt="" class="group_img">
-              <img src="../assets/images/Group_02.png" alt="" class="group_img">
-              <img src="../assets/images/Group_03.png" alt="" class="group_img">
-            </div>
-          </div>
-          <div class="painting_data_rightup">
-            <div class="painting_data_header">
-              <div class="rightup_tabs">
-                <div v-for="(item,index) in tabs" :key="index" :class="active == index ? 'rightup_tabs_active' : 'rightup_tabs_text'">{{item}}</div>
               </div>
-              <div class="tabs_btn">提交</div>
             </div>
-            <div class="painting_data_input">
-              <textarea rows="10" cols="130" placeholder="请输入文字描述" v-model="textarea" class="rightup_input"></textarea>
+            <div class="painting_data_right">
+              <div class="upload">
+                <el-upload
+                    class="avatar-uploader"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
+                  <div class="upload_dy">
+                    <img src="../assets/images/icon_upload.png" alt="" class="uoload_img">
+                    <p class="upload_text">上传本地图片</p>
+                    <p class="upload_dect">大小不超过10M,宽高比小于2，格式不支持gif格式</p>
+                  </div>
+                </el-upload>
+              </div>
+              <div class="upload_img">
+                <img src="../assets/images/upload_bg.png" class="avatar">
+              </div>
             </div>
+          </div>
+          <div class="painting_data">
+            <div class="painting_data_leftup">
+              <div class="painting_more">更多功能</div>
+              <div class="painting_view">
+                <img src="../assets/images/Group_01.png" alt="" class="group_img">
+                <img src="../assets/images/Group_02.png" alt="" class="group_img">
+                <img src="../assets/images/Group_03.png" alt="" class="group_img">
+              </div>
+            </div>
+            <div class="painting_data_rightup">
+              <div class="painting_data_header">
+                <div class="rightup_tabs">
+                  <div v-for="(item,index) in tabs" :key="index" :class="active == index ? 'rightup_tabs_active' : 'rightup_tabs_text'">{{item}}</div>
+                </div>
+                <div class="tabs_btn">提交</div>
+              </div>
+              <div class="painting_data_input">
+                <textarea rows="10" cols="130" placeholder="请输入文字描述" v-model="textarea" class="rightup_input"></textarea>
+              </div>
 
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -127,6 +136,16 @@ export default {
 <style scoped lang="less">
 .paintingHome{
   height: 100%;
+  .painting_centent{
+    height: calc(100vh - 150px);
+    overflow: hidden;
+    overflow-y: auto;
+  }
+  .painting_sidebar{
+    animation: fadeOutLeft; /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 0.8s;
+    display: none;
+  }
   .painting-centainr{
     display: flex;
     width: 100%;
