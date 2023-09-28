@@ -17,64 +17,88 @@
       <div class="wrapper_centent">
         <div class="chatWrapper_header">
           <img src="../../assets/images/chat_arrow.png" alt="" class="chatImg" @click="handleBack()">
-          <label class="chatTitle">{{data.name}}</label>
+          <label class="chatTitle">智能做图</label>
         </div>
         <div class="painting_centent">
           <div class="painting_data">
-            <div class="painting_data_left">
-              <div class="left_title">{{data.introduce}}</div>
-              <div class="left_btn" @click="openWin">
-                <i class="el-icon-plus"></i>
-                <label class="left_btn_text" >新建任务</label>
-              </div>
-              <div class="left_list">
-                <div class="list_meun" v-for="(item,index) in taskList" :key="index">
-                  <img src="../../assets/images/Frame_1.png" alt="" class="list_meun_img">
-                  <span class="list_meun_text">{{item.name}} </span>
-                </div>
-              </div>
-            </div>
-            <div class="painting_data_right">
-              <div class="upload">
-                <el-upload
-                    class="avatar-uploader"
-                    action="https://jsonplaceholder.typicode.com/posts/"
-                    :show-file-list="false"
-                    :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload">
-                  <div class="upload_dy">
-                    <img src="../../assets/images/icon_upload.png" alt="" class="uoload_img">
-                    <p class="upload_text">上传本地图片</p>
-                    <p class="upload_dect">大小不超过10M,宽高比小于2，格式不支持gif格式</p>
+            <el-row :gutter="20">
+              <el-col :span="17">
+                <div class="painting_data_right">
+                  <div style="padding:0 20px;width: 100%;">
+                    <el-image :src="imageUrl" lazy class="avatar"></el-image>
                   </div>
-                </el-upload>
-              </div>
-              <div class="upload_img">
-                <img src="../../assets/images/upload_bg.png" class="avatar">
-              </div>
-            </div>
+                  <div class="upload_text">原图</div>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div class="painting_data_left">
+                  <div class="left_title">{{data.introduce}}</div>
+                  <div class="left_btn" @click="openWin">
+                    <i class="el-icon-plus"></i>
+                    <label class="left_btn_text" >新建任务</label>
+                  </div>
+                  <div class="left_list">
+                    <div class="list_meun" v-for="(item,index) in taskList" :key="index">
+                      <div class="list_meun_left">
+                        <img src="../../assets/images/Frame_1.png" alt="" class="list_meun_img">
+                        <span class="list_meun_text">{{item.name}} </span>
+                      </div>
+                      <i class="el-icon-delete"></i>
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
           </div>
           <div class="painting_data">
-            <div class="painting_data_leftup">
-              <div class="painting_more">更多功能</div>
-              <div class="painting_view">
-                <img src="../../assets/images/Group_01.png" alt="" class="group_img">
-                <img src="../../assets/images/Group_02.png" alt="" class="group_img">
-                <img src="../../assets/images/Group_03.png" alt="" class="group_img">
-              </div>
-            </div>
-            <div class="painting_data_rightup">
-              <div class="painting_data_header">
-                <div class="rightup_tabs">
-                  <div v-for="(item,index) in tabs" :key="index" :class="active == index ? 'rightup_tabs_active' : 'rightup_tabs_text'">{{item}}</div>
-                </div>
-                <div class="tabs_btn">提交</div>
-              </div>
-              <div class="painting_data_input">
-                <textarea rows="10" cols="130" placeholder="请输入文字描述" v-model="textarea" class="rightup_input"></textarea>
-              </div>
+            <el-row :gutter="20">
+              <el-col :span="17">
+                <div class="painting_data_rightup">
+                  <div class="painting_data_header">
+                    <div class="rightup_tabs">
+                      <div v-for="(item,index) in tabs" :key="index" :class="active == index ? 'rightup_tabs_active' : 'rightup_tabs_text'">{{item}}</div>
+                    </div>
+                    <div class="rightup_footer">
+                      <el-upload
+                          class="avatar-uploader"
+                          action="https://jsonplaceholder.typicode.com/posts/"
+                          :show-file-list="false"
+                          :on-success="handleAvatarSuccess"
+                          :before-upload="beforeAvatarUpload">
+                        <div class="upload_dy">
+                          <el-button size="small" icon="el-icon-upload" type="text" class="upload_btn">上传本地图片</el-button>
+                        </div>
+                      </el-upload>
+                      <div class="tabs_btn">提交</div>
+                    </div>
 
-            </div>
+                  </div>
+                  <div class="painting_data_input">
+                    <textarea rows="10" cols="133" placeholder="请输入文字描述" v-model="textarea" class="rightup_input"></textarea>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div class="painting_data_leftup">
+                  <div class="painting_more">更多功能</div>
+                  <div class="painting_view">
+                    <div>
+                      <img src="../../assets/images/Group_01.png" alt="" class="group_img">
+                      <div class="group_text">文字生图</div>
+                    </div>
+                    <div>
+                      <img src="../../assets/images/Group_02.png" alt="" class="group_img">
+                      <div class="group_text">灵魂绘图</div>
+                    </div>
+                    <div>
+                      <img src="../../assets/images/Group_03.png" alt="" class="group_img">
+                      <div class="group_text">更多</div>
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+
           </div>
         </div>
 
@@ -87,6 +111,7 @@ import vHead from "@/components/Header.vue";
 import bus from "@/utils/bus";
 import {getModuleConfigAPI, getTaskListAPI} from "@/api";
 import Task from "@/pages/draw/task.vue";
+import request from "@/utils/request";
 
 export default {
   name: "painting",
@@ -106,7 +131,7 @@ export default {
         name: '',
         imageUrl: ''
       },
-      imageUrl: ''
+      imageUrl: require('../../assets/images/upload_bg.png')
     }
   },
   created() {
@@ -248,16 +273,15 @@ export default {
       }
     }
     .painting_data{
-      display: flex;
+      //display: flex;
       position: relative;
       margin: 15px 24px;
       .painting_data_left{
-        width: 40%;
-        //height: 200px;
+        width: 100%;
+        height: 360px;
         background: #FFFFFF;
         box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
         border-radius: 10px;
-        margin-right: 20px;
         .left_title{
           color: rgba(51, 51, 51, 0.6);
           //font-family: 阿里巴巴普惠体;
@@ -278,13 +302,19 @@ export default {
           .list_meun{
             background: rgb(255, 238, 238);
             border-radius: 8px;
-            width: 90%;
+            width: 80%;
             padding-top: 12px;
             padding-bottom: 12px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             padding-left: 15px;
             margin-bottom: 10px;
+            padding-right: 15px;
+            .list_meun_left{
+              display: flex;
+              align-items: center;
+            }
             .list_meun_img{
               width: 20px;
               height: 20px;
@@ -296,6 +326,10 @@ export default {
               font-weight: 400;
               margin-left: 10px;
             }
+            .el-icon-delete{
+              color: #F04848;
+              font-size: 16px;
+            }
           }
         }
         .left_btn{
@@ -304,7 +338,7 @@ export default {
           justify-content: center;
           border: 1px solid rgb(240, 72, 72);
           border-radius: 8px;
-          width: 90%;
+          width: 85%;
           height: 40px;
           margin: auto;
           .el-icon-plus{
@@ -325,7 +359,7 @@ export default {
           justify-content: center;
           border: 2px solid rgb(240, 72, 72);
           border-radius: 6px;
-          width: 90%;
+          width: 85%;
           height: 38px;
           margin: auto;
           .el-icon-plus{
@@ -343,41 +377,19 @@ export default {
         }
       }
       .painting_data_right{
-        width: 60%;
-        //height: 200px;
+        width: 100%;
+        height: 320px;
         background: #FFFFFF;
         box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
         border-radius: 10px;
         display: flex;
-        justify-content: center;
+        align-items: center;
+        flex-direction: column;
         padding: 20px 0;
-        .upload_dy{
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          .uoload_img{
-            width: 40px;
-          }
-          .upload_text{
-            color: rgb(237, 74, 74);
-            //font-family: 阿里巴巴普惠体;
-            font-size: 15px;
-            font-weight: bold;
-            margin-top: 8px;
-          }
-          .upload_dect{
-            color: rgb(124, 124, 124);
-            //font-family: 阿里巴巴普惠体;
-            font-size: 13px;
-            font-weight: 400;
-            margin-top: 10px;
-          }
-        }
       }
       .painting_data_leftup{
-        width: 40%;
-        height: 260px;
+        width: 100%;
+        height: 200px;
         background: #FFFFFF;
         box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
         border-radius: 10px;
@@ -394,25 +406,35 @@ export default {
           justify-content: space-around;
           align-items: center;
           padding: 10px 0;
-          height: 150px;
+          height: 100px;
         }
         .group_img{
-          width: 90px;
-          height: 92px;
+          width: 40px;
+          height: 42px;
+        }
+        .group_text{
+          color: rgb(0, 0, 0);
+          //font-family: 阿里巴巴普惠体;
+          font-size: 13px;
+          font-weight: 400;
+          margin-top: 10px;
         }
       }
       .painting_data_rightup{
-        width: 60%;
-        height: 260px;
+        width: 100%;
+        height: 200px;
         background: #FFFFFF;
         box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
         border-radius: 10px;
+        .rightup_footer{
+          display: flex;
+          align-items: center;
+        }
         .painting_data_input{
           padding: 10px 24px;
-          margin-top: 5px;
           .rightup_input{
             //width: 100%;
-            height: 120px;
+            height: 100px;
             background: rgb(255, 247, 247);
             border: 1px solid rgba(240, 72, 72, 0.26);
             border-radius:8px;
@@ -429,7 +451,7 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 20px 30px;
+          padding: 20px 30px 0 30px;
         }
         .rightup_tabs{
           display: flex;
@@ -460,6 +482,20 @@ export default {
           justify-content: center;
           margin-right: 12px;
         }
+        .upload_btn{
+          width: 130px;
+          height: 30px;
+          color: #FFFFFF;
+          font-size: 13px;
+          font-weight: bold;
+          letter-spacing: 2px;
+          background: linear-gradient(179.26deg, rgb(244, 124, 124) 22.803%,rgb(240, 72, 72) 96.018%),linear-gradient(151.34deg, rgb(116, 190, 254) 22.35%,rgb(13, 117, 254) 69.27%);
+          border-radius: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 10px;
+        }
         .tabs_btn{
           width: 80px;
           height: 30px;
@@ -476,32 +512,18 @@ export default {
       }
     }
   }
-
-  .avatar-uploader /deep/.el-upload {
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    background: rgb(255, 238, 238);
-    border: 1.5px solid rgb(239, 92, 92);
-    width: 300px;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .upload_img{
-    width: 300px;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 50px;
-  }
   .avatar {
-    width: 300px;
     height: 300px;
     display: block;
+    margin:0 20px;
+    border-radius: 10px;
+  }
+  .upload_text{
+    color: rgb(51, 51, 51);
+    //font-family: 阿里巴巴普惠体;
+    font-size: 13;
+    font-weight: 400;
+    margin-top: 10px;
   }
 }
 </style>

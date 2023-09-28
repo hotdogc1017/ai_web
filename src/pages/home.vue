@@ -38,7 +38,7 @@ export default {
     <img src="../assets/images/home_search.png" alt="" class="search_img">
   </div>
   <div class="hishtory">
-    <div class="hishtory_list">搜索历史1</div>
+    <div class="hishtory_list">搜索历史</div>
   </div>
   <div class="home_centent">
     <img src="../assets/images/home_text.png" alt="" class="img03">
@@ -139,7 +139,7 @@ export default {
       margin-top: 10px;
       .datameun{
         width: calc(100vh - 100px);
-        max-width: 300px;
+        max-width: 240px;
         height: 190px;
         background: rgb(255, 255, 255);
         box-shadow: 0px 3px 9px 0px rgba(55, 21, 21, 0.08);

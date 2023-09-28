@@ -54,13 +54,12 @@ export default {
   },
   computed: {
     onRoutes() {
-      return this.$route.path.replace('/', '');
+      return this.$route.path.replace('/home', '');
     }
   },
   created() {
     // 通过 Event Bus 进行组件间通信，来折叠侧边栏
     bus.$on('collapse', msg => {
-      console.log(msg)
       this.collapse = msg;
       bus.$emit('collapse-content', msg);
     });
@@ -81,9 +80,10 @@ export default {
       for (let i = 0; i < this.menuList.length; i++) {
         if (this.menuList[i].webUrl == key) {
           activeId = this.menuList[i].id;
+          sessionStorage.setItem('menuTitle', this.menuList[i].title);
         }
       }
-    sessionStorage.setItem('activeId',activeId);
+    sessionStorage.setItem('activeId', activeId);
     },
   }
 };
