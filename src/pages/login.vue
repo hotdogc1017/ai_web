@@ -52,6 +52,7 @@ export default {
             this.globalLoading = false;
             if (res.code === 200) {
               window.sessionStorage.setItem('token', res.data.token);
+              window.sessionStorage.setItem('uid', res.data.uid);
               this.$notify({
                 title: '登录成功',
                 message: '欢迎登录AI智能管平台',

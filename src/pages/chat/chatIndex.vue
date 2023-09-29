@@ -289,7 +289,7 @@ export default {
             this.getChatRecord();
           }
         } else if(res.code == 203){
-          this.$message.error('登录失效，请重新登录');
+          // this.$message.error('登录失效，请重新登录');
           this.isLogin = true
         }else {
           this.$message.error(res.msg);

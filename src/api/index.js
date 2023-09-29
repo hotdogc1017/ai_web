@@ -139,3 +139,21 @@ export  const  getTaskListAPI = query =>{
 		params: query
 	});
 }
+
+//删除任务
+export  const  deleteTaskAPI = query =>{
+	return request({
+		url: '/deleteTask',
+		method: 'get',
+		params: query
+	});
+}
+
+//绘画
+export  const  drawAPI = query =>{
+	return request({
+		url: '/draw',
+		method: 'post',
+		data: query
+	});
+}

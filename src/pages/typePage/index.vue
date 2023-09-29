@@ -1,30 +1,3 @@
-<script>
-import bus from "@/utils/bus";
-import {getHotRecommendAPI} from "@/api";
-
-export default {
-  name: "index",
-  data() {
-    return {
-      cardList: [],
-      title: sessionStorage.getItem('menuTitle'),
-    };
-  },
-  mounted() {
-    this.getModuleList();
-  },
-  methods:{
-    getModuleList(){
-      getHotRecommendAPI().then(res => {
-        if (res.code == 200) {
-          this.cardList = res.data;
-        }
-      });
-    }
-  }
-}
-</script>
-
 <template>
   <div class="typePage">
     <div class="typePage_header">
@@ -72,7 +45,43 @@ export default {
     </div>
   </div>
 </template>
+<script>
+import { getModuleConfigAPI} from "@/api";
 
+export default {
+  name: "index",
+  data() {
+    return {
+      cardList: [],
+      title: sessionStorage.getItem('menuTitle'),
+    };
+  },
+  created() {
+  },
+  //监听路由变化
+  watch: {
+    $route(to, from) {
+      this.getModuleList();
+    },
+  },
+  mounted() {
+    this.getModuleList();
+  },
+  methods:{
+    getModuleList(){
+      const params = {
+        moduleId: sessionStorage.getItem('activeId')
+      }
+      getModuleConfigAPI(params).then(res => {
+        if (res.code == 200) {
+          this.cardList = res.data;
+          // this.data = res.data[0]
+        }
+      });
+    }
+  }
+}
+</script>
 <style scoped lang="less">
 .typePage_header {
   display: flex;
@@ -87,16 +96,23 @@ export default {
   .chatTitle {
     font-weight: bold;
     font-size: 14px;
-    color: 333333;
+    color: #333333;
     letter-spacing: 2px;
   }
 }
 .typeCentent{
   margin: 20px 24px;
 }
+
+
 .el-col {
   border-radius: 4px;
   margin-bottom: 10px;
+}
+
+.el-col:hover{
+
+  border: 1px solid rgb(244, 124, 124);
 }
 .bg-purple {
   background: #d3dce6;

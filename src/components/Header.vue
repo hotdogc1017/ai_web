@@ -70,6 +70,16 @@ export default {
       this.collapseChage();
     }
   },
+  //监听路由变化
+  watch: {
+    $route(to, from) {
+      this.tokenStr = window.sessionStorage.getItem('token')
+      if (!this.tokenStr) {
+        //取消页面跳转
+        this.isLogin = true
+      }
+    },
+  },
   methods: {
     // 跳转首页
     handleHome() {
