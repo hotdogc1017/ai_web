@@ -8,8 +8,8 @@ export default {
       isRegister: false,
       globalLoading: false,
       formModel: {
-        username: "601681659@qq.com",
-        password: "wzy19931015",
+        username: "test@test.com",
+        password: "123456",
       },
       formRules: {
         username: [
@@ -54,6 +54,7 @@ export default {
               window.sessionStorage.setItem('token', res.data.token);
               window.sessionStorage.setItem('uid', res.data.uid);
               window.sessionStorage.setItem('ms_username', res.data.username);
+              window.sessionStorage.setItem('headImg', res.data.headImg);
               this.$notify({
                 title: '登录成功',
                 message: '欢迎登录AI智能管平台',

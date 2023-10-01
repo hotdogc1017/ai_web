@@ -11,7 +11,7 @@
           <div :class="activeIndex == index ? 'sidebar_meun_active' : 'sidebar_meun' " v-for="(item,index) in menuList"
                :key="index" @click="handleSelect(item,index)">
             <img :src="item.icon" alt="" class="sidebar_img">
-            <label class="sidebar_label">{{ item.name }}</label>
+            <label class="sidebar_label">{{item.name}}</label>
           </div>
         </div>
       </div>
@@ -55,18 +55,18 @@
           </div>
           <div class="painting_data">
             <el-row :gutter="20">
-              <el-col :span="17">
+              <el-col :span="17" >
                 <div class="painting_data_rightup">
-                  <div class="painting_data_header">
-                    <div class="rightup_tabs">
+                  <div class="painting_data_header" >
+                    <div class="rightup_tabs" >
                       <div v-for="(item,index) in tabs" :key="index"
                            :class="active == index ? 'rightup_tabs_active' : 'rightup_tabs_text'">{{ item }}
                       </div>
                     </div>
-                    <div class="rightup_footer">
+                    <div class="rightup_footer" v-if="taskStatus==0">
                       <el-upload
                           class="avatar-uploader"
-                          action="https://jsonplaceholder.typicode.com/posts/"
+                          :action='action'
                           :show-file-list="false"
                           :on-success="handleAvatarSuccess"
                           :before-upload="beforeAvatarUpload">
@@ -80,7 +80,7 @@
 
                   </div>
                   <div class="painting_data_input">
-                    <textarea rows="10" cols="133" maxlength="300" placeholder="请输入文字描述" v-model="prompt"
+                    <textarea rows="10" cols="133" maxlength="300" :disabled="taskStatus!=0" placeholder="请输入文字描述" v-model="prompt"
                               class="rightup_input"></textarea>
                   </div>
                 </div>
@@ -125,6 +125,8 @@ export default {
   components: {Task, vHead},
   data() {
     return {
+      action: 'http://39.106.69.95:8099/uploadImg',
+      uploadFile: '',
       taskData: {
         imgUrl: ''
       },
@@ -174,6 +176,7 @@ export default {
     //开启webSocket
 
     openWebSocket() {
+      let that = this
       const ws = new WebSocket('ws://39.106.69.95:8099/webSocket/' + sessionStorage.getItem('uid'));
       ws.onopen = function () {
         console.log('打开连接');
@@ -181,6 +184,7 @@ export default {
       };
       ws.onmessage = function (evt) {
         console.log('数据已接收', evt);
+        that.handleTaskList();
       };
       ws.onclose = function () {
         console.log('连接已关闭...');
@@ -246,8 +250,9 @@ export default {
           if (res.data.length > 0){
             this.taskId = res.data[0].id
             if (res.data[0].status == 2) {
-              if (res.data[0].imageUrl) {
-                this.imageUrl = res.data[0].imageUrl
+              if (res.data[0].imgUrl) {
+                console.log(res.data[0].imageUrl)
+                this.imageUrl = res.data[0].imgUrl
                 this.height = res.data[0].height + 'px'
                 this.width = res.data[0].width + 'px'
                 if (res.data[0].prompt) {
@@ -271,6 +276,8 @@ export default {
               this.taskPrompt = '请开始你的创造吧'
               this.imageUrl = require('../../assets/images/upload_bg.png')
             }
+
+            this.getTask(res.data[0],0)
           }
 
 
@@ -296,18 +303,17 @@ export default {
       this.$router.go(-1)
     },
     handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
+      this.uploadFile =res.data.fileUrl
     },
     beforeAvatarUpload(file) {
       console.log(file)
-      const isJPG = file.type === 'image/jpeg';
+      const isJPG = (file.type === 'image/jpeg'||file.type === 'image/png'||file.type === 'image/jpg');
       const isLt2M = file.size / 1024 / 1024 < 2;
-
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传图片只能是 JPG/PNG/JPEG 格式!');
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传图片大小不能超过 2MB!');
       }
       return isJPG && isLt2M;
     },
@@ -320,7 +326,8 @@ export default {
       }
       const params = {
         taskId: this.taskId,
-        prompt: this.prompt
+        prompt: this.prompt,
+        imgUrl: this.uploadFile
       }
       drawAPI(params).then(res => {
         if (res.code == 200) {
@@ -328,6 +335,8 @@ export default {
             message: '任务提交成功，请等待AI生成图片',
             type: 'success'
           });
+          this.uploadFile = ''
+          this.getTask(res.data,this.activeTask)
         }
       });
     },

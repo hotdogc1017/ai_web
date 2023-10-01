@@ -21,7 +21,7 @@
         <div class="userInfo" v-if="tokenStr">
           <!-- 用户头像 -->
           <div class="user-avator">
-            <img src="../assets/images/home_user.png"/>
+            <img :src='headImg'/>
           </div>
           <!-- 用户名下拉菜单 -->
           <el-dropdown class="user-name" trigger="click" @command="handleCommand">
@@ -52,6 +52,7 @@ export default {
   },
   data() {
     return {
+      headImg: sessionStorage.getItem("headImg")!=null? sessionStorage.getItem("headImg"):require('../assets/images/home_user.png'),
       tokenStr: '',
       collapse: false,
       fullscreen: false,

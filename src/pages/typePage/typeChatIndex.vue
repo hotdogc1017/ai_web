@@ -471,7 +471,7 @@ export default {
       text-align: left;
       display: flex;
       align-items: center; //垂直居左：flex-start、垂直居中：center、垂直居右：flex-end
-      justify-content: space-between;
+      //justify-content: space-between;
       background: rgba(255, 255, 255, 0.35);
       width: 200px;
       min-height: 48px;
@@ -485,7 +485,7 @@ export default {
     .wrapper_meun_active{
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      //justify-content: space-between;
       background: rgba(241,76,76,0.5);
       width: 200px;
       min-height: 48px;

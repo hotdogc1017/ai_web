@@ -183,3 +183,21 @@ export  const  getModuleConfigDetailAPI = query =>{
 		params: query
 	});
 }
+
+//修改用户信息
+export  const  updateUserInfoAPI = query =>{
+	return request({
+		url: '/api/updateUserInfo',
+		method: 'post',
+		data: query
+	});
+}
+
+//注销
+export  const  logoutAPI = query =>{
+	return request({
+		url: '/api/signOut',
+		method: 'get',
+		params: query
+	});
+}

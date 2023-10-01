@@ -5,7 +5,7 @@
     <div class="chatcentainr" >
       <div class="chatSidebar" :class="{'chat_sidebar': collapse}">
         <div class="chatSidebar_user">
-          <img src="../../assets/images/home_user.png" alt="" class="user_img">
+          <img :src='headImg' alt="" class="user_img">
           <div class="user_add" @click="handlAdd">新对话</div>
         </div>
         <div class="wrapper_title">聊天列表</div>
@@ -111,6 +111,7 @@ export default {
   name: "chatIndex",
   data() {
     return {
+      headImg: sessionStorage.getItem("headImg")!=null? sessionStorage.getItem("headImg"):require('../../assets/images/home_user.png'),
       collapse: false,//折叠
       isLogin: false,
       loading: false,
