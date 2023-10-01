@@ -1,11 +1,11 @@
 <template>
   <div class="header" :class="{'header-collapse':collapse}">
     <div class="sidebar_view" :class="{'sidebar-collapse':collapse}">
-      <img src="../assets/logo.png" alt="" class="sidebar_logo"  @click="handleHome()">
+      <img src="../assets/logo.png" alt="" class="sidebar_logo" @click="handleHome()">
       <img src="../assets/images/Paperpig.png" alt="" class="sidebar_title" v-if="!collapse" @click="handleHome()">
     </div>
     <!-- 折叠按钮 -->
-    <div class="collapse-btn" >
+    <div class="collapse-btn">
       <i v-if="!collapse" class="el-icon-s-fold" @click="collapseChage"></i>
       <i v-else class="el-icon-s-unfold" @click="collapseChage"></i>
       <img src="../assets/images/home.png" alt="" class="home_img" @click="handleHome()">
@@ -30,7 +30,7 @@
                   <i class="el-icon-caret-bottom"></i>
               </span>
             <el-dropdown-menu slot="dropdown">
-              <!--<el-dropdown-item divided command="user">个人中心</el-dropdown-item>-->
+              <el-dropdown-item divided command="user">个人中心</el-dropdown-item>
               <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -45,13 +45,14 @@
 <script>
 import bus from '@/utils/bus'
 import Login from "@/pages/login.vue";
+
 export default {
   components: {
     Login
   },
   data() {
     return {
-      tokenStr:'',
+      tokenStr: '',
       collapse: false,
       fullscreen: false,
       name: 'admin',
@@ -83,7 +84,7 @@ export default {
   methods: {
     // 跳转首页
     handleHome() {
-      if(this.$route.path == '/') return;
+      if (this.$route.path == '/') return;
       this.$router.push('/');
     },
     handleLogin() {
@@ -106,12 +107,10 @@ export default {
           this.$router.push('/');
           //刷新页面
           window.location.reload();
-        })
-            .catch(() => {
-            });
+        }).catch(() => {});
 
-      } else if (command == 'forget') {
-        this.forgetPasswordVisible = true
+      } else if (command == 'user') {
+        this.$router.push('/user');
       }
     },
     // 侧边栏折叠
@@ -149,7 +148,7 @@ export default {
   },
 };
 </script>
-<style scoped >
+<style scoped>
 .header {
   position: relative;
   box-sizing: border-box;
@@ -158,6 +157,7 @@ export default {
   color: #333;
   background: #FFFFFF;
 }
+
 .sidebar_view {
   display: flex;
   align-items: center;
@@ -166,26 +166,32 @@ export default {
   float: left;
   width: 170px;
 }
-.userInfo{
+
+.userInfo {
   display: flex;
   align-items: center;
 }
-.sidebar-collapse{
+
+.sidebar-collapse {
   width: 20px;
 }
+
 .sidebar_logo {
   width: 30px;
   height: 30px;
 }
-.home_img{
+
+.home_img {
   width: 20px;
   height: 20px;
   margin-left: 10px;
 }
+
 .sidebar_title {
   width: 80px;
   margin-left: 10px;
 }
+
 .collapse-btn {
   float: left;
   padding: 0 10px 0 0;
@@ -196,10 +202,12 @@ export default {
   justify-content: center;
   height: 55px;
 }
-.header-collapse{
+
+.header-collapse {
   margin-left: 0;
   transition: 3s;
 }
+
 .header-right {
   float: right;
   padding-right: 30px;
@@ -266,11 +274,12 @@ export default {
 .el-dropdown-menu__item {
   text-align: center;
 }
-.login_btn{
+
+.login_btn {
   width: 80px;
   height: 30px;
   border-radius: 100px;
-  background: linear-gradient(135deg,rgb(244, 124, 124),rgb(240, 72, 72));
+  background: linear-gradient(135deg, rgb(244, 124, 124), rgb(240, 72, 72));
   font-size: 13px;
   color: #FFFFFF;
   cursor: pointer;
