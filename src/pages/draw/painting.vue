@@ -411,6 +411,7 @@ export default {
       .chatImg {
         width: 30px;
         height: 30px;
+        cursor: pointer;
       }
 
       .chatTitle {

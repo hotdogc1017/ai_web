@@ -22,10 +22,10 @@
           <div class="wrapper_info">
             <div class="wrapper_info_view">
               <div class="wrapper_info_text">昵称：<span class="wrapper_info_name">{{ userInfo.username }}</span><span class="wrapper_info_dect">修改</span></div>
-              <div class="wrapper_info_text">实名认证：
-                <el-tag type="success" style="margin-left: 5px;">个人实名认证/企业认证</el-tag>
-                <!--<span class="wrapper_info_dect">详情</span>-->
-              </div>
+              <!--<div class="wrapper_info_text">实名认证：-->
+              <!--  <el-tag type="success" style="margin-left: 5px;">个人实名认证/企业认证</el-tag>-->
+              <!--  &lt;!&ndash;<span class="wrapper_info_dect">详情</span>&ndash;&gt;-->
+              <!--</div>-->
             </div>
             <div class="wrapper_info_view">
               <div class="wrapper_info_text">ID：<span class="wrapper_info_name">123456</span></div>
@@ -38,14 +38,14 @@
         </div>
         <div class="wrapper_from">
           <div class="wrapper_from_title">账户绑定</div>
-          <div class="wrapper_from_meun">
-            <label class="wrapper_label">微信:</label>
-            <el-input v-model="editForm.email" class="ruleForm_input" placeholder="请设置你的微信"> </el-input>
-          </div>
-          <div class="wrapper_from_meun">
-            <label class="wrapper_label">Q Q:</label>
-            <el-input v-model="editForm.ID" class="ruleForm_input" placeholder="请设置你的QQ"></el-input>
-          </div>
+          <!--<div class="wrapper_from_meun">-->
+          <!--  <label class="wrapper_label">微信:</label>-->
+          <!--  <el-input v-model="editForm.email" class="ruleForm_input" placeholder="请设置你的微信"> </el-input>-->
+          <!--</div>-->
+          <!--<div class="wrapper_from_meun">-->
+          <!--  <label class="wrapper_label">Q Q:</label>-->
+          <!--  <el-input v-model="editForm.ID" class="ruleForm_input" placeholder="请设置你的QQ"></el-input>-->
+          <!--</div>-->
           <div class="wrapper_from_meun">
             <label class="wrapper_label">手机:</label>
             <el-input v-model="editForm.mobile" class="ruleForm_input" placeholder="请设置你的手机"></el-input>
