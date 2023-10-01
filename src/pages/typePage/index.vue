@@ -5,22 +5,25 @@
     </div>
     <div class="typeCentent">
       <el-row :gutter="20" class="datalist">
-        <el-col :span="6" v-for="(item,index) in cardList" :key="index" class="datameun">
-          <div class="datameun_header">
-            <div class="datameun_header_title">{{item.name}}</div>
-            <img :src='item.icon' alt="" class="datameun_header_img">
-          </div>
-          <div class="datameun_dect">{{item.introduce}}</div>
-          <div class="datameun_footer">
-            <div class="datameun_footer_view">
-              <img src="../../assets/images/edit.png" alt="" class="datameun_img">
-              <label class="datameun_footer_label">{{ item.usedNum }}</label>
+        <el-col :span="6" v-for="(item,index) in cardList" :key="index" class="datameun"   >
+          <div @click="toChat(item)">
+            <div class="datameun_header" >
+              <div class="datameun_header_title" >{{item.name}}</div>
+              <img :src='item.icon' alt="" class="datameun_header_img">
             </div>
-            <div class="datameun_footer_view">
-              <img src="../../assets/images/zan.png" alt="" class="datameun_img1">
-              <label class="datameun_footer_label">{{ item.likeNum }}</label>
+            <div class="datameun_dect">{{item.introduce}}</div>
+            <div class="datameun_footer">
+              <div class="datameun_footer_view">
+                <img src="../../assets/images/edit.png" alt="" class="datameun_img">
+                <label class="datameun_footer_label">{{ item.usedNum }}</label>
+              </div>
+              <div class="datameun_footer_view">
+                <img src="../../assets/images/zan.png" alt="" class="datameun_img1">
+                <label class="datameun_footer_label">{{ item.likeNum }}</label>
+              </div>
             </div>
           </div>
+
         </el-col>
       </el-row>
       <!--<div class="datalist">-->
@@ -53,7 +56,7 @@ export default {
   data() {
     return {
       cardList: [],
-      title: sessionStorage.getItem('menuTitle'),
+      title: '',
     };
   },
   created() {
@@ -62,12 +65,24 @@ export default {
   watch: {
     $route(to, from) {
       this.getModuleList();
+      this.title = sessionStorage.getItem('menuTitle')
     },
   },
   mounted() {
     this.getModuleList();
   },
   methods:{
+    toChat(item){
+      this.$router.push({
+        path: '/typeChatIndex',
+        query: {
+          id: item.id,
+          moduleId:item.moduleId,
+          icon:item.icon,
+        }
+      })
+
+    },
     getModuleList(){
       const params = {
         moduleId: sessionStorage.getItem('activeId')

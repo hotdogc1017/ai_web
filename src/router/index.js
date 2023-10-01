@@ -83,8 +83,13 @@ export default new VueRouter({
             meta: { title: 'AI对话' }
         },
         {
+            path: '/typeChatIndex',
+            component: () => import('@/pages/typePage/typeChatIndex.vue'),
+            meta: { title: '功能对话' }
+        },
+        {
             path: '/gptIndex',
-            component: () => import('@/pages/chat/chatIndex.vue'),
+            component: () => import('@/pages/chat/chatGptIndex.vue'),
             meta: { title: '原生GPT4.0' }
         },
         {

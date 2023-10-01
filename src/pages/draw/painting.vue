@@ -201,7 +201,7 @@ export default {
         } else {
           this.imageUrl = require('../../assets/images/upload_bg.png')
         }
-        this.taskPrompt = item.prompt
+        this.taskPrompt = '提示词:'+ item.prompt
       } else if (item.status == 1) {
         this.width = '70%'
         this.height = '70%'
@@ -251,7 +251,7 @@ export default {
                 this.height = res.data[0].height + 'px'
                 this.width = res.data[0].width + 'px'
                 if (res.data[0].prompt) {
-                  this.taskPrompt = res.data[0].prompt
+                  this.taskPrompt =  '提示词: '+res.data[0].prompt
                 } else {
                   this.taskPrompt = '任务出错了~'
                 }

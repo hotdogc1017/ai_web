@@ -81,6 +81,7 @@ export default {
         if (this.menuList[i].webUrl == key) {
           activeId = this.menuList[i].id;
           sessionStorage.setItem('menuTitle', this.menuList[i].title);
+          sessionStorage.setItem('menuIcon', this.menuList[i].icon);
         }
       }
     sessionStorage.setItem('activeId', activeId);

@@ -55,7 +55,7 @@ export default {
       tokenStr: '',
       collapse: false,
       fullscreen: false,
-      name: 'admin',
+      name: 'Paperpig',
       isLogin: false,
     };
   },

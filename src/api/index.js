@@ -87,6 +87,14 @@ export  const  askQuestionAPI = query =>{
 	});
 }
 
+export  const  ask2QuestionAPI = query =>{
+	return request({
+		url: '/ask2',
+		method: 'post',
+		data: query
+	});
+}
+
 //根据聊天室id查看聊天记录
 export  const  getChatRecordAPI = query =>{
 	return request({
@@ -96,6 +104,14 @@ export  const  getChatRecordAPI = query =>{
 	});
 }
 
+
+export  const  getChatRecord2API = query =>{
+	return request({
+		url: '/getChatRecordList2',
+		method: 'get',
+		params: query
+	});
+}
 //查询模块列表
 export  const  getModuleListAPI = query =>{
 	return request({
@@ -155,5 +171,15 @@ export  const  drawAPI = query =>{
 		url: '/draw',
 		method: 'post',
 		data: query
+	});
+}
+
+
+//根据配置id查询配置详情
+export  const  getModuleConfigDetailAPI = query =>{
+	return request({
+		url: '/getWebModuleConfigById',
+		method: 'get',
+		params: query
 	});
 }

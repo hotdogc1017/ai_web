@@ -5,32 +5,29 @@
     <div class="chatcentainr" >
       <div class="chatSidebar" :class="{'chat_sidebar': collapse}">
         <div class="chatSidebar_user">
-          <img src="../../assets/images/home_user.png" alt="" class="user_img">
-          <div class="user_add" @click="handlAdd">新对话</div>
+          <img :src='icon' alt="" class="user_img">
+<!--          <div class="user_add" @click="handlAdd">新对话</div>-->
         </div>
-        <div class="wrapper_title">聊天列表</div>
+<!--        <div class="wrapper_title">{{title}}</div>-->
         <div class="wrapper_list" >
           <div :class="item.id == activeRoomId? 'wrapper_meun_active':'wrapper_meun'" v-for="(item,index) in chatList" :key="index" @click="selectRoom(item.id)">
-            <div class="wrapper_name">{{ item.roomName }}</div>
-            <img src="../../assets/images/icon_del.png" alt="" class="wrapper_img" @click="handleDelete(item)">
+            <img :src='item.icon' alt="" class="wrapper_img" @click="handleDelete(item)">
+            <div class="wrapper_name">{{ item.name }}</div>
+
           </div>
         </div>
       </div>
       <div class="chatWrapper">
         <div class="chatWrapper_header">
           <img src="../../assets/images/chat_arrow.png" alt="" class="chatImg" @click="handleBack()">
-          <label class="chatTitle">原生GTP4.0</label>
+          <label class="chatTitle">{{title}}</label>
         </div>
         <div class="wrapper_right">
-<!--          <div class="chatTab">-->
-<!--            <div v-for="(item,index) in tabs" :key="index" class="chatTab_text" :class="{'chatTabbg':tabsActive == index}" @click="handlTabs(index)">{{ item }}</div>-->
-<!--          </div>-->
-          <!--  发送模块-->
           <div v-loading="loading" element-loading-text="记录加载中" element-loading-spinner="el-icon-loading" element-loading-background="#ffffff" element-loading-body="rgb(250, 100, 0)">
             <div ref="chatMain" class="chatView" >
               <div class="chatView_list">
                 <div class="chatView_page" v-for="(item,index) in chatRecordList" :key="index">
-                  <div v-if="item.role === 'ai'&&item.status==0" class="chatView_page_01">
+                  <div v-if="item.role === 'ai'&&item.status==0&&item.context!='您好，请问有什么可以帮助您的吗？'" class="chatView_page_01">
                     <div class="chatView_page_meun">
                       <div class="chatView_page_logo">
                         <img src="../../assets/images/AIkf.png" alt="">
@@ -68,49 +65,63 @@
               </div>
             </div>
             <div class="chatFooter" >
-              <div class="chatFooter_dect">
-                <div class="chatFooter_dect_active" @click="handlShare">生成海报</div>
-                <div class="chatFooter_dect_active" @click="handlAddTip">添加提示词</div>
-                <div class="chatFooter_dect_active" @click="handlFeedback">问题反馈</div>
-              </div>
+
               <div class="send">
-                <el-input resize="none" type="textarea" placeholder="输入您的问题（Shift+Enter换行" autosize v-model="textarea" clearable @keydown.native="Keydown" class="input" maxlength="300" show-word-limit></el-input>
-                <div class="send_line"></div>
-                <img src="../../assets/images/send.png" alt="" class="send_img" @click="sendMsg(textarea)">
+                <el-row :gutter="20">
+                  <el-col :span="24">
+                    <base-from :searchForm="searchForm" :searchValue="searchValue"  :get-data="getData"/>
+                  </el-col>
+                </el-row>
+
+
               </div>
             </div>
           </div>
 
+
+
         </div>
       </div>
     </div>
-    <!--    弹框修改对话名称-->
-    <el-dialog title="修改对话名称" :visible.sync="dialogVisible" width="20%" :close-on-click-modal="false">
-      <el-form :model="form">
-        <el-form-item prop="roomName">
-          <el-input v-model="form.roomName" clearable></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
-        <el-button type="primary" style="background-color: #FA6400; border: #FA6400;" size="mini" @click="submitForm">确 定</el-button>
-      </span>
-    </el-dialog>
     <!-- 登录-->
     <Login @close="handleClose()" v-if="isLogin"></Login>
   </div>
 
 </template>
 <script>
-import {askQuestionAPI, createChatAPI, deleteChatAPI, editChatNameAPI, getChatListAPI, getChatRecordAPI} from "@/api";
+import {
+  ask2QuestionAPI,
+  askQuestionAPI,
+  createChatAPI,
+  deleteChatAPI,
+  editChatNameAPI,
+  getChatListAPI, getChatRecord2API,
+  getChatRecordAPI, getModuleConfigAPI,
+  getModuleConfigDetailAPI
+} from "@/api";
 import vHead from "@/components/Header.vue";
 import Login from "@/pages/login.vue";
 import bus from "@/utils/bus";
+import  baseFrom from "@/components/baseFrom/baseFrom.vue";
 export default {
-  components: {Login, vHead},
+  components: {Login, vHead,baseFrom},
   name: "chatIndex",
   data() {
     return {
+      searchForm:[],
+      searchValue: {
+        id: this.$route.query.id,
+      },
+      formData: {
+        mobile: ''
+      },
+      moduleConfig:{
+        icon:'',
+        title:'',
+      },
+      icon:'',
+      title:'',
+      menuIcon:'',
       collapse: false,//折叠
       isLogin: false,
       loading: false,
@@ -132,22 +143,53 @@ export default {
     }
   },
   created() {
+    this.title = sessionStorage.getItem('menuTitle')
+    this.menuIcon = sessionStorage.getItem('menuIcon')
     bus.$on('collapse', msg => {
       this.collapse = msg;
     });
   },
   mounted() {
     this.getChatList();
+    this.getModuleList();
+    this.getModuleConfig();
+    this.getChatRecord();
   },
   watch: {
-    // activeRoomId: function (val) {
-    //   this.getChatRecord();
-    // },
+     //监听路由变化
+    $route(to, from) {
+      this.title = sessionStorage.getItem('menuTitle')
+    },
     text: function (val) {
       this.typeWriter();
     }
   },
   methods: {
+
+    getModuleConfig(){
+      const params = {
+        id: this.$route.query.id
+      }
+      getModuleConfigDetailAPI(params).then(res => {
+        if (res.code == 200) {
+          this.moduleConfig = res.data;
+          this.icon = this.moduleConfig.icon
+          this.searchForm = this.moduleConfig.searchForm
+        }
+      });
+
+    },
+    getModuleList(){
+      const params = {
+        moduleId: sessionStorage.getItem('activeId')
+      }
+      getModuleConfigAPI(params).then(res => {
+        if (res.code == 200) {
+          this.cardList = res.data;
+          // this.data = res.data[0]
+        }
+      });
+    },
     handlTabs(data){
       this.tabsActive = data
     },
@@ -173,9 +215,9 @@ export default {
 
     getChatRecord() {
       const params = {
-        roomId: this.activeRoomId
+        moduleId: sessionStorage.getItem('activeId'),
       }
-      getChatRecordAPI(params).then(res => {
+      getChatRecord2API(params).then(res => {
         if (res.code == 200) {
           this.chatRecordList = res.data
           this.changeHeight()
@@ -186,18 +228,23 @@ export default {
     },
 
     selectRoom(data) {
-      console.log(data)
-      this.activeRoomId = data
-      this.getChatRecord();
+
+      //刷新当前页面
+      this.$router.replace({
+        path: this.$route.path,
+        query: { ...this.$route.query, id: data }
+      });
+      window.location.reload();
+
     },
-    sendMsg(data) {
+    getData(data) {
       // 校验是否登录
       const tokenStr = window.sessionStorage.getItem('token')
       if (tokenStr == null || tokenStr == '' ) return this.isLogin = true
       // 登录后调用接口
       const params = {
-        roomId: this.activeRoomId,
-        question: data
+        configId: this.$route.query.id,
+        configMap: this.searchValue
       }
       const resData = {
         role: 'user',
@@ -212,7 +259,7 @@ export default {
         time: ''
       }
       this.chatRecordList.push(resData2)
-      askQuestionAPI(params).then(res => {
+      ask2QuestionAPI(params).then(res => {
         if (res.code == 200) {
           //删除最后一条
           this.chatRecordList.splice(this.chatRecordList.length - 1, 1)
@@ -229,7 +276,12 @@ export default {
           this.$message.error(res.msg);
         }
       })
-      this.textarea = ''
+      this.searchValue = {
+        id: this.$route.query.id,
+      }
+    },
+    resetForm() {
+      this.$refs.elForm.resetFields();
     },
     submitForm() {
       const params = {
@@ -252,42 +304,26 @@ export default {
       this.form.id = data.id;
       this.form.roomName = data.roomName;
     },
-    //删除对话
-    handleDelete(data) {
-      this.selectRoom(data.id)
-      //二次确认
-      this.$confirm('此操作将永久删除该对话, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        const params = {
-          roomId: data.id
-        }
-        deleteChatAPI(params).then(res => {
-          if (res.code == 200) {
-            this.getChatList();
-          } else {
-            this.$message.error(res.msg);
-          }
-        })
-      }).catch(() => {
 
-      });
-    },
+
     //获得对话列表
     getChatList(data) {
       const params = {
         roomName: data,
         moduleId: sessionStorage.getItem('activeId')
       }
-      getChatListAPI(params).then(res => {
+      getModuleConfigAPI(params).then(res => {
         if (res.code == 200) {
           this.chatList = res.data
           //默认选中第一个
           if (this.chatList.length > 0) {
-            this.activeRoomId = this.chatList[0].id
-            this.getChatRecord();
+            for (let i = 0; i <this.chatList .length ; i++) {
+              if (this.$route.query.id == this.chatList[i].id){
+                this.activeRoomId = this.$route.query.id
+
+              }
+            }
+
           }
         } else if(res.code == 203){
           // this.$message.error('登录失效，请重新登录');
@@ -303,7 +339,10 @@ export default {
       const tokenStr = window.sessionStorage.getItem('token')
       if (tokenStr == null || tokenStr == '' ) return this.isLogin = true
       // 登录后调用接口
-      createChatAPI().then(res => {
+      const params = {
+        moduleId: sessionStorage.getItem('activeId')
+      }
+      createChatAPI(params).then(res => {
         if (res.code == 200) {
           this.getChatList();
         } else {
@@ -358,7 +397,8 @@ export default {
       this.isLogin = false
     },
     handleBack(){
-      this.$router.push('/')
+       //返回上一页
+      this.$router.go(-1)
     }
   }
 }
@@ -379,7 +419,7 @@ export default {
   .chatSidebar{
     background: linear-gradient(rgb(255, 157, 157),rgb(241, 76, 76));
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    width: 200px;
+    width: 260px;
   }
   .chatSidebar_user{
     display: flex;
@@ -390,7 +430,7 @@ export default {
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.5);
+      //border: 1px solid rgba(255, 255, 255, 0.5);
       margin-top: 24px;
     }
     .user_add{
@@ -428,11 +468,12 @@ export default {
     align-items: center;
     flex-direction: column;
     .wrapper_meun {
+      text-align: left;
       display: flex;
-      align-items: center;
+      align-items: center; //垂直居左：flex-start、垂直居中：center、垂直居右：flex-end
       justify-content: space-between;
       background: rgba(255, 255, 255, 0.35);
-      width: 160px;
+      width: 200px;
       min-height: 48px;
       height: 48px;
       padding: 0 0 0 10px;
@@ -446,12 +487,12 @@ export default {
       align-items: center;
       justify-content: space-between;
       background: rgba(241,76,76,0.5);
-      width: 160px;
+      width: 200px;
       min-height: 48px;
       height: 48px;
       padding: 0 0 0 10px;
       border-radius: 5px;
-      cursor: pointer;
+      //cursor: pointer;
       box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
       margin-bottom: 10px;
     }
@@ -459,11 +500,12 @@ export default {
       font-size: 13px;
       color: #FFFFFF;
       font-weight: bold;
-      letter-spacing: 3px;
+      letter-spacing: 3px; //字间距
       //  一行展示，超出显示省略号
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+
     }
     .wrapper_img {
       width: 18px;
@@ -483,12 +525,11 @@ export default {
       .chatImg{
         width: 30px;
         height: 30px;
-        cursor: pointer;
       }
       .chatTitle{
         font-weight: bold;
         font-size: 14px;
-        color:333333 ;
+        color:rgb(241, 76, 76);
         margin-left: 10px;
       }
     }
@@ -657,9 +698,10 @@ export default {
         font-weight: bold;
         letter-spacing: 2px;
       }
+
       .send {
         width: 100%;
-        height: 60px;
+        height: 125px;
         display: flex;
         align-items: flex-end;
         border: 1px solid rgb(241, 76, 76);
@@ -674,15 +716,11 @@ export default {
           background: rgba(243, 116, 116, 0.36);
           margin: 0 20px;
         }
-        .send_img {
-          width: 35px;
-          height: 35px;
-          margin-right: 20px;
-          cursor: pointer;
-        }
+
       }
     }
   }
+
 
 
 }

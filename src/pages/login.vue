@@ -53,6 +53,7 @@ export default {
             if (res.code === 200) {
               window.sessionStorage.setItem('token', res.data.token);
               window.sessionStorage.setItem('uid', res.data.uid);
+              window.sessionStorage.setItem('ms_username', res.data.username);
               this.$notify({
                 title: '登录成功',
                 message: '欢迎登录AI智能管平台',

@@ -22,9 +22,9 @@
           <label class="chatTitle">原生GTP4.0</label>
         </div>
         <div class="wrapper_right">
-<!--          <div class="chatTab">-->
-<!--            <div v-for="(item,index) in tabs" :key="index" class="chatTab_text" :class="{'chatTabbg':tabsActive == index}" @click="handlTabs(index)">{{ item }}</div>-->
-<!--          </div>-->
+          <div class="chatTab">
+            <div v-for="(item,index) in tabs" :key="index" class="chatTab_text" :class="{'chatTabbg':tabsActive == index}" @click="handlTabs(index)">{{ item }}</div>
+          </div>
           <!--  发送模块-->
           <div v-loading="loading" element-loading-text="记录加载中" element-loading-spinner="el-icon-loading" element-loading-background="#ffffff" element-loading-body="rgb(250, 100, 0)">
             <div ref="chatMain" class="chatView" >
@@ -483,7 +483,6 @@ export default {
       .chatImg{
         width: 30px;
         height: 30px;
-        cursor: pointer;
       }
       .chatTitle{
         font-weight: bold;
