@@ -62,6 +62,7 @@
                       <div v-for="(item,index) in tabs" :key="index"
                            :class="active == index ? 'rightup_tabs_active' : 'rightup_tabs_text'">{{ item }}
                       </div>
+                      <el-image  v-if="imageUrl2" :src='imageUrl2' :preview-src-list='[imageUrl2]'  style="width: 25px; height: 25px;   "/>
                     </div>
                     <div class="rightup_footer" v-if="taskStatus==0">
                       <el-upload
@@ -77,6 +78,7 @@
                       </el-upload>
                       <div class="tabs_btn" @click="submitDraw">提交</div>
                     </div>
+
 
                   </div>
                   <div class="painting_data_input">
@@ -146,6 +148,7 @@ export default {
         imageUrl: ''
       },
       imageUrl: require('../../assets/images/upload_bg.png'),
+      imageUrl2:'',
       width: '95%',
       height: '95%',
       taskPrompt: '请开始你的创造吧',
@@ -196,6 +199,11 @@ export default {
       this.activeTask = index
       this.taskId = item.id
       this.taskPrompt = ''
+      if (item.imageUrl){
+        this.imageUrl2 = item.imageUrl
+      }else {
+        this.imageUrl2 = ''
+      }
       if (item.status == 2) {
         this.taskStatus = 2
         if (item.imgUrl) {
@@ -249,6 +257,12 @@ export default {
           //taskId
           if (res.data.length > 0){
             this.taskId = res.data[0].id
+
+            if (res.data[0].imageUrl){
+              this.imageUrl2 = res.data[0].imageUrl
+            }else {
+              this.imageUrl2 = ''
+            }
             if (res.data[0].status == 2) {
               if (res.data[0].imgUrl) {
                 console.log(res.data[0].imageUrl)
@@ -304,6 +318,7 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.uploadFile =res.data.fileUrl
+      this.imageUrl2 = res.data.fileUrl
     },
     beforeAvatarUpload(file) {
       console.log(file)
