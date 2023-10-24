@@ -218,7 +218,7 @@ export default {
         this.width = '70%'
         this.height = '70%'
         this.taskStatus = 1
-        this.imageUrl = require('../../assets/images/loading.gif')
+        // this.imageUrl = require('../../assets/images/loading.gif')
         this.taskPrompt = '任务正在生成中，请稍后...'
       } else {
         this.width = '90%'
@@ -281,7 +281,7 @@ export default {
               this.width = '60%'
               this.height = '60%'
               this.taskStatus = 1
-              this.imageUrl = require('../../assets/images/loading.gif')
+              // this.imageUrl = require('../../assets/images/loading.gif')
               this.taskPrompt = '任务正在生成中，请稍后...'
             }else if (res.data[0].status==0){
               this.width = '90%'

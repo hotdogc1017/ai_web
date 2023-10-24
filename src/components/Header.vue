@@ -4,12 +4,6 @@
       <img src="../assets/logo.png" alt="" class="sidebar_logo" @click="handleHome()">
       <img src="../assets/images/Paperpig.png" alt="" class="sidebar_title" v-if="!collapse" @click="handleHome()">
     </div>
-    <!-- 折叠按钮 -->
-    <div class="collapse-btn">
-      <i v-if="!collapse" class="el-icon-s-fold" @click="collapseChage"></i>
-      <i v-else class="el-icon-s-unfold" @click="collapseChage"></i>
-      <img src="../assets/images/home.png" alt="" class="home_img" @click="handleHome()">
-    </div>
     <div class="header-right">
       <div class="header-user-con">
         <!-- 全屏显示 -->
@@ -156,9 +150,11 @@ export default {
   height: 55px;
   font-size: 22px;
   color: #333;
-  background: #FFFFFF;
+  background: #262626;
 }
-
+.el-icon-rank{
+  color: #FFFFFF;
+}
 .sidebar_view {
   display: flex;
   align-items: center;
@@ -166,6 +162,7 @@ export default {
   height: 55px;
   float: left;
   width: 170px;
+  cursor: pointer;
 }
 
 .userInfo {

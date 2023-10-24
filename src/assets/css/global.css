@@ -1,0 +1,21 @@
+/*引入字体*/
+@font-face {
+    font-family: Regular;
+    src: url('./font/AlibabaPuHuiTi-3-55-Regular.ttf');
+    font-weight: normal;
+}
+@font-face {
+    font-family: Medium;
+    src: url('./font/AlibabaPuHuiTi-3-65-Medium.ttf');
+    font-weight: normal;
+}
+@font-face {
+    font-family: Bold;
+    src: url('./font/AlibabaPuHuiTi-3-85-Bold.ttf');
+    font-weight: normal;
+}
+@font-face {
+    font-family: Thin;
+    src: url('./font/AlibabaPuHuiTi-3-35-Thin.ttf');
+    font-weight: normal;
+}

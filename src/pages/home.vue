@@ -6,197 +6,220 @@ export default {
   name: "home",
   data() {
     return {
-    cardList: [],
+      query: {
+        search: '',
+      },
+      hishtoryIndex: '-1',
+      hishtoryList: ['人工智能', '什么是AI', '春节', '国庆节', '九一八事变', '无人驾驶', '区块链'],
+      cardList: [],
     };
   },
-
-  created() {
-
-    //查询首页推荐
-    getHotRecommendAPI().then(res => {
-      if (res.code == 200) {
-        this.cardList = res.data;
-      }
-    });
+  mounted() {
+    this.getData()
   },
-  mounted() {},
   methods: {
-
+    getData() {
+      //查询首页推荐
+      getHotRecommendAPI().then(res => {
+        if (res.code == 200) {
+          this.cardList = res.data;
+        }
+      });
+    },
+    // 关键词搜索
+    handleHishtory(index, item) {
+      this.hishtoryIndex = index;
+      this.query.search = item;
+    },
+    hanleInput(event){
+      if (event.target.value == '') {
+        this.hishtoryIndex = '-1';
+      }
+    }
   }
 }
 
 </script>
 
 <template>
-<div class="Home">
-  <div class="home_header">
-    <img src="../assets/images/home_ai.png" alt="" class="img01">
-    <img src="../assets/images/home_title.png" alt="" class="img02">
-  </div>
-  <div class="search">
-    <input type="text" placeholder="请输入关键词进行搜索" class="search_input"/>
-    <img src="../assets/images/home_search.png" alt="" class="search_img">
-  </div>
-  <div class="hishtory">
-    <div class="hishtory_list">搜索历史</div>
-  </div>
-  <div class="home_centent">
-    <img src="../assets/images/home_text.png" alt="" class="img03">
-    <div class="datalist">
-      <div class="datameun" v-for="(item,index) in cardList" :key="index">
-        <div class="datameun_header">
-          <div class="datameun_header_title">{{item.name}}</div>
-          <img :src='item.icon' alt="" class="datameun_header_img">
-        </div>
-        <div class="datameun_dect">{{item.introduce}}</div>
-        <div class="datameun_footer">
-          <div class="datameun_footer_view">
-            <img src="../assets/images/edit.png" alt="" class="datameun_img">
-            <label class="datameun_footer_label">{{ item.usedNum }}</label>
+  <div class="Home">
+    <div class="search">
+      <i class="el-icon-search"></i>
+      <input type="text" placeholder="请输入关键词进行搜索" class="search_input" v-model="query.search" @input="hanleInput"/>
+    </div>
+    <div class="hishtory">
+      <div :class="hishtoryIndex == index ? 'hishtory_active' : 'hishtory_text'" v-for="(item,index) in hishtoryList" :key="index" v-if="index < 7" @click="handleHishtory(index,item)">{{ item }}</div>
+    </div>
+    <div class="home_centent">
+      <div class="datalist">
+        <div class="datameun" v-for="(item,index) in cardList" :key="index">
+          <div class="datameun_view">
+            <img :src='item.icon' alt="" class="datameun_header_img">
           </div>
-          <div class="datameun_footer_view">
-            <img src="../assets/images/zan.png" alt="" class="datameun_img1">
-            <label class="datameun_footer_label">{{ item.likeNum }}</label>
+          <div class="datameun_header_title">{{ item.name }}</div>
+          <div class="datameun_dect">{{ item.introduce }}</div>
+          <div class="datameun_footer">
+            <div class="datameun_footer_view">
+              <img src="../assets/images/zan.png" alt="" class="datameun_img1">
+              <label class="datameun_footer_label">{{ item.likeNum }}</label>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <style scoped lang="less">
-.Home{
+.Home {
   padding: 24px;
-  .home_header{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .img01{
-      width: 75px;
-      margin-right: 10px;
-    }
-    .img02{
-      width:450px;
-    }
-  }
-  .search{
+
+  .search {
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    background: rgba(255, 199, 199, 0.14);
-    border: 1px solid rgb(241, 85, 85);
+    background: #000000;
     border-radius: 168px;
-    width: 100%;
+    width: 50%;
     height: 40px;
-    margin-top: 30px;
-    .search_input{
+    margin: auto;
+
+    .el-icon-search {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 18px;
+      margin: 0 10px;
+    }
+
+    .search_input {
       border: none;
       outline: none;
       height: 40px;
       width: 100%;
       background: none;
-      margin-left: 24px;
       font-size: 13px;
-      color: #333333;
+      color: #FFFFFF;
       letter-spacing: 1px;
     }
-    .search_img{
-      width: 40px;
-      margin-right: 10px;
-    }
   }
-  .hishtory{
-    margin: 10px 0 20px 0;
-    .hishtory_list{
+
+  .hishtory {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    width: 50%;
+    margin: 10px auto 20px auto;
+
+    .hishtory_text {
       width: 100px;
       height: 30px;
       margin-bottom: 10px;
-      background: rgb(255, 238, 238);
+      background: rgba(255, 255, 255, 0.1);
       box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
-      border-radius:100px;
+      border-radius: 100px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       font-size: 12px;
-      color: #F47C7C;
+      color: rgba(255, 255, 255, 0.4);
       display: flex;
       align-items: center;
       justify-content: center;
       letter-spacing: 2px;
+      margin-right: 10px;
+    }
+
+    .hishtory_active {
+      width: 100px;
+      height: 30px;
+      margin-bottom: 10px;
+      background: rgba(228, 98, 98, 0.2);
+      box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
+      border-radius: 100px;
+      border: 1px solid #E46262;
+      font-size: 12px;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 2px;
+      margin-right: 10px;
     }
   }
-  .home_centent{
+
+  .home_centent {
     height: calc(80vh - 200px);
-    background: rgb(255, 247, 247);
     padding: 24px;
     overflow: hidden;
     overflow-y: auto;
-    .img03{
-      width:70px;
-    }
-    .datalist{
+
+    .datalist {
       display: flex;
       flex-wrap: wrap;
       margin-top: 10px;
-      .datameun{
+
+      .datameun {
         width: calc(100vh - 100px);
-        max-width: 240px;
-        height: 190px;
-        background: rgb(255, 255, 255);
+        width: 220px;
+        height: 260px;
+        background: rgba(255,255,255,0.1);
         box-shadow: 0px 3px 9px 0px rgba(55, 21, 21, 0.08);
-        border-radius:8px;
-        padding:0 20px;
+        border-radius: 8px;
+        padding: 0 16px;
         margin-bottom: 12px;
         margin-right: 15px;
         box-sizing: border-box;
-        .datameun_header{
+        .datameun_view{
+          width: 100%;
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          height: 45px;
-          border-bottom: 1px solid #eeeeee;
-          .datameun_header_title{
-            font-size: 15px;
-            color: #333333;
-            font-weight: bold;
-            letter-spacing: 1px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
-          .datameun_header_img{
-            width: 20px;
-            margin-left: 10px;
-          }
+          justify-content: center;
+          margin-top: 10px;
+          margin-bottom: 20px;
         }
-        .datameun_dect{
-          color: rgb(51, 51, 51);
-          //font-family: 阿里巴巴普惠体;
-          font-size: 14px;
-          font-weight: 400;
+        .datameun_header_title {
+          font-size: 15px;
+          font-family: Bold;
+          color: #FFFFFF;
+          font-weight: bold;
+          letter-spacing: 1px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        .datameun_header_img {
+          width: 80px;
+          height: 80px;
+          border-radius: 8px;
+        }
+
+        .datameun_dect {
+          font-family: Thin;
+          font-size: 13px;
+          color: #FFFFFF;
           line-height: 22px;
           letter-spacing: 2px;
           text-align: left;
           margin: 15px 0;
-          min-height: 80px;
+          min-height: 60px;
         }
-        .datameun_footer{
+
+        .datameun_footer {
           display: flex;
           align-items: center;
-          .datameun_footer_view{
+          justify-content: flex-end;
+          .datameun_footer_view {
             display: flex;
             align-items: center;
-            margin-right: 20px;
-            .datameun_img{
+            .datameun_img {
               width: 15px;
             }
-            .datameun_img1{
-              width: 18px;
-              position: relative;
-              top: -2px;
+
+            .datameun_img1 {
+              width: 15px;
             }
-            .datameun_footer_label{
+            .datameun_footer_label {
               font-size: 13px;
-              color: rgba(51, 51, 51, 0.6);
+              color: #FFFFFF;
               letter-spacing: 1px;
               margin-left: 10px;
             }
