@@ -41,6 +41,26 @@ export default new VueRouter({
                     meta: { title: '首页' }
                 },
                 {
+                    path: '/typeChatIndex',
+                    component: () => import('@/pages/typePage/typeChatIndex.vue'),
+                    meta: { title: '功能对话' }
+                },
+                {
+                    path: '/chatIndex',
+                    component: () => import('@/pages/chat/chatIndex.vue'),
+                    meta: { title: 'AI对话' }
+                },
+                {
+                    path: '/gptIndex',
+                    component: () => import('@/pages/chat/chatGptIndex.vue'),
+                    meta: { title: '原生GPT4.0' }
+                },
+                {
+                    path: '/paintIndex',
+                    component: () => import('@/pages/draw/painting.vue'),
+                    meta: { title: '智能做图' }
+                },
+                {
                     path: '/xhsIndex',
                     component: () => import('@/pages/typePage/index.vue'),
                     meta: { title: '小红书文案' }
@@ -70,32 +90,12 @@ export default new VueRouter({
                     component: () => import('@/pages/typePage/index.vue'),
                     meta: { title: '办公写作' }
                 },
+                {
+                    path: '/user',
+                    component: () => import('@/pages/user.vue'),
+                    meta: { title: '我的' }
+                },
             ]
-        },
-        {
-            path: '/user',
-            component: () => import('@/pages/user.vue'),
-            meta: { title: '我的' }
-        },
-        {
-            path: '/chatIndex',
-            component: () => import('@/pages/chat/chatIndex.vue'),
-            meta: { title: 'AI对话' }
-        },
-        {
-            path: '/typeChatIndex',
-            component: () => import('@/pages/typePage/typeChatIndex.vue'),
-            meta: { title: '功能对话' }
-        },
-        {
-            path: '/gptIndex',
-            component: () => import('@/pages/chat/chatGptIndex.vue'),
-            meta: { title: '原生GPT4.0' }
-        },
-        {
-            path: '/paintIndex',
-            component: () => import('@/pages/draw/painting.vue'),
-            meta: { title: '智能做图' }
         },
         {
             path: '/login',

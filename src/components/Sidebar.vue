@@ -108,6 +108,7 @@ export default {
       this.$router.push({
         path: item.webUrl
       });
+      this.level2Hover = false;
     },
   }
 };

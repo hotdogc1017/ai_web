@@ -51,21 +51,23 @@ export default {
       <div :class="hishtoryIndex == index ? 'hishtory_active' : 'hishtory_text'" v-for="(item,index) in hishtoryList" :key="index" v-if="index < 7" @click="handleHishtory(index,item)">{{ item }}</div>
     </div>
     <div class="home_centent">
-      <div class="datalist">
-        <div class="datameun" v-for="(item,index) in cardList" :key="index">
-          <div class="datameun_view">
-            <img :src='item.icon' alt="" class="datameun_header_img">
-          </div>
-          <div class="datameun_header_title">{{ item.name }}</div>
-          <div class="datameun_dect">{{ item.introduce }}</div>
-          <div class="datameun_footer">
-            <div class="datameun_footer_view">
-              <img src="../assets/images/zan.png" alt="" class="datameun_img1">
-              <label class="datameun_footer_label">{{ item.likeNum }}</label>
+      <el-row :gutter="10">
+        <el-col :xs="4" :sm="6" :md="4" :lg="4" :xl="4" v-for="(item,index) in cardList" :key="index" >
+          <div class="datameun" >
+            <div class="datameun_view">
+              <img :src='item.icon' alt="" class="datameun_header_img">
+            </div>
+            <div class="datameun_header_title">{{ item.name }}</div>
+            <div class="datameun_dect">{{ item.introduce }}</div>
+            <div class="datameun_footer">
+              <div class="datameun_footer_view">
+                <img src="../assets/images/zan.png" alt="" class="datameun_img1">
+                <label class="datameun_footer_label">{{ item.likeNum }}</label>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -146,83 +148,77 @@ export default {
   }
 
   .home_centent {
-    height: calc(80vh - 200px);
-    padding: 24px;
+    height: calc(100vh - 220px);
     overflow: hidden;
     overflow-y: auto;
+    .datameun {
+      //width: 220px;
+      height: 280px;
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0px 3px 9px 0px rgba(55, 21, 21, 0.08);
+      border-radius: 8px;
+      padding: 0 16px;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+      .datameun_view{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      .datameun_header_title {
+        font-size: 15px;
+        font-family: Bold;
+        color: #FFFFFF;
+        font-weight: bold;
+        letter-spacing: 1px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
 
-    .datalist {
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 10px;
-
-      .datameun {
-        width: calc(100vh - 100px);
-        width: 220px;
-        height: 260px;
-        background: rgba(255,255,255,0.1);
-        box-shadow: 0px 3px 9px 0px rgba(55, 21, 21, 0.08);
+      .datameun_header_img {
+        width: 76px;
+        height: 76px;
         border-radius: 8px;
-        padding: 0 16px;
-        margin-bottom: 12px;
-        margin-right: 15px;
-        box-sizing: border-box;
-        .datameun_view{
-          width: 100%;
+        margin-top: 15px;
+      }
+
+      .datameun_dect {
+        font-family: Thin;
+        font-size: 13px;
+        color: #FFFFFF;
+        line-height: 22px;
+        letter-spacing: 2px;
+        text-align: left;
+        margin: 15px 0;
+        min-height: 80px;
+        display: -webkit-box; // 将对象作为弹性伸缩盒子模型显示
+        -webkit-box-orient: vertical; // 设置或检索伸缩盒对象的子元素的排列方式
+        -webkit-line-clamp: 4; // 显示两行
+        overflow: hidden;
+      }
+
+      .datameun_footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .datameun_footer_view {
           display: flex;
           align-items: center;
-          justify-content: center;
-          margin-top: 10px;
-          margin-bottom: 20px;
-        }
-        .datameun_header_title {
-          font-size: 15px;
-          font-family: Bold;
-          color: #FFFFFF;
-          font-weight: bold;
-          letter-spacing: 1px;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
+          .datameun_img {
+            width: 15px;
+          }
 
-        .datameun_header_img {
-          width: 80px;
-          height: 80px;
-          border-radius: 8px;
-        }
-
-        .datameun_dect {
-          font-family: Thin;
-          font-size: 13px;
-          color: #FFFFFF;
-          line-height: 22px;
-          letter-spacing: 2px;
-          text-align: left;
-          margin: 15px 0;
-          min-height: 60px;
-        }
-
-        .datameun_footer {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          .datameun_footer_view {
-            display: flex;
-            align-items: center;
-            .datameun_img {
-              width: 15px;
-            }
-
-            .datameun_img1 {
-              width: 15px;
-            }
-            .datameun_footer_label {
-              font-size: 13px;
-              color: #FFFFFF;
-              letter-spacing: 1px;
-              margin-left: 10px;
-            }
+          .datameun_img1 {
+            width: 15px;
+          }
+          .datameun_footer_label {
+            font-size: 13px;
+            color: #FFFFFF;
+            letter-spacing: 1px;
+            margin-left: 10px;
           }
         }
       }

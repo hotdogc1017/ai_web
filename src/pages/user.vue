@@ -1,17 +1,17 @@
 <!--我的-->
 <template>
   <div class="userHome">
-    <v-head></v-head>
+    <!--<v-head></v-head>-->
     <!-- 内容部分 -->
     <div class="user_centainr">
-      <div class="wrapper_sidebar" :class="{'painting_sidebar': collapse}">
-        <div class="sidebar_list">
-          <div :class="activeIndex == index ? 'sidebar_meun_active' : 'sidebar_meun' " v-for="(item,index) in menuList" :key="index" @click="handleSelect(item,index)">
-            <img :src="item.icon" alt="" class="sidebar_img">
-            <label class="sidebar_label">{{item.name}}</label>
-          </div>
-        </div>
-      </div>
+      <!--<div class="wrapper_sidebar" :class="{'painting_sidebar': collapse}">-->
+      <!--  <div class="sidebar_list">-->
+      <!--    <div :class="activeIndex == index ? 'sidebar_meun_active' : 'sidebar_meun' " v-for="(item,index) in menuList" :key="index" @click="handleSelect(item,index)">-->
+      <!--      <img :src="item.icon" alt="" class="sidebar_img">-->
+      <!--      <label class="sidebar_label">{{item.name}}</label>-->
+      <!--    </div>-->
+      <!--  </div>-->
+      <!--</div>-->
       <!--内容中心-->
       <div class="wrapper">
         <div class="wrapper_centent">
@@ -48,14 +48,6 @@
         </div>
         <div class="wrapper_from">
           <div class="wrapper_from_title">账户绑定</div>
-          <!--<div class="wrapper_from_meun">-->
-          <!--  <label class="wrapper_label">微信:</label>-->
-          <!--  <el-input v-model="editForm.email" class="ruleForm_input" placeholder="请设置你的微信"> </el-input>-->
-          <!--</div>-->
-          <!--<div class="wrapper_from_meun">-->
-          <!--  <label class="wrapper_label">Q Q:</label>-->
-          <!--  <el-input v-model="editForm.ID" class="ruleForm_input" placeholder="请设置你的QQ"></el-input>-->
-          <!--</div>-->
           <div class="wrapper_from_meun">
             <label class="wrapper_label">手机:</label>
             <el-input v-model="userInfo.phone" class="ruleForm_input" placeholder="请设置你的手机"></el-input>
@@ -208,7 +200,7 @@ export default {
   .user_centainr{
     display: flex;
     .wrapper_sidebar{
-      background: #FFFFFF;
+      background: rgba(255, 255, 255, 0.1);
       box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
       width: 200px;
       .sidebar_list{
@@ -239,7 +231,7 @@ export default {
       .sidebar_label{
         margin-left: 10px;
         font-size: 13px;
-        color: #333333;
+        color: #FFFFFF;
       }
     }
   }
@@ -256,7 +248,7 @@ export default {
     .wrapper_from{
       margin-top: 15px;
       width: 100%;
-      background: #FFFFFF;
+      background: rgba(255, 255, 255, 0.1);
       padding: 24px;
       border-radius: 10px;
       .ruleForm_input{
@@ -264,7 +256,7 @@ export default {
       }
       .wrapper_from_title{
         font-size: 14px;
-        color: rgba(51, 51, 51, 1);
+        color: #FFFFFF;
         letter-spacing: 4px;
         margin-bottom: 20px;
         font-weight: bold;
@@ -276,7 +268,7 @@ export default {
         width: 100px;
         margin-right: 10px;
         font-size: 13px;
-        color: rgba(51, 51, 51, 1);
+        color: #FFFFFF;
         letter-spacing: 1px;
         font-weight: bold;
       }
@@ -284,7 +276,7 @@ export default {
 
     .wrapper_centent{
       padding: 20px 24px;
-      background: linear-gradient(181.05deg, rgb(252, 236, 236) 0.672%,rgb(255, 255, 255) 50.531%);
+      background: rgba(255, 255, 255, 0.1);
       box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
       border-radius: 20px;
       display: flex;
@@ -295,8 +287,7 @@ export default {
         margin-bottom: 15px;
       }
       .wrapper_info_name{
-        color: rgb(51, 51, 51);
-        font-family: 阿里巴巴普惠体;
+        color: #FFFFFF;
         font-size: 15px;
         font-weight: bold;
       }
@@ -309,7 +300,7 @@ export default {
       .wrapper_logo{
         width: 100px;
         height: 100px;
-        background: #888888;
+        background: #FFFFFF;
         border-radius: 5px;
         margin-bottom: 4px;
         border-radius: 50%;
@@ -348,7 +339,7 @@ export default {
         background: rgb(232, 232, 232);
         border: none;
         font-size: 12px;
-        color: rgba(51, 51, 51, 0.51);
+        color: #333333;
         letter-spacing: 2px;
         padding: 10px 15px;
       }
@@ -360,8 +351,7 @@ export default {
           font-size: 13px;
           margin-right: 20px;
           width: 300px;
-          color: rgba(51, 51, 51, 0.6);
-          font-family: 阿里巴巴普惠体;
+          color: #FFFFFF;
           font-size: 14px;
         }
       }
@@ -389,7 +379,7 @@ export default {
       }
     }
     .ruleForm_dect{
-      color: rgb(173, 173, 173);
+      color: #FFFFFF;
       margin-bottom: 10px;
     }
   }

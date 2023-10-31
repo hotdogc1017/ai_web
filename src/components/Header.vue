@@ -264,7 +264,7 @@ export default {
 }
 
 .el-dropdown-link {
-  color: #555555;
+  color: #FFFFFF;
   cursor: pointer;
   margin-left: 10px;
 }

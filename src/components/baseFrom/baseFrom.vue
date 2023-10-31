@@ -1,70 +1,62 @@
 <template>
 	<div>
-		<el-card>
-			<div  >
-				<el-form  :inline="true"   :model="searchValue" size="medium" label-position="left">
-					<el-form-item
-						v-for="(item, index) in searchForm"
-						v-if="!item.hidden"
-						:label="item.type !== 'submit' && item.type !== 'reset' ? item.label : ''"
-						:prop="item.prop"
-            label-width="80px"
-						:key="index"
-					>
-						<el-input
-							v-if="item.type === 'input'"
-							v-model="searchValue[item.prop]"
-              :style="{width: '90%'}"
-							clearable
-							:placeholder="item.placeholder || item.label"
-						/>
-						<el-select
-							v-else-if="item.type === 'select'"
-							clearable
-							v-model="searchValue[item.prop]"
-							:placeholder="item.placeholder || item.label"
-              :style="{width: '100%'}"
-							@change="onSelectChange"
-							filterable
-						>
-							<el-option v-for="(optItem, index) in item.list" :key="index" :label="optItem.name" :value="optItem.id"></el-option>
-						</el-select>
-						<el-date-picker
-							:style="'width: ' + item.width + 'px'"
-							v-else-if="item.type === 'daterange'"
-							v-model="dateRang"
-							type="daterange"
-							unlink-panels
-							value-format="yyyy-MM-dd"
-							range-separator="至"
-							start-placeholder="开始日期"
-							end-placeholder="结束日期"
-							@change="onRangChange"
-							:picker-options="pickerOptions"
-						></el-date-picker>
-						<el-date-picker
-							:style="'width: ' + item.width + 'px'"
-							v-else-if="item.type === 'date'"
-							v-model="searchValue[item.prop]"
-							:placeholder="item.placeholder || item.label"
-							:type="item.dateType"
-							align="center"
-							unlink-panels
-							@change="onDateChange"
-							value-format="yyyy-MM-dd"
-						></el-date-picker>
-						<el-radio-group @change="radioChange" v-else-if="item.type === 'radio'" v-model="searchValue[item.prop]">
-							<el-radio-button v-for="(radio, index) in item.list" :key="index" :label="radio.id">{{ radio.name }}</el-radio-button>
-						</el-radio-group>
-					</el-form-item>
-					<el-form-item v-if="searchForm.length === 3" style="visibility: hidden"><el-input></el-input></el-form-item>
-          <img src="../../assets/images/send.png" alt="" class="send_img" @click="customGetData()">
-				</el-form>
-<!--        <el-button type="primary" @click="customGetData()" class="submit_label">提交</el-button>-->
-<!--        <el-button  type="primary" @click="reset" class="submit_label">重置</el-button>-->
-
-			</div>
-		</el-card>
+    <el-form  :inline="true"   :model="searchValue" size="medium" label-position="left">
+      <el-form-item
+          v-for="(item, index) in searchForm"
+          v-if="!item.hidden"
+          :label="item.type !== 'submit' && item.type !== 'reset' ? item.label : ''"
+          :prop="item.prop"
+          :key="index"
+      >
+        <el-input
+            v-if="item.type === 'input'"
+            v-model="searchValue[item.prop]"
+            :style="{width: '90%'}"
+            clearable
+            :placeholder="item.placeholder || item.label"
+        />
+        <el-select
+            v-else-if="item.type === 'select'"
+            clearable
+            v-model="searchValue[item.prop]"
+            :placeholder="item.placeholder || item.label"
+            :style="{width: '100%'}"
+            @change="onSelectChange"
+            filterable
+        >
+          <el-option v-for="(optItem, index) in item.list" :key="index" :label="optItem.name" :value="optItem.id"></el-option>
+        </el-select>
+        <el-date-picker
+            :style="'width: ' + item.width + 'px'"
+            v-else-if="item.type === 'daterange'"
+            v-model="dateRang"
+            type="daterange"
+            unlink-panels
+            value-format="yyyy-MM-dd"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            @change="onRangChange"
+            :picker-options="pickerOptions"
+        ></el-date-picker>
+        <el-date-picker
+            :style="'width: ' + item.width + 'px'"
+            v-else-if="item.type === 'date'"
+            v-model="searchValue[item.prop]"
+            :placeholder="item.placeholder || item.label"
+            :type="item.dateType"
+            align="center"
+            unlink-panels
+            @change="onDateChange"
+            value-format="yyyy-MM-dd"
+        ></el-date-picker>
+        <el-radio-group @change="radioChange" v-else-if="item.type === 'radio'" v-model="searchValue[item.prop]">
+          <el-radio-button v-for="(radio, index) in item.list" :key="index" :label="radio.id">{{ radio.name }}</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item v-if="searchForm.length === 3" style="visibility: hidden"><el-input></el-input></el-form-item>
+      <!--<img src="../../assets/images/send.png" alt="" class="send_img" @click="customGetData()">-->
+    </el-form>
 	</div>
 </template>
 
@@ -255,7 +247,6 @@ export default {
 			}
 		},
 		customGetData() {
-
 			this.getData ? this.getData() : this.$parent.getData();
 		},
 		handleSelect(selection, row) {},
@@ -277,8 +268,14 @@ export default {
 
 </script>
 
-<style scoped>
-
+<style scoped >
+/deep/.el-form-item {
+  margin: 0 !important;
+}
+/deep/.el-form-item__label{
+  font-size: 14px;
+  color: #FFFFFF !important;
+}
 .send_img {
   width: 35px;
   height: 35px;

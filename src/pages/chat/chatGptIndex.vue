@@ -1,14 +1,11 @@
 <!--对话/聊天-->
 <template>
   <div class="chatHome">
-    <v-head></v-head>
     <div class="chatcentainr" >
       <div class="chatSidebar" :class="{'chat_sidebar': collapse}">
         <div class="chatSidebar_user">
-          <img :src='headImg' alt="" class="user_img">
           <div class="user_add" @click="handlAdd">新对话</div>
         </div>
-        <div class="wrapper_title">聊天列表</div>
         <div class="wrapper_list" >
           <div :class="item.id == activeRoomId? 'wrapper_meun_active':'wrapper_meun'" v-for="(item,index) in chatList" :key="index" @click="selectRoom(item.id)">
             <div class="wrapper_name">{{ item.roomName }}</div>
@@ -18,13 +15,9 @@
       </div>
       <div class="chatWrapper">
         <div class="chatWrapper_header">
-          <img src="../../assets/images/chat_arrow.png" alt="" class="chatImg" @click="handleBack()">
           <label class="chatTitle">原生GTP4.0</label>
         </div>
         <div class="wrapper_right">
-          <div class="chatTab">
-            <div v-for="(item,index) in tabs" :key="index" class="chatTab_text" :class="{'chatTabbg':tabsActive == index}" @click="handlTabs(index)">{{ item }}</div>
-          </div>
           <!--  发送模块-->
           <div v-loading="loading" element-loading-text="记录加载中" element-loading-spinner="el-icon-loading" element-loading-background="#ffffff" element-loading-body="rgb(250, 100, 0)">
             <div ref="chatMain" class="chatView" >
@@ -68,15 +61,13 @@
               </div>
             </div>
             <div class="chatFooter" >
-              <div class="chatFooter_dect">
-                <div class="chatFooter_dect_active" @click="handlShare">生成海报</div>
-                <div class="chatFooter_dect_active" @click="handlAddTip">添加提示词</div>
-                <div class="chatFooter_dect_active" @click="handlFeedback">问题反馈</div>
-              </div>
               <div class="send">
-                <el-input resize="none" type="textarea" placeholder="输入您的问题（Shift+Enter换行" autosize v-model="textarea" clearable @keydown.native="Keydown" class="input" maxlength="300" show-word-limit></el-input>
+                <el-input resize="none" type="textarea" placeholder="输入您的问题（Shift+Enter换行）" autosize v-model="textarea" clearable @keydown.native="Keydown" class="input" maxlength="300" show-word-limit></el-input>
                 <div class="send_line"></div>
-                <img src="../../assets/images/send.png" alt="" class="send_img" @click="sendMsg(textarea)">
+                <div class="send_view" @click="sendMsg(textarea)">
+                  <img src="../../assets/images/send.png" alt="" class="send_img" >
+                  <div class="send_text">发送</div>
+                </div>
               </div>
             </div>
           </div>
@@ -378,9 +369,8 @@ export default {
     height: 100%;
   }
   .chatSidebar{
-    background: linear-gradient(rgb(255, 157, 157),rgb(241, 76, 76));
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 200px;
+    background: #000000;
   }
   .chatSidebar_user{
     display: flex;
@@ -395,16 +385,16 @@ export default {
       margin-top: 24px;
     }
     .user_add{
-      width: 100px;
-      height: 35px;
+      width: 160px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 5px;
-      background: #FFFFFF;
+      background: rgba(228, 98, 98, 0.3);
+      border: 2px dashed rgb(228, 98, 98);
       box-shadow: 0px 7px 7px 0px rgba(233, 38, 38, 0.25);
-      color: rgb(240, 72, 72);
-      font-family: 阿里巴巴普惠体;
+      color: #FFFFFF;
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 3px;
@@ -422,7 +412,7 @@ export default {
   }
   .wrapper_list {
     margin-top: 20px;
-    height: calc(100vh - 300px);
+    height: calc(100vh - 260px);
     overflow: hidden;
     overflow-y: auto;
     display: flex;
@@ -432,7 +422,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.3);;
       width: 160px;
       min-height: 48px;
       height: 48px;
@@ -446,7 +436,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(241,76,76,0.5);
+      background: rgba(228, 98, 98, 0.8);
       width: 160px;
       min-height: 48px;
       height: 48px;
@@ -480,61 +470,26 @@ export default {
     .chatWrapper_header{
       display: flex;
       align-items: center;
-      margin: 20px 24px;
+      margin: 0 24px 20px 24px;
       .chatImg{
         width: 30px;
         height: 30px;
+        cursor: pointer;
       }
       .chatTitle{
         font-weight: bold;
         font-size: 14px;
-        color:333333 ;
-        margin-left: 10px;
+        color:#FFFFFF ;
+        //margin-left: 10px;
       }
     }
     .wrapper_right {
-      height: calc(100vh - 150px);
+      height: calc(100vh - 100px);
       position: relative;
-      background: #FFFFFF;
       margin: 15px 24px ;
       border-radius: 10px;
-      .chatTab{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 220px;
-        height: 50px;
-        background: rgb(241, 76, 76);
-        border-radius: 8px;
-        margin: auto;
-        position: relative;
-        top: 20px;
-        .chatTab_text{
-          width: 95px;
-          height: 35px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: rgb(255, 255, 255);
-          font-size: 14px;
-          font-weight: 400;
-          letter-spacing: 1px;
-          cursor: pointer;
-        }
-        .chatTabbg{
-          width: 95px;
-          height: 35px;
-          background: #FFFFFF;
-          border-radius: 5px;
-          color: rgb(241, 76, 76);
-          font-size: 14px;
-          font-weight: 700;
-          letter-spacing: 1px;
-          cursor: pointer;
-        }
-      }
       .chatView {
-        height: calc(100vh - 380px);
+        height: calc(100vh - 240px);
         border-right: 5px;
         padding: 20px;
         overflow: hidden;
@@ -590,7 +545,7 @@ export default {
           .chatView_page_text {
             font-size: 14px;
             color: #FFFFFF;
-            background: linear-gradient(135deg,#ff9d9d, #f14c4c);
+            background: rgba(255, 255, 255, 0.3);
             border-radius: 10px 10px 10px 0px;
             padding: 15px 15px;
             line-height: 25px;
@@ -598,7 +553,7 @@ export default {
 
           .chatView_page_time {
             font-size: 10px;
-            color: #636A77;
+            color: #FFFFFF;
             margin-top: 10px;
           }
         }
@@ -612,73 +567,65 @@ export default {
             color: #FFFFFF;
             border-radius: 10px 10px 0 10px;
             padding: 15px;
-            background: rgba(241, 76, 76, 0.5);
+            background: rgba(228, 98, 98, 0.3);
             text-align: right;
           }
 
           .chatView_page_time {
             font-size: 10px;
-            color: #636A77;
+            color: #FFFFFF;
             margin-top: 10px;
+            text-align: right;
           }
         }
       }
 
       .chatFooter {
-        background: #FFFFFF;
-        height: 150px;
         margin: 0 24px;
-        .chatFooter_dect{
-          display: flex;
+        .input /deep/.el-textarea__inner{
+          border: none;
+          margin: 0 10px;
+          font-size: 13px;
+          color: #FFFFFF;
+          background: #000000;
+        }
+        /deep/.el-textarea .el-input__count{
+          display: none !important;
+        }
+        .send {
           width: 100%;
-          margin-bottom: 15px;
-          .chatFooter_dect_active{
-            width: 120px;
-            height: 40px;
-            background: rgb(255, 238, 238);
-            border-radius:100px;
+          height: 50px;
+          display: flex;
+          align-items: flex-end;
+          background: #000000;
+          border: 1px solid rgba(255,255,255,0.2);
+          box-sizing: border-box;
+          border-radius: 10px;
+          align-items: center;
+          overflow: hidden;
+          overflow-y: auto;
+          border-radius: 100px;
+          .send_view{
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: rgb(244, 124, 124);
-            font-size: 13px;
-            font-weight: 400;
-            letter-spacing: 2px;
-            margin-right: 10px;
+            width: 80px;
+          }
+          .send_line{
+            width: 1px;
+            min-height: 35px;
+            background: rgba(255,255,255,0.4);
+            margin: 0 20px;
+          }
+          .send_img {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
             cursor: pointer;
           }
-        }
-      }
-      .input /deep/.el-textarea__inner{
-        border: none;
-        margin: 0 10px;
-        font-size: 13px;
-        color: #333333;
-        font-weight: bold;
-        letter-spacing: 2px;
-      }
-      .send {
-        width: 100%;
-        height: 60px;
-        display: flex;
-        align-items: flex-end;
-        border: 1px solid rgb(241, 76, 76);
-        box-sizing: border-box;
-        border-radius: 10px;
-        align-items: center;
-        overflow: hidden;
-        overflow-y: auto;
-        .send_line{
-          width: 1px;
-          min-height: 40px;
-          background: rgba(243, 116, 116, 0.36);
-          margin: 0 20px;
-        }
-        .send_img {
-          width: 35px;
-          height: 35px;
-          margin-right: 20px;
-          cursor: pointer;
+          .send_text{
+            font-size: 14px;
+            color: #F47C7C;
+          }
         }
       }
     }

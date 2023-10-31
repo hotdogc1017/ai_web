@@ -2,117 +2,58 @@
 
 <template>
   <div class="paintingHome">
-    <v-head></v-head>
     <!-- 登录-->
     <Task @close="handleClose()" v-if="isTask"></Task>
     <div class="painting-centainr">
-      <div class="wrapper_sidebar" :class="{'painting_sidebar': collapse}">
-        <div class="sidebar_list">
-          <div :class="activeIndex == index ? 'sidebar_meun_active' : 'sidebar_meun' " v-for="(item,index) in menuList"
-               :key="index" @click="handleSelect(item,index)">
-            <img :src="item.icon" alt="" class="sidebar_img">
-            <label class="sidebar_label">{{item.name}}</label>
+      <div class="chatSidebar">
+        <div class="chatSidebar_user" @click="openWin">
+          <div class="user_add" >新建任务</div>
+        </div>
+        <div class="wrapper_list" >
+          <div :class="activeTask == index ? 'wrapper_meun_active':'wrapper_meun'" v-for="(item,index) in taskList" :key="index" @click="getTask(item,index)">
+            <div class="wrapper_name">{{ item.name }}</div>
+            <i class="el-icon-delete" @click="deleteTask(item.id)"></i>
           </div>
         </div>
       </div>
       <div class="wrapper_centent">
         <div class="chatWrapper_header">
-          <img src="../../assets/images/chat_arrow.png" alt="" class="chatImg" @click="handleBack()">
-          <label class="chatTitle">智能做图</label>
+          <label class="chatTitle">智能图库</label>
         </div>
         <div class="painting_centent">
-          <div class="painting_data">
-            <el-row :gutter="20">
-              <el-col :span="17">
-                <div class="painting_data_right">
-                  <div style="padding:0 20px;width: 100%;  ">
-                    <el-image :src="imageUrl" lazy
-                              :style="'width: '+this.width+'; height:'+this.height+';  text-align: center;'"></el-image>
-                  </div>
-                  <div :class="'upload_text_'+taskStatus">{{ taskPrompt }}</div>
-                </div>
-              </el-col>
-              <el-col :span="7">
-                <div class="painting_data_left">
-                  <div class="left_title">{{ data.introduce }}</div>
-                  <div class="left_btn" @click="openWin">
-                    <i class="el-icon-plus"></i>
-                    <label class="left_btn_text">新建任务</label>
-                  </div>
-                  <div class="left_list">
-                    <div :class="activeTask == index ? 'list_meun_active' : 'list_meun' " class="list_meun"
-                         v-for="(item,index) in taskList" :key="index" @click="getTask(item,index)">
-                      <div class="list_meun_left">
-                        <img src="../../assets/images/Frame_1.png" alt="" class="list_meun_img" v-if="">
-                        <span class="list_meun_text">{{ item.name }} </span>
-                      </div>
-                      <i class="el-icon-delete" @click="deleteTask(item.id)"></i>
-                    </div>
-                  </div>
-                </div>
-              </el-col>
-            </el-row>
+          <div class="chatView">
+            <div class="painting_data_right">
+              <div class="image_view">
+                <el-image :src="imageUrl" lazy fit="fill" :preview-src-list="[imageUrl]" style="width: 100%;height: 100%;"></el-image>
+              </div>
+              <div class="upload_text">{{ taskPrompt }}</div>
+            </div>
           </div>
-          <div class="painting_data">
-            <el-row :gutter="20">
-              <el-col :span="17" >
-                <div class="painting_data_rightup">
-                  <div class="painting_data_header" >
-                    <div class="rightup_tabs" >
-                      <div v-for="(item,index) in tabs" :key="index"
-                           :class="active == index ? 'rightup_tabs_active' : 'rightup_tabs_text'">{{ item }}
-                      </div>
-                      <el-image  v-if="imageUrl2" :src='imageUrl2' :preview-src-list='[imageUrl2]'  style="width: 25px; height: 25px;   "/>
-                    </div>
-                    <div class="rightup_footer" v-if="taskStatus==0">
-                      <el-upload
-                          class="avatar-uploader"
-                          :action='action'
-                          :show-file-list="false"
-                          :on-success="handleAvatarSuccess"
-                          :before-upload="beforeAvatarUpload">
-                        <div class="upload_dy">
-                          <el-button size="small" icon="el-icon-upload" type="text" class="upload_btn">上传本地图片
-                          </el-button>
-                        </div>
-                      </el-upload>
-                      <div class="tabs_btn" @click="submitDraw">提交</div>
-                    </div>
-
-
-                  </div>
-                  <div class="painting_data_input">
-                    <textarea rows="10" cols="133" maxlength="300" :disabled="taskStatus!=0" placeholder="请输入文字描述" v-model="prompt"
-                              class="rightup_input"></textarea>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :span="7">
-                <div class="painting_data_leftup">
-                  <div class="painting_more">更多功能</div>
-                  <div class="painting_view">
-                    <div>
-                      <img src="../../assets/images/Group_01.png" alt="" class="group_img">
-                      <div class="group_text">文字生图</div>
-                    </div>
-                    <div>
-                      <img src="../../assets/images/Group_02.png" alt="" class="group_img">
-                      <div class="group_text">灵魂绘图</div>
-                    </div>
-                    <div>
-                      <img src="../../assets/images/Group_03.png" alt="" class="group_img">
-                      <div class="group_text">更多</div>
-                    </div>
-                  </div>
-                </div>
-              </el-col>
-            </el-row>
-
+          <div class="chatFooter" >
+            <div class="send">
+              <i class="el-icon-circle-plus"></i>
+              <el-input resize="none" type="textarea" placeholder="输入您的问题" autosize v-model="prompt" clearable class="input" maxlength="300" show-word-limit></el-input>
+              <div class="send_line"></div>
+              <div class="send_view" @click="submitDraw">
+                <img src="../../assets/images/send.png" alt="" class="send_img" >
+                <div class="send_text">发送</div>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
+    <!--<el-upload-->
+    <!--    class="avatar-uploader"-->
+    <!--    :action='action'-->
+    <!--    :show-file-list="false"-->
+    <!--    :on-success="handleAvatarSuccess"-->
+    <!--    :before-upload="beforeAvatarUpload">-->
+    <!--  <div class="upload_dy">-->
+    <!--    <el-button size="small" icon="el-icon-upload" type="text" class="upload_btn">上传本地图片-->
+    <!--    </el-button>-->
+    <!--  </div>-->
+    <!--</el-upload>-->
   </div>
 </template>
 <script>
@@ -149,7 +90,7 @@ export default {
       },
       imageUrl: require('../../assets/images/upload_bg.png'),
       imageUrl2:'',
-      width: '95%',
+      width: '30%',
       height: '95%',
       taskPrompt: '请开始你的创造吧',
       taskStatus: 0
@@ -351,6 +292,7 @@ export default {
             type: 'success'
           });
           this.uploadFile = ''
+          this.prompt = ''
           this.getTask(res.data,this.activeTask)
         }
       });
@@ -360,403 +302,205 @@ export default {
 }
 </script>
 
-<!--suppress CssInvalidPropertyValue -->
 <style scoped lang="less">
 .paintingHome {
   height: 100%;
-
-  .painting_centent {
-    height: calc(100vh - 150px);
-    overflow: hidden;
-    overflow-y: auto;
-  }
-
-  .painting_sidebar {
-    animation: fadeOutLeft; /* referring directly to the animation's @keyframe declaration */
-    animation-duration: 0.8s;
-    display: none;
-  }
-
   .painting-centainr {
     display: flex;
     width: 100%;
     height: 100%;
   }
 
-  .wrapper_sidebar {
-    background: #FFFFFF;
-    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  .chatSidebar{
     width: 200px;
-
-    .sidebar_list {
-      height: calc(100vh - 100px);
-      overflow: hidden;
-      overflow-y: auto;
-      margin-top: 10px;
-    }
-
-    .sidebar_meun {
-      display: flex;
-      align-items: center;
+    background: #000000;
+  }
+  .chatSidebar_user{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 200px;
+    .user_img{
+      width: 60px;
       height: 60px;
-      padding: 0 20px;
-    }
-
-    .sidebar_meun_active {
-      display: flex;
-      align-items: center;
-      height: 60px;
-      padding: 0 20px;
-      background: rgb(255, 247, 247);
-      border-right: 3px solid #F04848;
-    }
-
-    .sidebar_img {
-      width: 25px;
-      height: 25px;
       border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      margin-top: 24px;
     }
-
-    .sidebar_label {
-      margin-left: 10px;
+    .user_add{
+      width: 160px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      background: rgba(228, 98, 98, 0.3);
+      border: 2px dashed rgb(228, 98, 98);
+      box-shadow: 0px 7px 7px 0px rgba(233, 38, 38, 0.25);
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+  }
+  .wrapper_list {
+    margin-top: 20px;
+    height: calc(100vh - 260px);
+    overflow: hidden;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .wrapper_meun {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.3);;
+      width: 160px;
+      min-height: 48px;
+      height: 48px;
+      padding: 0 0 0 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
+      margin-bottom: 10px;
+    }
+    .wrapper_meun_active{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(228, 98, 98, 0.8);
+      width: 160px;
+      min-height: 48px;
+      height: 48px;
+      padding: 0 0 0 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
+      margin-bottom: 10px;
+    }
+    .wrapper_name {
       font-size: 13px;
-      color: #333333;
+      color: #FFFFFF;
+      font-weight: bold;
+      letter-spacing: 3px;
+      //  一行展示，超出显示省略号
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .wrapper_img {
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+    .el-icon-delete {
+      color: #FFFFFF;
+      font-size: 16px;
+      margin-right: 10px;
     }
   }
 
+  .painting_centent {
+    height: calc(100vh - 100px);
+    position: relative;
+    margin: 15px 24px ;
+    border-radius: 10px;
+    .chatView {
+      height: calc(100vh - 240px);
+      border-right: 5px;
+      padding: 20px;
+      overflow: hidden;
+      overflow-y: auto;
+      .painting_data_right{
+        width: 245px;
+      }
+      .image_view{
+        width: 245px;
+        height: 300px;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.3);
+      }
+      .upload_text{
+        font-size: 14px;
+        color: #FFFFFF;
+        margin-top: 10px;
+        text-align: center;
+      }
+    }
+    .chatFooter {
+      margin: 0 24px;
+      .input /deep/.el-textarea__inner{
+        border: none;
+        margin: 0 10px;
+        font-size: 13px;
+        color: #FFFFFF;
+        background: #000000;
+      }
+      /deep/.el-textarea .el-input__count{
+        display: none !important;
+      }
+      .el-icon-circle-plus{
+        color: #FFFFFF;
+        font-size: 20px;
+        margin-left: 15px;
+        margin-right: -10px;
+        cursor: pointer;
+      }
+      .send {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: flex-end;
+        background: #000000;
+        border: 1px solid rgba(255,255,255,0.2);
+        box-sizing: border-box;
+        border-radius: 10px;
+        align-items: center;
+        overflow: hidden;
+        overflow-y: auto;
+        border-radius: 100px;
+        .send_view{
+          display: flex;
+          align-items: center;
+          width: 80px;
+        }
+        .send_line{
+          width: 1px;
+          min-height: 35px;
+          background: rgba(255,255,255,0.4);
+          margin: 0 20px;
+        }
+        .send_img {
+          width: 15px;
+          height: 15px;
+          margin-right: 5px;
+          cursor: pointer;
+        }
+        .send_text{
+          font-size: 14px;
+          color: #F47C7C;
+        }
+      }
+    }
+  }
   .wrapper_centent {
     width: 100%;
-
     .chatWrapper_header {
       display: flex;
       align-items: center;
-      margin: 20px 24px;
-
-      .chatImg {
-        width: 30px;
-        height: 30px;
-        cursor: pointer;
-      }
+      margin: 0 24px 20px 24px;
 
       .chatTitle {
         font-weight: bold;
         font-size: 14px;
-        color: #333333;
-        margin-left: 10px;
+        color:#FFFFFF ;
       }
     }
 
-    .painting_data {
-      //display: flex;
-      position: relative;
-      margin: 15px 24px;
-
-      .painting_data_left {
-        border: #eecaca 1px solid;
-        width: 100%;
-        height: 565px;
-        background: #FFFFFF;
-        box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
-        border-radius: 10px;
-
-        .left_title {
-          color: rgba(51, 51, 51, 0.6);
-          //font-family: 阿里巴巴普惠体;
-          font-size: 14px;
-          font-weight: bold;
-          letter-spacing: 2px;
-          padding: 10px 30px;
-        }
-
-        .left_list {
-          display: flex;
-          align-items: center;
-          //justify-content: center;
-          flex-direction: column;
-          margin-top: 15px;
-          overflow: hidden;
-          overflow-y: auto;
-          height: 200px;
-
-          .list_meun {
-            background: rgb(255, 238, 238);
-            border-radius: 8px;
-            width: 80%;
-            padding-top: 12px;
-            padding-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-left: 15px;
-            margin-bottom: 10px;
-            padding-right: 15px;
-
-            .list_meun_left {
-              display: flex;
-              align-items: center;
-            }
-
-            .list_meun_img {
-              width: 20px;
-              height: 20px;
-            }
-
-            .list_meun_text {
-              color: rgb(51, 51, 51);
-              font-family: 阿里巴巴普惠体;
-              font-size: 14px;
-              font-weight: 400;
-              margin-left: 10px;
-            }
-
-            .el-icon-delete {
-              color: #F04848;
-              font-size: 16px;
-            }
-          }
-
-          .list_meun_active {
-            background: #FCCECEFF;
-            border-radius: 8px;
-            width: 80%;
-            padding-top: 12px;
-            padding-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-left: 15px;
-            margin-bottom: 10px;
-            padding-right: 15px;
-
-            .list_meun_left {
-              display: flex;
-              align-items: center;
-            }
-
-
-            .list_meun_img {
-              width: 20px;
-              height: 20px;
-            }
-
-            .list_meun_text {
-              color: rgb(51, 51, 51);
-              //font-family: 阿里巴巴普惠体;
-              font-size: 14px;
-              font-weight: 400;
-              margin-left: 10px;
-            }
-
-            .el-icon-delete {
-              color: #F04848;
-              font-size: 16px;
-            }
-          }
-        }
-
-        .left_btn {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid rgb(240, 72, 72);
-          border-radius: 8px;
-          width: 85%;
-          height: 40px;
-          margin: auto;
-
-          .el-icon-plus {
-            color: #F04848;
-            font-size: 20px;
-          }
-
-          .left_btn_text {
-            font-size: 14px;
-            color: #F04848;
-            margin-left: 10px;
-          }
-
-        }
-
-        .left_btn:hover {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 2px solid rgb(240, 72, 72);
-          border-radius: 6px;
-          width: 85%;
-          height: 38px;
-          margin: auto;
-
-          .el-icon-plus {
-            color: #F04848;
-            font-size: 20px;
-            font-weight: bolder;
-          }
-
-          .left_btn_text {
-            font-size: 14px;
-            font-weight: bolder;
-            color: #F04848;
-            margin-left: 10px;
-          }
-
-        }
-      }
-
-      .painting_data_right {
-        border: #eecaca 1px solid;
-        width: 100%;
-        height: 530px;
-        background: #FFFFFF;
-        box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        padding: 20px 0;
-        text-align: center;
-      }
-
-      .painting_data_leftup {
-        width: 100%;
-        height: 200px;
-        background: #FFFFFF;
-        box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
-        border-radius: 10px;
-        margin-right: 20px;
-
-        .painting_more {
-
-          font-size: 13px;
-          color: #333333;
-          font-weight: bold;
-          letter-spacing: 1px;
-          padding: 20px 30px;
-        }
-
-        .painting_view {
-
-          display: flex;
-          justify-content: space-around;
-          align-items: center;
-          padding: 10px 0;
-          height: 100px;
-        }
-
-        .group_img {
-          width: 40px;
-          height: 42px;
-        }
-
-        .group_text {
-          color: rgb(0, 0, 0);
-          //font-family: 阿里巴巴普惠体;
-          font-size: 13px;
-          font-weight: 400;
-          margin-top: 10px;
-        }
-      }
-
-      .painting_data_rightup {
-        width: 100%;
-        height: 200px;
-        background: #FFFFFF;
-        box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
-        border-radius: 10px;
-
-        .rightup_footer {
-          display: flex;
-          align-items: center;
-        }
-
-        .painting_data_input {
-          padding: 10px 24px;
-
-          .rightup_input {
-            width: 100%;
-            height: 100px;
-            background: rgb(255, 247, 247);
-            border: 1px solid rgba(240, 72, 72, 0.26);
-            border-radius: 8px;
-            padding: 10px;
-            order: none;
-            outline: none;
-            font-size: 13px;
-            color: #333333;
-            font-weight: 400;
-            letter-spacing: 2px;
-          }
-        }
-
-        .painting_data_header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 20px 30px 0 30px;
-        }
-
-        .rightup_tabs {
-          display: flex;
-        }
-
-        .rightup_tabs_text {
-          width: 100px;
-          height: 30px;
-          color: #333333;
-          font-size: 13px;
-          font-weight: 400;
-          letter-spacing: 2px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-right: 12px;
-        }
-
-        .rightup_tabs_active {
-          width: 100px;
-          height: 30px;
-          color: #FFFFFF;
-          font-size: 13px;
-          font-weight: bold;
-          letter-spacing: 2px;
-          background: linear-gradient(179.26deg, rgb(244, 124, 124) 22.803%, rgb(240, 72, 72) 96.018%), linear-gradient(151.34deg, rgb(116, 190, 254) 22.35%, rgb(13, 117, 254) 69.27%);
-          border-radius: 100px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-right: 12px;
-        }
-
-        .upload_btn {
-          width: 130px;
-          height: 30px;
-          color: #FFFFFF;
-          font-size: 13px;
-          font-weight: bold;
-          letter-spacing: 2px;
-          background: linear-gradient(179.26deg, rgb(244, 124, 124) 22.803%, rgb(240, 72, 72) 96.018%), linear-gradient(151.34deg, rgb(116, 190, 254) 22.35%, rgb(13, 117, 254) 69.27%);
-          border-radius: 100px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-right: 10px;
-        }
-
-        .tabs_btn {
-          width: 80px;
-          height: 30px;
-          color: #FFFFFF;
-          font-size: 13px;
-          font-weight: bold;
-          letter-spacing: 2px;
-          background: linear-gradient(179.26deg, rgb(244, 124, 124) 22.803%, rgb(240, 72, 72) 96.018%), linear-gradient(151.34deg, rgb(116, 190, 254) 22.35%, rgb(13, 117, 254) 69.27%);
-          border-radius: 100px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-      }
-    }
   }
 
   .avatar {
@@ -765,32 +509,6 @@ export default {
     margin: 0 20px;
     border-radius: 10px;
     text-align: center;
-
-  }
-
-  .upload_text_0 {
-    color: #ECA2A8E8;
-    //font-family: 阿里巴巴普惠体;
-    font-weight: bolder;
-    font-size: 13px;
-    font-weight: 400;
-    //margin-top: 10px;
-  }
-  .upload_text_1 {
-    color: rgba(155, 87, 11, 0.91);
-    //font-family: 阿里巴巴普惠体;
-    font-weight: bolder;
-    font-size: 13px;
-    font-weight: 400;
-    //margin-top: 10px;
-  }
-  .upload_text_2 {
-    color: rgba(7, 7, 7, 0.91);
-    //font-family: 阿里巴巴普惠体;
-
-    font-size: 13px;
-    font-weight: bolder;
-    //margin-top: 10px;
   }
 }
 </style>

@@ -35,7 +35,7 @@ a {
 .content {
     width: auto;
     height: 100%;
-    margin: 20px;
+    margin: 20px 10px;
     /*overflow-y: scroll;*/
     box-sizing: border-box;
     /*background: #FFFFFF;*/
