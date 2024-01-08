@@ -15,11 +15,17 @@
     "core-js": "^3.8.3",
     "element-ui": "^2.15.14",
     "vite": "^2.5.4",
+    "vite-plugin-vue2": "1.9.0",
     "vue": "^2.7.0",
     "vue-router": "^3.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
+    "@typescript-eslint/eslint-plugin": "^6.18.0",
+    "@typescript-eslint/parser": "^6.18.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-vue": "^9.19.2",
     "less": "^3.9.0",
     "less-loader": "^5.0.0 ",
     "postcss-px-to-viewport": "^1.1.1",
