@@ -3,26 +3,43 @@
     <div class="taskForm">
       <div class="task_title">新建任务</div>
       <i class="el-icon-close" @click="handleClose(1)"></i>
-      <el-form ref="formRef" :model="formModel" :rules="formRules" class="task-form" :validate-on-rule-change="false">
+      <el-form
+        ref="formRef"
+        :model="formModel"
+        :rules="formRules"
+        class="task-form"
+        :validate-on-rule-change="false"
+      >
         <el-form-item prop="taskName">
-          <el-input   v-model.trim="formModel.taskName" type="text" placeholder="请输入任务名称" clearable  maxlength="20"    show-word-limit></el-input>
+          <el-input
+            v-model.trim="formModel.taskName"
+            type="text"
+            placeholder="请输入任务名称"
+            clearable
+            maxlength="20"
+            show-word-limit
+          ></el-input>
         </el-form-item>
         <el-form-item style="width: 100%">
-          <el-button class="margin-bottom-10" :loading="globalLoading" type="primary" style="width: 100%" @click.native.prevent="handleSubmitLoginForm()">
+          <el-button
+            class="margin-bottom-10"
+            :loading="globalLoading"
+            type="primary"
+            style="width: 100%"
+            @click.native.prevent="handleSubmitLoginForm()"
+          >
             <span v-if="!globalLoading">创 建</span>
             <span v-else>新 建 中...</span>
           </el-button>
         </el-form-item>
       </el-form>
-
     </div>
     <!--  注册-->
-
   </div>
 </template>
 
 <script>
-import {EmailCodeAPI, taskAPI, registerAPI, createTaskAPI} from "@/api";
+import { EmailCodeAPI, registerAPI, createTaskAPI } from "@/api";
 
 export default {
   name: "task",
@@ -30,44 +47,43 @@ export default {
     return {
       globalLoading: false,
       formModel: {
-        model:'StableDiffusion',
-        taskName: '',
+        model: "StableDiffusion",
+        taskName: "",
       },
       formRules: {
         taskName: [
-          {required: true, message: "请输入任务名称", trigger: "blur"}
+          { required: true, message: "请输入任务名称", trigger: "blur" },
         ],
       },
-    }
+    };
   },
   methods: {
     // 创建任务
     handleSubmitLoginForm() {
       this.$refs["formRef"].validate((valid) => {
         if (valid) {
-          createTaskAPI(this.formModel).then(res => {
+          createTaskAPI(this.formModel).then((res) => {
             this.globalLoading = false;
             if (res.code === 200) {
               this.$notify({
-                title: '创建成功',
-                message: '请开始您的创作吧',
-                type: 'success'
+                title: "创建成功",
+                message: "请开始您的创作吧",
+                type: "success",
               });
-              this.$emit('close')
+              this.$emit("close");
             } else {
               this.$message.error(res.msg);
             }
-          })
+          });
         }
       });
     },
 
     handleClose() {
-      this.$emit('close')
-
-    }
-  }
-}
+      this.$emit("close");
+    },
+  },
+};
 </script>
 
 <style scoped lang="less">
@@ -81,7 +97,7 @@ export default {
   z-index: 999;
   top: 0;
   width: 100%;
-  .el-icon-close{
+  .el-icon-close {
     color: #333;
     position: absolute;
     right: 0;
@@ -115,8 +131,6 @@ export default {
     position: relative;
   }
 
-
-
   .codeView {
     display: flex;
     align-items: center;
@@ -137,7 +151,7 @@ export default {
   .taskForm_title {
     font-size: 16px;
     font-weight: bold;
-    color: #042F77;
+    color: #042f77;
     line-height: 27px;
     letter-spacing: 2px;
     margin: 26px 0;
