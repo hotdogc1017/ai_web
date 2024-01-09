@@ -25,6 +25,13 @@ module.exports = {
     parser: "@typescript-eslint/parser",
     sourceType: "module",
   },
-  plugins: ["@typescript-eslint", "vue"],
-  rules: {},
+  plugins: ["@typescript-eslint", "plugin:vue/essential", "@vue/prettier"],
+  rules: {
+    "vue/multi-word-component-names": [
+      "error",
+      {
+        ignores: ["index"],
+      },
+    ],
+  },
 };
