@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MessageBox, Message } from "element-ui";
+import { ElMessageBox as MessageBox, ElMessage as Message } from "element-plus";
 import router from "../router";
 const service = axios.create({
   baseURL: "http://39.106.69.95:8099",
