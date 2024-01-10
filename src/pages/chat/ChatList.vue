@@ -1,36 +1,114 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-import logo from "@/assets/logo.png";
+import ChatGPTIcon from "@/components/ChatGPTIcon.vue";
 
-const chatList = ref(
-  Array.from({ length: 50 }).fill({
-    title: "Vue3中事件总线的使用",
-  }),
-);
+const chatList = ref([
+  {
+    dateTime: "昨天",
+    list: [
+      {
+        title: "Vue3中事件总线的使用",
+      },
+      {
+        title: "数据库中的DDL是什么",
+      },
+    ],
+  },
+  {
+    dateTime: "前天",
+    list: [
+      {
+        title: "电商专业就业前景怎么样",
+      },
+    ],
+  },
+  {
+    dateTime: "前天",
+    list: [
+      {
+        title: "电商专业就业前景怎么样",
+      },
+    ],
+  },
+  {
+    dateTime: "前天",
+    list: [
+      {
+        title: "电商专业就业前景怎么样",
+      },
+    ],
+  },
+  {
+    dateTime: "前天",
+    list: [
+      {
+        title: "电商专业就业前景怎么样",
+      },
+    ],
+  },
+  {
+    dateTime: "前天",
+    list: [
+      {
+        title: "电商专业就业前景怎么样",
+      },
+    ],
+  },
+  {
+    dateTime: "前天",
+    list: [
+      {
+        title: "电商专业就业前景怎么样",
+      },
+    ],
+  },
+  {
+    dateTime: "前天",
+    list: [
+      {
+        title: "电商专业就业前景怎么样",
+      },
+    ],
+  },
+]);
 </script>
 
 <template>
-  <div class="h-svh lg:w-1/3 xl:w-1/5 bg-black p-2 text-white">
-    <!-- 新建对话 -->
-    <div
-      class="flex justify-between p-2 hover:bg-[#181818] rounded-lg cursor-pointer"
-    >
-      <div class="flex items-center">
-        <el-image class="w-6 h-6" :src="logo"></el-image>
-        <span class="ml-4">新建对话</span>
-      </div>
-      <Edit class="w-6 h-6" />
-    </div>
-    <!-- 对话列表 -->
-    <ul class="h-full overflow-scroll mt-2">
-      <li
-        class="p-2 hover:bg-[#181818] rounded-lg cursor-pointer"
-        v-for="({ title }, index) in chatList"
+  <div class="h-svh lg:w-1/3 xl:w-1/4 bg-black p-2">
+    <div class="h-5/6">
+      <!-- 新建对话 -->
+      <div
+        class="flex items-center justify-between p-2 hover:bg-[#202123] rounded-lg cursor-pointer"
       >
-        <span>{{ index + 1 }}. </span>
-        <span> {{ title }}</span>
-      </li>
-    </ul>
+        <div class="flex items-center">
+          <ChatGPTIcon></ChatGPTIcon>
+          <span class="ml-2 text-[#ECECF1]">新建对话</span>
+        </div>
+        <Edit class="w-4 h-4 text-[#ECECF1]" />
+      </div>
+      <!-- 列表信息 -->
+      <el-scrollbar class="h-full overflow-auto pr-3">
+        <div v-for="({ dateTime, list }, i) in chatList" class="mt-5" :key="i">
+          <div>
+            <h3
+              class="h-9 pb-2 pt-3 px-2 text-xs font-medium text-ellipsis overflow-hidden break-all bg-black text-[#666666]"
+            >
+              {{ dateTime }}
+            </h3>
+          </div>
+
+          <ul class="h-full overflow-auto mt-2 text-[#D6D6DB]">
+            <li
+              class="p-2 text-sm hover:bg-[#202123] rounded-lg cursor-pointer"
+              v-for="({ title }, index) in list"
+              :key="index"
+            >
+              <span> {{ title }}</span>
+            </li>
+          </ul>
+        </div>
+      </el-scrollbar>
+    </div>
   </div>
 </template>
 

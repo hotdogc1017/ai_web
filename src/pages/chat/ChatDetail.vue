@@ -2,6 +2,7 @@
 import { ref } from "vue";
 // import { messageList as list } from "./faker";
 import UserMessage from "../../components/UserMessage.vue";
+import ChatInput from "./ChatInput.vue";
 
 let messageList = ref([
   {
@@ -17,16 +18,21 @@ let messageList = ref([
 </script>
 
 <template>
-  <div class="w-full flex justify-center">
-    <ul class="text-white">
-      <li
-        class="py-4"
-        v-for="({ isMe, content }, index) in messageList"
-        :key="index"
-      >
-        <UserMessage :content="content" :is-me="isMe"></UserMessage>
-      </li>
-    </ul>
+  <div class="w-full h-dvh p-4 bg-white flex justify-center">
+    <div
+      class="h-full flex flex-col justify-center items-center text-[#374151] lg:w-2/3 xl:w-2/3 scroll-auto"
+    >
+      <ul class="h-full">
+        <li
+          class="py-4"
+          v-for="({ isMe, content }, index) in messageList"
+          :key="index"
+        >
+          <UserMessage :content="content" :is-me="isMe"></UserMessage>
+        </li>
+      </ul>
+      <ChatInput></ChatInput>
+    </div>
   </div>
 </template>
 

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import {} from "vue";
-import logo from "@/assets/logo.png";
+import ChatGPTLightIcon from "@/components/ChatGPTLightIcon.vue";
+// import logo from "@/assets/logo.png";
+// import ChatGPT from "@/assets/svg/ChatGPT.svg";
 
 const prop = defineProps<{ content: string; isMe: boolean }>();
 </script>
@@ -16,11 +18,12 @@ const prop = defineProps<{ content: string; isMe: boolean }>();
         ></el-avatar>
       </template>
       <template v-else>
-        <el-image class="w-6 h-6" :src="logo"></el-image>
+        <ChatGPTLightIcon></ChatGPTLightIcon>
+        <!-- <el-image class="w-6 h-6" :src="logo"></el-image> -->
       </template>
     </div>
     <div>
-      <strong>{{ prop.isMe ? "我" : "Peperpig" }}</strong>
+      <span class="font-[bold]">{{ prop.isMe ? "你" : "ChatGPT" }}</span>
       <p class="py-1">
         {{ prop.content }}
       </p>

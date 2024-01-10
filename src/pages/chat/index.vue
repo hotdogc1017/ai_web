@@ -6,7 +6,7 @@ import ChatInput from "./ChatInput.vue";
 </script>
 
 <template>
-  <div class="w-full flex gap-9">
+  <div class="w-full flex">
     <ChatList></ChatList>
     <ChatDetail></ChatDetail>
   </div>
