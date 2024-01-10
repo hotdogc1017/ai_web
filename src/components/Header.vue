@@ -63,6 +63,8 @@
 import bus from "@/utils/bus";
 import Login from "@/pages/login.vue";
 import headImg from "../assets/images/home_user.png";
+import { mapStores } from "pinia";
+import useCollapse from "@/stores/collapse.ts";
 export default {
   components: {
     Login,
@@ -85,6 +87,7 @@ export default {
       let username = sessionStorage.getItem("ms_username");
       return username ? username : this.name;
     },
+    ...mapStores(useCollapse),
   },
   mounted() {
     this.tokenStr = window.sessionStorage.getItem("token");
@@ -138,7 +141,7 @@ export default {
     // 侧边栏折叠
     collapseChage() {
       this.collapse = !this.collapse;
-      bus.$emit("collapse", this.collapse);
+      this.collapseStore.setCollapse(this.collapse);
     },
     // 全屏事件
     handleFullScreen() {

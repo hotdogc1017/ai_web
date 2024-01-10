@@ -83,10 +83,10 @@ const router = createRouter({
       component: () => import("@/pages/login.vue"),
       meta: { title: "登录" },
     },
-    {
-      path: "*",
-      redirect: "/404",
-    },
+    // {
+    //   path: "*",
+    //   redirect: "/404",
+    // },
   ],
 });
 

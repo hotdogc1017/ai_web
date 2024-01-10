@@ -5,12 +5,18 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@element-plus/icons-vue':
+    specifier: ^2.3.1
+    version: registry.npmmirror.com/@element-plus/icons-vue@2.3.1(vue@3.3.4)
   axios:
     specifier: ^1.5.0
     version: registry.npmmirror.com/axios@1.6.5
   element-plus:
     specifier: ^2.4.4
     version: registry.npmmirror.com/element-plus@2.4.4(vue@3.3.4)
+  pinia:
+    specifier: ^2.1.3
+    version: registry.npmmirror.com/pinia@2.1.7(typescript@5.3.3)(vue@3.3.4)
   vite:
     specifier: ^4.5.1
     version: registry.npmmirror.com/vite@4.5.1(@types/node@18.18.5)(less@3.13.1)
@@ -6153,6 +6159,27 @@ packages:
     version: 4.0.1
     engines: {node: '>=6'}
 
+  registry.npmmirror.com/pinia@2.1.7(typescript@5.3.3)(vue@3.3.4):
+    resolution: {integrity: sha512-+C2AHFtcFqjPih0zpYuvof37SFxMQ7OEG2zV9jRI12i9BOy3YQVAHwdKtyyc8pDcDyIc33WCIsZaCFWU7WWxGQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pinia/-/pinia-2.1.7.tgz}
+    id: registry.npmmirror.com/pinia/2.1.7
+    name: pinia
+    version: 2.1.7
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.3.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/devtools-api': registry.npmmirror.com/@vue/devtools-api@6.5.1
+      typescript: registry.npmmirror.com/typescript@5.3.3
+      vue: registry.npmmirror.com/vue@3.3.4
+      vue-demi: registry.npmmirror.com/vue-demi@0.14.6(vue@3.3.4)
+    dev: false
+
   registry.npmmirror.com/pirates@4.0.6:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pirates/-/pirates-4.0.6.tgz}
     name: pirates
@@ -7396,7 +7423,6 @@ packages:
     version: 5.3.3
     engines: {node: '>=14.17'}
     hasBin: true
-    dev: true
 
   registry.npmmirror.com/union-value@1.0.1:
     resolution: {integrity: sha512-tJfXmxMeWYnczCVs7XAEvIV7ieppALdyepWMkHkwciRpZraG/xwT+s2JN8+pr1+8jCRf80FFzvr+MpQeeoF4Xg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/union-value/-/union-value-1.0.1.tgz}

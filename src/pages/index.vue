@@ -30,11 +30,7 @@ export default {
       collapse: false,
     };
   },
-  created() {
-    bus.$on("collapse-content", (msg) => {
-      this.collapse = msg;
-    });
-  },
+  created() {},
   mounted() {},
   methods: {},
 };
