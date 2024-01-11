@@ -82,7 +82,7 @@ const chatList = ref([
       >
         <div class="flex items-center">
           <ChatGPTIcon></ChatGPTIcon>
-          <span class="ml-2 text-[#ECECF1]">新建对话</span>
+          <span class="ml-2 text-[#ECECF1] font-bold">新建对话</span>
         </div>
         <Edit class="w-4 h-4 text-[#ECECF1]" />
       </div>
@@ -97,7 +97,7 @@ const chatList = ref([
             </h3>
           </div>
 
-          <ul class="h-full overflow-auto mt-2 text-[#D6D6DB]">
+          <ul class="h-full overflow-auto mt-2 text-[#ececf1]">
             <li
               class="p-2 text-sm hover:bg-[#202123] rounded-lg cursor-pointer"
               v-for="({ title }, index) in list"
