@@ -98,6 +98,11 @@ function handleSwitchRoom(room: Room) {
   switchedId.value = room.id;
 }
 
+function doCreateRoom() {
+  switchedId.value = null;
+  createRoom();
+}
+
 onBeforeMount(async () => await listChat());
 </script>
 
@@ -106,6 +111,7 @@ onBeforeMount(async () => await listChat());
     <div class="h-5/6">
       <!-- 新建对话 -->
       <div
+        @click="doCreateRoom()"
         class="flex items-center justify-between p-2 hover:bg-[#202123] rounded-lg cursor-pointer"
       >
         <div class="flex items-center">

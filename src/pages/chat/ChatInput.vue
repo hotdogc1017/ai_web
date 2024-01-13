@@ -15,28 +15,29 @@ const searchKey = ref("");
 const btn = ref<HTMLButtonElement | null>();
 const textarea = ref<HTMLTextAreaElement | null>();
 
-const enabledInput = computed(() => {
-  const enabled = searchKey.value && !prop.disabledInput;
-  nextTick(() => {
-    if (enabled) {
-      btn.value?.removeAttribute("disabled");
-      textarea.value?.removeAttribute("disabled");
-    } else {
-      btn.value?.setAttribute("disabled", "");
-      textarea.value?.setAttribute("disabled", "");
-    }
-  });
-  return enabled;
-});
+watch(
+  () => prop.disabledInput,
+  (newVal) => {
+    nextTick(() => {
+      if (!newVal) {
+        btn.value?.removeAttribute("disabled");
+        textarea.value?.removeAttribute("disabled");
+      } else {
+        btn.value?.setAttribute("disabled", "");
+        textarea.value?.setAttribute("disabled", "");
+      }
+    });
+  },
+);
 
 function doSearch() {
-  if (!enabledInput.value) {
+  if (!prop.disabledInput && !!searchKey.value) {
     emit("search", searchKey.value);
   }
 }
 
 function doEnter() {
-  if (!enabledInput.value) {
+  if (!prop.disabledInput && !!searchKey.value) {
     emit("search", searchKey.value);
     searchKey.value = "";
   }

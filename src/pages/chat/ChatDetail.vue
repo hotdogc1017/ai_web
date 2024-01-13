@@ -1,17 +1,28 @@
 <script lang="ts" setup>
-import { ref, computed, watchEffect, nextTick, watch } from "vue";
+import {
+  ref,
+  computed,
+  watchEffect,
+  nextTick,
+  watch,
+  onBeforeMount,
+} from "vue";
 import UserMessage from "../../components/UserMessage.vue";
 import ChatInput from "./ChatInput.vue";
 import ChatGPTBigIcon from "@/components/ChatGPTBigIcon.vue";
-import { type Message, type Room, createRoom } from "./types.ts";
+import {
+  type Message,
+  type Room,
+  createRoom,
+  getMessageListByRoomId,
+} from "./types.ts";
 import useConnectRoom from "@/stores/connectRoom";
 import useLoginInfo from "@/stores/loginInfo";
 import { storeToRefs } from "pinia";
+import { ElMessage } from "element-plus";
 
 const { currentRoom } = storeToRefs(useConnectRoom());
-const messageList = ref(
-  currentRoom.value ? currentRoom.value.chatRecordList : [],
-);
+const messageList = ref<Message[]>([]);
 const isEmpty = computed(
   () => !messageList.value || messageList.value?.length === 0,
 );
@@ -19,6 +30,14 @@ const scrollRef = ref<HTMLElement | null>();
 const messageRefs = ref<InstanceType<typeof UserMessage>[]>();
 const websocket = ref<WebSocket | null>();
 const websocketOpened = ref(false);
+
+watch(currentRoom, (newVal) => {
+  if (newVal?.id) {
+    getMessageListByRoomId(newVal.id).then((data = []) => {
+      messageList.value = data;
+    });
+  }
+});
 
 watch(websocket, () => {
   if (websocket.value) {
@@ -42,7 +61,7 @@ watch(websocket, () => {
   }
 });
 
-function handleSearch(searchKey: string) {
+function initWebsocket() {
   if (!websocket.value) {
     websocket.value = new WebSocket(
       `wss://api.123chat.chat/webSocket/${useLoginInfo().loginInfo?.uid}`,
@@ -51,6 +70,17 @@ function handleSearch(searchKey: string) {
       console.log("websocket已准备就绪");
       websocketOpened.value = true;
     };
+  }
+}
+
+function handleSearch(searchKey: string) {
+  if (!websocket.value) {
+    return;
+  } else if (websocket.value.readyState !== 1) {
+    ElMessage.error("出错了, 与服务器断开对话连接");
+    throw new Error(
+      `websocket异常, readyStatue为: ${websocket.value.readyState}`,
+    );
   }
   websocket.value.send(searchKey);
   messageList.value.push({
@@ -61,6 +91,8 @@ function handleSearch(searchKey: string) {
     roomId: currentRoom.value?.mid ?? "",
   });
 }
+
+onBeforeMount(() => initWebsocket());
 </script>
 
 <template>
