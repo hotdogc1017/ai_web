@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar">
+  <div>
     <div class="el_meun_list">
       <div
         class="el_meun"

@@ -1,10 +1,20 @@
 <script lang="ts" setup>
-import {} from "vue";
+import { ref } from "vue";
 import ChatGPTLightIcon from "@/components/ChatGPTLightIcon.vue";
+import useLoginInfo from "@/stores/loginInfo";
 // import logo from "@/assets/logo.png";
 // import ChatGPT from "@/assets/svg/ChatGPT.svg";
 
 const prop = defineProps<{ content: string; isMe: boolean }>();
+
+const content = ref(prop.content);
+
+function appendAskContent(char: string) {
+  content.value ??= "";
+  content.value += char;
+}
+
+defineExpose({ appendAskContent });
 </script>
 
 <template>
@@ -14,7 +24,7 @@ const prop = defineProps<{ content: string; isMe: boolean }>();
         <el-avatar
           class="w-6 h-6"
           size="small"
-          src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+          :src="useLoginInfo().loginInfo?.user.avatar"
         ></el-avatar>
       </template>
       <template v-else>
@@ -25,7 +35,7 @@ const prop = defineProps<{ content: string; isMe: boolean }>();
     <div>
       <span class="font-[bold]">{{ prop.isMe ? "你" : "ChatGPT" }}</span>
       <p class="py-1">
-        {{ prop.content }}
+        {{ content ?? "思考中..." }}
       </p>
     </div>
   </div>

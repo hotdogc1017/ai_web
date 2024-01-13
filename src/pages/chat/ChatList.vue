@@ -1,7 +1,13 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
 import ChatGPTIcon from "@/components/ChatGPTIcon.vue";
+import { usePostFetch, useGetFetch } from "@/utils/fetch";
+import { ElMessage } from "element-plus";
+import { type Room, createRoom } from "./types.ts";
+import useConnectRoom from "@/stores/connectRoom";
 
+const list = ref<{ rooms: [Room]; createAt: string }[]>();
+const switchedId = ref();
 const chatList = ref([
   {
     dateTime: "昨天",
@@ -71,10 +77,32 @@ const chatList = ref([
     ],
   },
 ]);
+
+async function listChat() {
+  const { data } = await useGetFetch<string>(`/getChatList?moduleId=ai`);
+  if (data.value) {
+    const response: { data: Room[] } = JSON.parse(data.value);
+    list.value = response.data.map((r) => {
+      return {
+        rooms: [r],
+        createAt: r.createAt,
+      };
+    });
+  } else {
+    ElMessage.error("获取聊天列表失败");
+  }
+}
+
+function handleSwitchRoom(room: Room) {
+  useConnectRoom().setCurrentRoom(room);
+  switchedId.value = room.id;
+}
+
+onBeforeMount(async () => await listChat());
 </script>
 
 <template>
-  <div class="h-svh lg:w-1/3 xl:w-1/4 bg-black p-2">
+  <div class="h-full w-full bg-black p-2">
     <div class="h-5/6">
       <!-- 新建对话 -->
       <div
@@ -88,22 +116,26 @@ const chatList = ref([
       </div>
       <!-- 列表信息 -->
       <el-scrollbar class="h-full overflow-auto pr-3">
-        <div v-for="({ dateTime, list }, i) in chatList" class="mt-5" :key="i">
+        <div v-for="({ createAt, rooms }, i) in list" class="mt-5" :key="i">
           <div>
             <h3
               class="h-9 pb-2 pt-3 px-2 text-xs font-medium text-ellipsis overflow-hidden break-all bg-black text-[#666666]"
             >
-              {{ dateTime }}
+              {{ createAt }}
             </h3>
           </div>
 
           <ul class="h-full overflow-auto mt-2 text-[#ececf1]">
             <li
               class="p-2 text-sm hover:bg-[#202123] rounded-lg cursor-pointer"
-              v-for="({ title }, index) in list"
+              :style="{
+                backgroundColor: switchedId === id ? '#343541' : 'none',
+              }"
+              v-for="({ roomName, id }, index) in rooms"
               :key="index"
+              @click="handleSwitchRoom(rooms[index])"
             >
-              <span> {{ title }}</span>
+              <span> {{ roomName }}</span>
             </li>
           </ul>
         </div>

@@ -1,73 +1,105 @@
 <script lang="ts" setup>
-import { ref, computed } from "vue";
-// import { messageList as list } from "./faker";
+import { ref, computed, watchEffect, nextTick } from "vue";
 import UserMessage from "../../components/UserMessage.vue";
 import ChatInput from "./ChatInput.vue";
 import ChatGPTBigIcon from "@/components/ChatGPTBigIcon.vue";
+import { type Message, type Room, createRoom } from "./types.ts";
+import useConnectRoom from "@/stores/connectRoom";
+import useLoginInfo from "@/stores/loginInfo";
+import { storeToRefs } from "pinia";
 
-let messageList = ref([
-  {
-    isMe: true,
-    content: "在vue3中使用event bus",
-  },
-  {
-    isMe: false,
-    content:
-      "在Vue 3 中，使用事件总线（Event Bus）的方式与在 Vue 2 中略有不同。Vue 3 推荐使用 createApp API，而不再使用全局的 Vue 对象。以下是在 Vue 3 中使用事件总线的一般步骤：",
-  },
-  {
-    isMe: true,
-    content: "在vue3中使用event bus",
-  },
-  {
-    isMe: false,
-    content:
-      "在Vue 3 中，使用事件总线（Event Bus）的方式与在 Vue 2 中略有不同。Vue 3 推荐使用 createApp API，而不再使用全局的 Vue 对象。以下是在 Vue 3 中使用事件总线的一般步骤：",
-  },
-  {
-    isMe: true,
-    content: "在vue3中使用event bus",
-  },
-  {
-    isMe: false,
-    content:
-      "在Vue 3 中，使用事件总线（Event Bus）的方式与在 Vue 2 中略有不同。Vue 3 推荐使用 createApp API，而不再使用全局的 Vue 对象。以下是在 Vue 3 中使用事件总线的一般步骤：",
-  },
-]);
+const { currentRoom } = storeToRefs(useConnectRoom());
+const messageList = ref(
+  currentRoom.value ? currentRoom.value.chatRecordList : [],
+);
+const isEmpty = computed(() => messageList.value?.length === 0);
+const scrollRef = ref<HTMLElement | null>();
+const messageRefs = ref<InstanceType<typeof UserMessage>[]>();
+const websocket = ref<WebSocket | null>();
+const websocketOpened = ref(false);
 
-const isEmpty = computed(() => !!messageList.value?.length);
+watchEffect(() => {
+  if (websocket.value) {
+    websocket.value.addEventListener("message", (event) => {
+      messageList.value.push({
+        answer: "",
+        createAt: "",
+        flag: 1,
+        id: -1,
+        roomId: currentRoom.value?.mid ?? "",
+      });
+      const char = event.data;
+      nextTick(() => {
+        if (messageRefs.value) {
+          const [lastMessage, ..._] = messageRefs.value.toReversed();
+          lastMessage.appendAskContent(char);
+          scrollRef.value?.scrollIntoView(false);
+        }
+      });
+    });
+  }
+});
+
+function handleSearch(searchKey: string) {
+  if (!websocket.value) {
+    websocket.value = new WebSocket(
+      `wss://api.123chat.chat/webSocket/${useLoginInfo().loginInfo?.uid}`,
+    );
+    websocket.value.onopen = () => {
+      console.log("websocket已准备就绪");
+      websocketOpened.value = true;
+    };
+  }
+  websocket.value.send(searchKey);
+  messageList.value.push({
+    answer: searchKey,
+    createAt: "",
+    flag: 0,
+    id: -1,
+    roomId: currentRoom.value?.mid ?? "",
+  });
+}
 </script>
 
 <template>
-  <div class="w-full h-dvh p-4 bg-white flex justify-center">
-    <div
-      class="h-full flex flex-col justify-center items-center text-[#374151] lg:w-2/3 xl:w-3/5"
+  <div class="w-full h-full bg-white flex flex-col">
+    <el-scrollbar
+      ref="scrollRef"
+      view-class="mx-4 sm:mx-0 flex justify-center h-full"
+      class="flex-1 w-full overflow-hidden text-[#374151]"
     >
-      <div class="h-4/5">
-        <template v-if="isEmpty">
-          <div class="h-full flex flex-col justify-center items-center">
-            <ChatGPTBigIcon></ChatGPTBigIcon>
-            <div class="mb-5 text-2xl font-bold text-black">
-              今天我能为您提供什么帮助？
+      <div class="flex w-full lg:w-4/5">
+        <div class="overflow-auto w-full px-12">
+          <template v-if="isEmpty">
+            <div
+              class="h-full w-full flex flex-col justify-center items-center"
+            >
+              <ChatGPTBigIcon></ChatGPTBigIcon>
+              <div class="mb-5 text-2xl font-bold text-black">
+                今天我能为您提供什么帮助？
+              </div>
             </div>
-          </div>
-        </template>
-        <template v-else>
-          <div class="h-full w-full px-5">
-            <ul class="scroll-auto">
-              <li
-                class="py-4"
-                v-for="({ isMe, content }, index) in messageList"
-                :key="index"
-              >
-                <UserMessage :content="content" :is-me="isMe"></UserMessage>
-              </li>
-            </ul>
-          </div>
-        </template>
+          </template>
+          <template v-else>
+            <UserMessage
+              ref="messageRefs"
+              class="py-4"
+              v-for="({ flag, answer }, index) in messageList"
+              :key="index"
+              :content="answer"
+              :is-me="flag !== 1"
+            ></UserMessage>
+          </template>
+        </div>
       </div>
-      <div class="h-1/5 w-full">
-        <ChatInput></ChatInput>
+    </el-scrollbar>
+    <div class="w-full flex justify-center bg-gray">
+      <div class="w-full px-2 lg:px-0 lg:w-4/5">
+        <ChatInput
+          :disabled-input="!websocketOpened"
+          @search="handleSearch"
+        ></ChatInput>
+        <div class="py-4"></div>
       </div>
     </div>
   </div>
