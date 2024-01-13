@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, computed, watchEffect, nextTick } from "vue";
+import { ref, computed, watchEffect, nextTick, watch } from "vue";
 import UserMessage from "../../components/UserMessage.vue";
 import ChatInput from "./ChatInput.vue";
 import ChatGPTBigIcon from "@/components/ChatGPTBigIcon.vue";
@@ -12,13 +12,15 @@ const { currentRoom } = storeToRefs(useConnectRoom());
 const messageList = ref(
   currentRoom.value ? currentRoom.value.chatRecordList : [],
 );
-const isEmpty = computed(() => messageList.value?.length === 0);
+const isEmpty = computed(
+  () => !messageList.value || messageList.value?.length === 0,
+);
 const scrollRef = ref<HTMLElement | null>();
 const messageRefs = ref<InstanceType<typeof UserMessage>[]>();
 const websocket = ref<WebSocket | null>();
 const websocketOpened = ref(false);
 
-watchEffect(() => {
+watch(websocket, () => {
   if (websocket.value) {
     websocket.value.addEventListener("message", (event) => {
       messageList.value.push({

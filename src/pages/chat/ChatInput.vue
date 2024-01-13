@@ -1,5 +1,12 @@
 <script lang="ts" setup>
-import { ref, computed, watchPostEffect, onMounted, nextTick } from "vue";
+import {
+  ref,
+  computed,
+  watchPostEffect,
+  onMounted,
+  nextTick,
+  watch,
+} from "vue";
 
 const prop = defineProps<{ disabledInput: boolean }>();
 const emit = defineEmits(["search"]);
@@ -8,30 +15,28 @@ const searchKey = ref("");
 const btn = ref<HTMLButtonElement | null>();
 const textarea = ref<HTMLTextAreaElement | null>();
 
-const disabledInput = computed(() => {
-  const disabled = !searchKey.value || prop.disabledInput;
+const enabledInput = computed(() => {
+  const enabled = searchKey.value && !prop.disabledInput;
   nextTick(() => {
-    if (disabled) {
-      console.log("disabled");
-      btn.value?.setAttribute("disabled", "");
-      textarea.value?.setAttribute("disabled", "");
-    } else {
-      console.log("no disabled");
+    if (enabled) {
       btn.value?.removeAttribute("disabled");
       textarea.value?.removeAttribute("disabled");
+    } else {
+      btn.value?.setAttribute("disabled", "");
+      textarea.value?.setAttribute("disabled", "");
     }
   });
-  return disabled;
+  return enabled;
 });
 
 function doSearch() {
-  if (!disabledInput.value) {
+  if (!enabledInput.value) {
     emit("search", searchKey.value);
   }
 }
 
 function doEnter() {
-  if (!disabledInput.value) {
+  if (!enabledInput.value) {
     emit("search", searchKey.value);
     searchKey.value = "";
   }
@@ -63,10 +68,12 @@ onMounted(() => {
       "
       class="text-[16px] m-0 w-full resize-none border-0 bg-transparent py-[10px] focus:outline-0 focus-visible:outline-0 pr-10 focus:ring-0 focus-visible:ring-0 md:py-3.5 md:pr-12 placeholder-black/50 pl-3 md:pl-4"
       style="max-height: 200px; height: 52px; overflow-y: hidden"
+      disabled
       >{{ searchKey }}</textarea
     ><button
       @click="doSearch()"
       ref="btn"
+      disabled
       class="absolute md:bottom-3 md:right-3 right-2 disabled:bg-black disabled:opacity-10 disabled:text-gray-400 enabled:bg-black text-white p-0.5 border border-black rounded-lg bottom-1.5 transition-colors"
     >
       <span class=""

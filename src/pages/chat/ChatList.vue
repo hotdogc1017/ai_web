@@ -127,9 +127,10 @@ onBeforeMount(async () => await listChat());
 
           <ul class="h-full overflow-auto mt-2 text-[#ececf1]">
             <li
-              class="p-2 text-sm hover:bg-[#202123] rounded-lg cursor-pointer"
-              :style="{
-                backgroundColor: switchedId === id ? '#343541' : 'none',
+              class="p-2 text-sm rounded-lg cursor-pointer"
+              :class="{
+                'bg-[#343541]': switchedId === id,
+                'hover:bg-[#202123]': switchedId !== id,
               }"
               v-for="({ roomName, id }, index) in rooms"
               :key="index"
