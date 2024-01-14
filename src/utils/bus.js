@@ -1,6 +1,5 @@
-import Vue from 'vue';
+import { createApp } from "vue";
 
-// 使用 Event Bus
-const bus = new Vue();
+const bus = createApp({});
 
 export default bus;

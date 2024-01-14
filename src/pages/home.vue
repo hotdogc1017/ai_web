@@ -1,26 +1,33 @@
 <script>
-import bus from "@/utils/bus";
-import {getHotRecommendAPI, getModuleListAPI} from "@/api";
+import { getHotRecommendAPI, getModuleListAPI } from "@/api";
 
 export default {
   name: "home",
   data() {
     return {
       query: {
-        search: '',
+        search: "",
       },
-      hishtoryIndex: '-1',
-      hishtoryList: ['人工智能', '什么是AI', '春节', '国庆节', '九一八事变', '无人驾驶', '区块链'],
+      hishtoryIndex: "-1",
+      hishtoryList: [
+        "人工智能",
+        "什么是AI",
+        "春节",
+        "国庆节",
+        "九一八事变",
+        "无人驾驶",
+        "区块链",
+      ],
       cardList: [],
     };
   },
   mounted() {
-    this.getData()
+    this.getData();
   },
   methods: {
     getData() {
       //查询首页推荐
-      getHotRecommendAPI().then(res => {
+      getHotRecommendAPI().then((res) => {
         if (res.code == 200) {
           this.cardList = res.data;
         }
@@ -31,37 +38,62 @@ export default {
       this.hishtoryIndex = index;
       this.query.search = item;
     },
-    hanleInput(event){
-      if (event.target.value == '') {
-        this.hishtoryIndex = '-1';
+    hanleInput(event) {
+      if (event.target.value == "") {
+        this.hishtoryIndex = "-1";
       }
-    }
-  }
-}
-
+    },
+  },
+};
 </script>
 
 <template>
   <div class="Home">
     <div class="search">
       <i class="el-icon-search"></i>
-      <input type="text" placeholder="请输入关键词进行搜索" class="search_input" v-model="query.search" @input="hanleInput"/>
+      <input
+        type="text"
+        placeholder="请输入关键词进行搜索"
+        class="search_input"
+        v-model="query.search"
+        @input="hanleInput"
+      />
     </div>
     <div class="hishtory">
-      <div :class="hishtoryIndex == index ? 'hishtory_active' : 'hishtory_text'" v-for="(item,index) in hishtoryList" :key="index" v-if="index < 7" @click="handleHishtory(index,item)">{{ item }}</div>
+      <div
+        :class="hishtoryIndex == index ? 'hishtory_active' : 'hishtory_text'"
+        v-for="(item, index) in hishtoryList"
+        :key="index"
+        v-if="index < 7"
+        @click="handleHishtory(index, item)"
+      >
+        {{ item }}
+      </div>
     </div>
     <div class="home_centent">
       <el-row :gutter="10">
-        <el-col :xs="4" :sm="6" :md="4" :lg="4" :xl="4" v-for="(item,index) in cardList" :key="index" >
-          <div class="datameun" >
+        <el-col
+          :xs="4"
+          :sm="6"
+          :md="4"
+          :lg="4"
+          :xl="4"
+          v-for="(item, index) in cardList"
+          :key="index"
+        >
+          <div class="datameun">
             <div class="datameun_view">
-              <img :src='item.icon' alt="" class="datameun_header_img">
+              <img :src="item.icon" alt="" class="datameun_header_img" />
             </div>
             <div class="datameun_header_title">{{ item.name }}</div>
             <div class="datameun_dect">{{ item.introduce }}</div>
             <div class="datameun_footer">
               <div class="datameun_footer_view">
-                <img src="../assets/images/zan.png" alt="" class="datameun_img1">
+                <img
+                  src="../assets/images/zan.png"
+                  alt=""
+                  class="datameun_img1"
+                />
                 <label class="datameun_footer_label">{{ item.likeNum }}</label>
               </div>
             </div>
@@ -100,7 +132,7 @@ export default {
       width: 100%;
       background: none;
       font-size: 13px;
-      color: #FFFFFF;
+      color: #ffffff;
       letter-spacing: 1px;
     }
   }
@@ -136,9 +168,9 @@ export default {
       background: rgba(228, 98, 98, 0.2);
       box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.06);
       border-radius: 100px;
-      border: 1px solid #E46262;
+      border: 1px solid #e46262;
       font-size: 12px;
-      color: #FFFFFF;
+      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -154,13 +186,13 @@ export default {
     .datameun {
       //width: 220px;
       height: 280px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
       box-shadow: 0px 3px 9px 0px rgba(55, 21, 21, 0.08);
       border-radius: 8px;
       padding: 0 16px;
       margin-bottom: 12px;
       box-sizing: border-box;
-      .datameun_view{
+      .datameun_view {
         width: 100%;
         display: flex;
         align-items: center;
@@ -170,7 +202,7 @@ export default {
       .datameun_header_title {
         font-size: 15px;
         font-family: Bold;
-        color: #FFFFFF;
+        color: #ffffff;
         font-weight: bold;
         letter-spacing: 1px;
         overflow: hidden;
@@ -188,7 +220,7 @@ export default {
       .datameun_dect {
         font-family: Thin;
         font-size: 13px;
-        color: #FFFFFF;
+        color: #ffffff;
         line-height: 22px;
         letter-spacing: 2px;
         text-align: left;
@@ -216,7 +248,7 @@ export default {
           }
           .datameun_footer_label {
             font-size: 13px;
-            color: #FFFFFF;
+            color: #ffffff;
             letter-spacing: 1px;
             margin-left: 10px;
           }

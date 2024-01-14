@@ -1,31 +1,54 @@
 <template>
-  <div class="header" :class="{'header-collapse':collapse}">
-    <div class="sidebar_view" :class="{'sidebar-collapse':collapse}">
-      <img src="../assets/logo.png" alt="" class="sidebar_logo" @click="handleHome()">
-      <img src="../assets/images/Paperpig.png" alt="" class="sidebar_title" v-if="!collapse" @click="handleHome()">
+  <div class="header" :class="{ 'header-collapse': collapse }">
+    <div class="sidebar_view" :class="{ 'sidebar-collapse': collapse }">
+      <img
+        src="../assets/logo.png"
+        alt=""
+        class="sidebar_logo"
+        @click="handleHome()"
+      />
+      <img
+        src="../assets/images/Paperpig.png"
+        alt=""
+        class="sidebar_title"
+        v-if="!collapse"
+        @click="handleHome()"
+      />
     </div>
     <div class="header-right">
       <div class="header-user-con">
         <!-- 全屏显示 -->
         <div class="btn-fullscreen" @click="handleFullScreen">
-          <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
+          <el-tooltip
+            effect="dark"
+            :content="fullscreen ? `取消全屏` : `全屏`"
+            placement="bottom"
+          >
             <i class="el-icon-rank"></i>
           </el-tooltip>
         </div>
         <div class="userInfo" v-if="tokenStr">
           <!-- 用户头像 -->
           <div class="user-avator">
-            <img :src='headImg'/>
+            <img :src="headImg" />
           </div>
           <!-- 用户名下拉菜单 -->
-          <el-dropdown class="user-name" trigger="click" @command="handleCommand">
-              <span class="el-dropdown-link">
-                  {{ username }}
-                  <i class="el-icon-caret-bottom"></i>
-              </span>
+          <el-dropdown
+            class="user-name"
+            trigger="click"
+            @command="handleCommand"
+          >
+            <span class="el-dropdown-link">
+              {{ username }}
+              <i class="el-icon-caret-bottom"></i>
+            </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item divided command="user">个人中心</el-dropdown-item>
-              <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
+              <el-dropdown-item divided command="user"
+                >个人中心</el-dropdown-item
+              >
+              <el-dropdown-item divided command="loginout"
+                >退出登录</el-dropdown-item
+              >
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -37,31 +60,37 @@
   </div>
 </template>
 <script>
-import bus from '@/utils/bus'
+import bus from "@/utils/bus";
 import Login from "@/pages/login.vue";
-
+import headImg from "../assets/images/home_user.png";
+import { mapStores } from "pinia";
+import useCollapse from "@/stores/collapse.ts";
 export default {
   components: {
-    Login
+    Login,
   },
   data() {
     return {
-      headImg: sessionStorage.getItem("headImg")!=null? sessionStorage.getItem("headImg"):require('../assets/images/home_user.png'),
-      tokenStr: '',
+      headImg:
+        sessionStorage.getItem("headImg") != null
+          ? sessionStorage.getItem("headImg")
+          : headImg,
+      tokenStr: "",
       collapse: false,
       fullscreen: false,
-      name: 'Paperpig',
+      name: "Paperpig",
       isLogin: false,
     };
   },
   computed: {
     username() {
-      let username = sessionStorage.getItem('ms_username');
+      let username = sessionStorage.getItem("ms_username");
       return username ? username : this.name;
-    }
+    },
+    ...mapStores(useCollapse),
   },
   mounted() {
-    this.tokenStr = window.sessionStorage.getItem('token')
+    this.tokenStr = window.sessionStorage.getItem("token");
     if (document.body.clientWidth < 1500) {
       this.collapseChage();
     }
@@ -69,49 +98,50 @@ export default {
   //监听路由变化
   watch: {
     $route(to, from) {
-      this.tokenStr = window.sessionStorage.getItem('token')
+      this.tokenStr = window.sessionStorage.getItem("token");
       if (!this.tokenStr) {
         //取消页面跳转
-        this.isLogin = true
+        this.isLogin = true;
       }
     },
   },
   methods: {
     // 跳转首页
     handleHome() {
-      if (this.$route.path == '/') return;
-      this.$router.push('/');
+      if (this.$route.path == "/") return;
+      this.$router.push("/");
     },
     handleLogin() {
-      this.isLogin = true
+      this.isLogin = true;
     },
     handleClose() {
-      this.isLogin = false
+      this.isLogin = false;
     },
     // 用户名下拉菜单选择事件
     handleCommand(command) {
-      if (command == 'loginout') {
-        this.$confirm('是否退出当前账号?', '温馨提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          var that = this;
-          sessionStorage.removeItem('ms_username');
-          sessionStorage.removeItem("token")
-          this.$router.push('/');
-          //刷新页面
-          window.location.reload();
-        }).catch(() => {});
-
-      } else if (command == 'user') {
-        this.$router.push('/user');
+      if (command == "loginout") {
+        this.$confirm("是否退出当前账号?", "温馨提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
+          .then(() => {
+            var that = this;
+            sessionStorage.removeItem("ms_username");
+            sessionStorage.removeItem("token");
+            this.$router.push("/");
+            //刷新页面
+            window.location.reload();
+          })
+          .catch(() => {});
+      } else if (command == "user") {
+        this.$router.push("/user");
       }
     },
     // 侧边栏折叠
     collapseChage() {
       this.collapse = !this.collapse;
-      bus.$emit('collapse', this.collapse);
+      this.collapseStore.setCollapse(this.collapse);
     },
     // 全屏事件
     handleFullScreen() {
@@ -152,8 +182,8 @@ export default {
   color: #333;
   background: #262626;
 }
-.el-icon-rank{
-  color: #FFFFFF;
+.el-icon-rank {
+  color: #ffffff;
 }
 .sidebar_view {
   display: flex;
@@ -264,7 +294,7 @@ export default {
 }
 
 .el-dropdown-link {
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   margin-left: 10px;
 }
@@ -279,7 +309,7 @@ export default {
   border-radius: 100px;
   background: linear-gradient(135deg, rgb(244, 124, 124), rgb(240, 72, 72));
   font-size: 13px;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   display: flex;
   align-items: center;

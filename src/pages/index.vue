@@ -1,49 +1,24 @@
+<script lang="ts" setup>
+import {} from "vue";
+import Header from "./Header.vue";
+import vSidebar from "@/components/Sidebar.vue";
+import vHome from "@/pages/home.vue";
+import bus from "@/utils/bus";
+</script>
+
 <template>
   <div class="home">
-    <v-head></v-head>
-    <v-sidebar></v-sidebar>
-    <div class="content-box" :class="{'content-collapse':collapse}">
-      <div class="content">
-        <transition name="move" mode="out-in">
+    <Header class="h-[50px] w-full"></Header>
+    <div class="flex flex-row">
+      <v-sidebar></v-sidebar>
+      <div class="h-[calc(100vh-50px)] w-full">
+        <router-view></router-view>
+        <!-- <transition name="move" mode="out-in">
           <router-view></router-view>
-        </transition>
+        </transition> -->
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import vHead from '@/components/Header.vue';
-import vSidebar from '@/components/Sidebar.vue';
-import vHome from '@/pages/home.vue';
-import bus from '@/utils/bus';
-export default {
-  components: {
-    vHead,
-    vSidebar,
-    vHome
-  },
-  name: 'home',
-  data() {
-    return {
-      collapse: false
-    }
-  },
-  created() {
-    bus.$on('collapse-content', msg => {
-      this.collapse = msg;
-    });
-
-  },
-  mounted() {
-
-  },
-  methods: {
-
-  }
-}
-</script>
-<style scoped lang="less">
-.home {
-}
-</style>
+<style scoped></style>
