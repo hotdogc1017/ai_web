@@ -1,109 +1,38 @@
 <script lang="ts" setup>
-import { ref, onBeforeMount } from "vue";
+import { ref, watch } from "vue";
 import ChatGPTIcon from "@/components/ChatGPTIcon.vue";
-import { usePostFetch, useGetFetch } from "@/utils/fetch";
-import { ElMessage } from "element-plus";
-import { type Room, createRoom } from "./types.ts";
-import useConnectRoom from "@/stores/connectRoom";
+import { type Room, type RoomTitle } from "./types";
 
-const list = ref<{ rooms: [Room]; createAt: string }[]>();
+const props = defineProps<{
+  list: RoomTitle[];
+}>();
+
+const emit = defineEmits(["createRoom", "switchRoom"]);
+
 const switchedId = ref();
-const chatList = ref([
-  {
-    dateTime: "昨天",
-    list: [
-      {
-        title: "Vue3中事件总线的使用",
-      },
-      {
-        title: "数据库中的DDL是什么",
-      },
-    ],
-  },
-  {
-    dateTime: "前天",
-    list: [
-      {
-        title: "电商专业就业前景怎么样",
-      },
-    ],
-  },
-  {
-    dateTime: "前天",
-    list: [
-      {
-        title: "电商专业就业前景怎么样",
-      },
-    ],
-  },
-  {
-    dateTime: "前天",
-    list: [
-      {
-        title: "电商专业就业前景怎么样",
-      },
-    ],
-  },
-  {
-    dateTime: "前天",
-    list: [
-      {
-        title: "电商专业就业前景怎么样",
-      },
-    ],
-  },
-  {
-    dateTime: "前天",
-    list: [
-      {
-        title: "电商专业就业前景怎么样",
-      },
-    ],
-  },
-  {
-    dateTime: "前天",
-    list: [
-      {
-        title: "电商专业就业前景怎么样",
-      },
-    ],
-  },
-  {
-    dateTime: "前天",
-    list: [
-      {
-        title: "电商专业就业前景怎么样",
-      },
-    ],
-  },
-]);
+const isCreateRoom = ref(false);
 
-async function listChat() {
-  const { data } = await useGetFetch<string>(`/getChatList?moduleId=ai`);
-  if (data.value) {
-    const response: { data: Room[] } = JSON.parse(data.value);
-    list.value = response.data.map((r) => {
-      return {
-        rooms: [r],
-        createAt: r.createAt,
-      };
-    });
-  } else {
-    ElMessage.error("获取聊天列表失败");
-  }
+watch(
+  () => props.list,
+  (newVal) => {
+    if (isCreateRoom.value) {
+      switchedId.value = newVal[0]?.rooms[0].id;
+      isCreateRoom.value = false;
+    }
+  },
+);
+
+function doCreateRoom() {
+  isCreateRoom.value = true;
+  emit("createRoom");
 }
 
 function handleSwitchRoom(room: Room) {
-  useConnectRoom().setCurrentRoom(room);
   switchedId.value = room.id;
+  emit("switchRoom", room);
 }
 
-function doCreateRoom() {
-  switchedId.value = null;
-  createRoom();
-}
-
-onBeforeMount(async () => await listChat());
+defineExpose({ doCreateRoom, isCreateRoom });
 </script>
 
 <template>
@@ -122,6 +51,7 @@ onBeforeMount(async () => await listChat());
       </div>
       <!-- 列表信息 -->
       <el-scrollbar class="h-full overflow-auto pr-3">
+        <BackBottom></BackBottom>
         <div v-for="({ createAt, rooms }, i) in list" class="mt-5" :key="i">
           <div>
             <h3

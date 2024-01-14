@@ -1,6 +1,4 @@
-import useConnectRoom from "@/stores/connectRoom";
 import useLoginInfo from "@/stores/loginInfo";
-import { storeToRefs } from "pinia";
 import { usePostFetch, useGetFetch } from "@/utils/fetch";
 import { ElMessage } from "element-plus";
 export interface Message {
@@ -14,8 +12,16 @@ export interface Message {
 export interface RecordMessage {
   context: string;
   role: "ai";
-  status: "1" | "0";
+  /**
+   * 2: ai回答完毕, 1: 反之
+   */
+  status: 1 | 2;
   time: string;
+}
+
+export interface RoomTitle {
+  rooms: [Room];
+  createAt: string;
 }
 
 export interface Room {
@@ -44,11 +50,15 @@ export function convertRecordMessage(
   };
 }
 
+/**
+ * 创建一个新的对话。注意，创建新对话接口返回的是对话列表，而不是新的对话
+ * @returns 新对话的对话列表
+ */
 export async function createRoom() {
-  const { data } = await usePostFetch<string>("/createChat?moduleId=ai");
+  const { data } = await usePostFetch<string>("/gtpApi/createChat");
   if (data.value) {
-    const response: { data: Room } = JSON.parse(data.value);
-    useConnectRoom().setCurrentRoom(response.data);
+    const response: { data: Message[] } = JSON.parse(data.value);
+    return response.data;
   } else {
     ElMessage.error("创建聊天室失败");
   }
@@ -59,7 +69,7 @@ export async function getMessageListByRoomId(roomId: string) {
     throw new Error(`roomId无效: ${roomId}`);
   }
   const { data } = await useGetFetch<string>(
-    `/getChatRecordList?roomId=${roomId}`,
+    `/gtpApi/getChatRecordList?roomId=${roomId}`,
   );
   if (data.value) {
     const response: { data: RecordMessage[] } = JSON.parse(data.value);

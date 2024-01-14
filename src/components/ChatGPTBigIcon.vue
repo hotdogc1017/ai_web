@@ -23,7 +23,7 @@
 </template>
 
 <style>
-.gizmo-shadow-stroke:after {
+/* .gizmo-shadow-stroke:after {
   --tw-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
   --tw-shadow-colored: inset 0 0 0 1px var(--tw-shadow-color);
   border-radius: 9999px;
@@ -33,5 +33,5 @@
   position: absolute;
   right: 0;
   top: 0;
-}
+} */
 </style>

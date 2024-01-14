@@ -5,7 +5,7 @@ import useLoginInfo from "@/stores/loginInfo";
 const { loginInfo } = storeToRefs(useLoginInfo());
 export function getDefaultFetch(options: HeadersInit) {
   return createFetch({
-    baseUrl: "http://39.106.69.95:8099",
+    baseUrl: "https://api.123chat.chat",
     options: {
       async beforeFetch({ options }) {
         if (!options.headers) {
