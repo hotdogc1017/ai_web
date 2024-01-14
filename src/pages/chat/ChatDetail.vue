@@ -1,9 +1,16 @@
 <script lang="ts" setup>
-import { ref, computed, nextTick, watch, onBeforeMount } from "vue";
+import {
+  ref,
+  computed,
+  nextTick,
+  watch,
+  onBeforeMount,
+  onBeforeUpdate,
+} from "vue";
 import UserMessage from "../../components/UserMessage.vue";
 import ChatInput from "./ChatInput.vue";
 import ChatGPTBigIcon from "@/components/ChatGPTBigIcon.vue";
-import BackBottom from "@/components/BackBottom.vue";
+import BackBottomButton from "@/components/BackBottomButton.vue";
 import {
   type Message,
   type Room,
@@ -140,12 +147,20 @@ onBeforeMount(() => {
   initWebsocket();
   props.currentRoom && getMessageList(props.currentRoom.id);
 });
+
+onBeforeUpdate(() => {
+  initWebsocket();
+  props.currentRoom && getMessageList(props.currentRoom.id);
+});
 </script>
 
 <template>
   <div class="w-full h-full bg-white flex flex-col">
     <div class="flex-1 relative w-full overflow-hidden text-[#374151]">
-      <BackBottom ref="backBottomRef" :target="testRef"></BackBottom>
+      <BackBottomButton
+        ref="backBottomRef"
+        :target="testRef"
+      ></BackBottomButton>
       <el-scrollbar always view-class="mx-4 sm:mx-0 flex justify-center h-full">
         <div class="flex w-full lg:w-4/5">
           <div ref="testRef" class="overflow-auto w-full px-12">

@@ -16,7 +16,6 @@ watch(
 );
 
 function scrollToBottom() {
-  console.log("ok", props.target);
   if (props.target) {
     props.target.scrollTop = 99999;
   }

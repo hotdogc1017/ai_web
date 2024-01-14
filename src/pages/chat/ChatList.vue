@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import ChatGPTIcon from "@/components/ChatGPTIcon.vue";
 import { type Room, type RoomTitle } from "./types";
+import moment from "moment";
 
 const props = defineProps<{
   list: RoomTitle[];
@@ -9,8 +10,19 @@ const props = defineProps<{
 
 const emit = defineEmits(["createRoom", "switchRoom"]);
 
+moment.locale("zh-cn");
 const switchedId = ref();
 const isCreateRoom = ref(false);
+
+const composedList = computed(() =>
+  props.list.map((roomTitle) => {
+    const dateTime = moment(
+      roomTitle.createAt,
+      "YYYY-MM-DD HH:mm:ss",
+    ).daysInMonth();
+    console.log(dateTime);
+  }),
+);
 
 watch(
   () => props.list,
@@ -19,6 +31,16 @@ watch(
       switchedId.value = newVal[0]?.rooms[0].id;
       isCreateRoom.value = false;
     }
+    newVal.map((roomTitle) => {
+      console.log(moment.locale());
+      const dateTime = moment(
+        roomTitle.createAt,
+        "YYYY-MM-DD HH:mm:ss",
+        "zh-cn",
+      );
+      console.log(dateTime.calendar());
+      console.log(dateTime.year(), dateTime.month(), dateTime.days());
+    });
   },
 );
 
@@ -51,7 +73,6 @@ defineExpose({ doCreateRoom, isCreateRoom });
       </div>
       <!-- 列表信息 -->
       <el-scrollbar class="h-full overflow-auto pr-3">
-        <BackBottom></BackBottom>
         <div v-for="({ createAt, rooms }, i) in list" class="mt-5" :key="i">
           <div>
             <h3

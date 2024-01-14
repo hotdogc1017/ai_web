@@ -15,12 +15,20 @@ const searchKey = ref("");
 const btn = ref<HTMLButtonElement | null>();
 const textarea = ref<HTMLTextAreaElement | null>();
 
+watchPostEffect(() => {
+  if (!!searchKey.value.trim()) {
+    btn.value?.removeAttribute("disabled");
+  } else {
+    btn.value?.setAttribute("disabled", "");
+  }
+});
+
 watch(
   () => prop.disabledInput,
   (newVal) => {
     nextTick(() => {
       if (!newVal) {
-        btn.value?.removeAttribute("disabled");
+        // btn.value?.removeAttribute("disabled");
         textarea.value?.removeAttribute("disabled");
       } else {
         btn.value?.setAttribute("disabled", "");

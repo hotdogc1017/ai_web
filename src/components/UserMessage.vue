@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watchPostEffect } from "vue";
+import { ref } from "vue";
 import ChatGPTLightIcon from "@/components/ChatGPTLightIcon.vue";
 import useLoginInfo from "@/stores/loginInfo";
 
@@ -44,7 +44,9 @@ defineExpose({ appendAnswerContent, scrollToBottom, thinking });
     <div>
       <span class="font-[bold]">{{ props.isMe ? "你" : "ChatGPT" }}</span>
       <p class="py-1 items-center">
-        <span>{{ !!answer.trim() ? answer : props.content }}</span>
+        <span>{{
+          !!(props.content || props.content.trim()) ? props.content : answer
+        }}</span>
         <span v-show="thinking" class="think mx-1"></span>
       </p>
     </div>

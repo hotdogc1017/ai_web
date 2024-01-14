@@ -1,14 +1,11 @@
 <script lang="ts" setup>
-import { ref, onBeforeMount, nextTick, onBeforeUnmount } from "vue";
+import { ref, onBeforeMount, nextTick } from "vue";
 import ChatDetail from "./ChatDetail.vue";
 import ChatList from "./ChatList.vue";
-import ChatInput from "./ChatInput.vue";
 import useLoginInfo from "@/stores/loginInfo";
 import { usePostFetch, useGetFetch } from "@/utils/fetch";
 import { type Room, type RoomTitle, createRoom } from "./types";
-import useConnectRoom from "@/stores/connectRoom";
 import { ElMessage } from "element-plus";
-import { ro } from "element-plus/es/locale/index.mjs";
 
 const loginInfo = useLoginInfo();
 const chatList = ref<RoomTitle[]>([]);

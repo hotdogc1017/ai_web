@@ -20,7 +20,7 @@ export interface RecordMessage {
 }
 
 export interface RoomTitle {
-  rooms: [Room];
+  rooms: Room[];
   createAt: string;
 }
 
