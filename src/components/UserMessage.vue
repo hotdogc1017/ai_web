@@ -42,9 +42,11 @@ defineExpose({ appendAnswerContent, scrollToBottom, thinking });
       </template>
     </div>
     <div>
-      <span class="font-[bold]">{{ props.isMe ? "你" : "ChatGPT" }}</span>
+      <span class="font-semibold select-none">{{
+        props.isMe ? "你" : "ChatGPT"
+      }}</span>
       <p class="py-1 items-center">
-        <span>{{
+        <span class="antialiased">{{
           !!(props.content || props.content.trim()) ? props.content : answer
         }}</span>
         <span v-show="thinking" class="think mx-1"></span>
