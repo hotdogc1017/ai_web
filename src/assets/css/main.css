@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#app,
+.wrapper {
+  width: 100%;
+  height: 100%;
+  background: #181818;
+  overflow: hidden;
+}
+
+body {
+  font-size: 13px !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+.content-box {
+  position: absolute;
+  left: 115px;
+  right: 0;
+  top: 55px;
+  bottom: 0;
+  padding-bottom: 30px;
+  -webkit-transition: left 0.3s ease-in-out;
+  transition: left 0.3s ease-in-out;
+}
+
+.content {
+  width: auto;
+  height: 100%;
+  margin: 20px 10px;
+  /*overflow-y: scroll;*/
+  box-sizing: border-box;
+  /*background: #FFFFFF;*/
+  /*border-radius: 8px;*/
+  overflow: hidden;
+}
+
+.content-collapse {
+  left: 65px;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 8px;
+}
