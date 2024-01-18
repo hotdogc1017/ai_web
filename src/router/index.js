@@ -37,6 +37,11 @@ const router = createRouter({
           meta: { title: "原生GPT4.0" },
         },
         {
+          path: "/categoryDetail",
+          component: () => import("@/pages/typePage/CategoryDetail.vue"),
+          meta: { title: "分类详情" },
+        },
+        {
           path: "/paintIndex",
           component: () => import("@/pages/draw/painting.vue"),
           meta: { title: "智能做图" },

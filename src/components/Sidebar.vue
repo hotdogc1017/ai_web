@@ -104,6 +104,7 @@
         <span class="el_meun_title">AI对话</span>
       </div>
       <div
+        v-if="false"
         class="el_meun"
         :class="activeIndex == 3 ? 'el_meun_active' : ''"
         @click="handleTabs(3, '/gptIndex')"
@@ -126,7 +127,7 @@
             fill="white"
           />
         </svg>
-        <span class="el_meun_title">原生TGP4.0</span>
+        <span class="el_meun_title">原生GPT4.0</span>
       </div>
     </div>
     <div
@@ -201,7 +202,11 @@ export default {
       }
       sessionStorage.setItem("activeId", activeId);
       this.$router.push({
-        path: item.webUrl,
+        path: "/categoryDetail",
+        query: {
+          id: item.id,
+          title: item.title,
+        },
       });
       this.level2Hover = false;
     },
@@ -224,7 +229,7 @@ export default {
 }
 
 .el_meun_list {
-  width: 115px;
+  width: 120px;
 
   .el_meun {
     cursor: pointer;
