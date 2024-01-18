@@ -37,7 +37,8 @@ function handleCommand(command: "user" | "logout") {
   <div class="w-full bg-[#262626]">
     <div class="h-full px-10 flex justify-between items-center">
       <!-- logo -->
-      <img class="h-10 w-10" :src="logo" />
+      <span class="text text-[30px] text-white font-black">AI</span>
+      <!-- <img class="h-10 w-10" :src="logo" /> -->
       <!-- 用户 -->
       <div class="h-full flex items-center">
         <template v-if="isLogin">

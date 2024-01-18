@@ -83,7 +83,18 @@ export default {
         >
           <div class="datameun">
             <div class="datameun_view">
-              <img :src="item.icon" alt="" class="datameun_header_img" />
+              <div
+                class="datameun_header_img"
+                :class="[{ 'bg-white': index === 0 }]"
+                style="border-radius: 50%"
+              >
+                <img
+                  :src="item.icon"
+                  alt=""
+                  class="datameun_header_img"
+                  style="margin-top: 0"
+                />
+              </div>
             </div>
             <div class="datameun_header_title">{{ item.name }}</div>
             <div class="datameun_dect">{{ item.introduce }}</div>
