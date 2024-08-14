@@ -4,9 +4,9 @@ import Header from "./Header.vue";
 
 <template>
   <div class="home">
-    <Header class="h-[50px] w-full"></Header>
+    <!-- <Header class="h-[50px] w-full"></Header> -->
     <div class="flex flex-row">
-      <div class="h-[calc(100vh-50px)] w-full">
+      <div class="h-screen w-full">
         <router-view></router-view>
       </div>
     </div>
