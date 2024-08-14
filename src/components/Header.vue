@@ -60,7 +60,6 @@
   </div>
 </template>
 <script>
-import bus from "@/utils/bus";
 import Login from "@/pages/login.vue";
 import headImg from "../assets/images/home_user.png";
 import { mapStores } from "pinia";
