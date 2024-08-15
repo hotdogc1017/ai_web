@@ -22,3 +22,4 @@ npm run dev
 
 - 聊天对话基于WebSocket实现而不是SSE
 - 如果未提供相应的聊天接口项目无法正常使用
+- 不支持Markdown格式
