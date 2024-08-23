@@ -1,4 +1,4 @@
-# ChatGPT风格的AI对话前端
+# ChatGPT风格的AI聊天项目
 
 基于早期的ChatGPT页面设计，遵循相同的UI设计，复刻比例达80%以上。
 
